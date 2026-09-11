@@ -3,412 +3,1450 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portafolio | Telecom & Backend Engineer</title>
+    <title>Irán García — Soluciones de TI: software, servidores, redes y licenciamiento</title>
+    <meta name="description" content="Ingeniero en Telemática por la Universidad de Guadalajara, en Ciudad Guzmán, Jalisco. Software a la medida y punto de venta, servidores y equipo de cómputo, licenciamiento original, redes y CCTV, marketing digital y soporte técnico L1–L2. Proyectos remotos y en sitio." />
+    <meta name="author" content="Iran García" />
+    <meta name="theme-color" content="#071223" />
+    <link rel="canonical" href="https://biggbackagain.github.io/portafolio2026/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Iran García — Soluciones de TI para tu negocio" />
+    <meta property="og:description" content="Software, servidores, redes, licenciamiento y presencia digital con un solo proveedor responsable. Cotización sin costo." />
+    <meta property="og:url" content="https://biggbackagain.github.io/portafolio2026/" />
+    <meta property="og:image" content="https://biggbackagain.github.io/portafolio2026/assets/iran-retrato-860.jpg" />
+    <meta property="og:locale" content="es_MX" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23071223'/%3E%3Ctext x='50' y='68' font-family='Segoe UI,Arial' font-size='52' font-weight='700' text-anchor='middle' fill='%233b82f6'%3EIG%3C/text%3E%3C/svg%3E" />
+    <link rel="preload" as="image" href="assets/iran-retrato-860.jpg" />
+
     <style>
+      /* ============ 1. Tokens ============ */
+      /* Paleta: azul corporativo (confianza) + acero + verde teal para métricas.
+         Sin morados ni neones: en IT el azul profundo es el color de la confianza. */
       :root {
-        --bg: #0b1020;
-        --bg-soft: #131a31;
-        --card: #1c2547;
-        --accent: #4fb3ff;
-        --text: #eaf1ff;
-        --muted: #b8c3df;
+        --bg: #071223;
+        --surface: rgba(15, 27, 48, 0.74);
+        --surface-solid: #101c33;
+        --border: rgba(148, 178, 224, 0.16);
+        --border-strong: rgba(148, 178, 224, 0.3);
+        --accent: #3b82f6;
+        --accent-2: #1d4ed8;
+        --accent-3: #14b8a6;
+        --text: #e8eefc;
+        --muted: #9fb0cd;
+        --ink: #04101f;
+        --radius: 16px;
+        --radius-sm: 10px;
+        --shadow: 0 18px 48px rgba(2, 10, 26, 0.6);
+        --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        --nav-h: 64px;
       }
-      * { box-sizing: border-box; }
+      html[data-theme="light"] {
+        --bg: #f4f7fc;
+        --surface: rgba(255, 255, 255, 0.86);
+        --surface-solid: #ffffff;
+        --border: rgba(14, 38, 82, 0.12);
+        --border-strong: rgba(14, 38, 82, 0.22);
+        --accent: #1d4ed8;
+        --accent-2: #0f3a8f;
+        --accent-3: #0d9488;
+        --text: #0c1c3a;
+        --muted: #4a5c7d;
+        --ink: #ffffff;
+        --shadow: 0 18px 40px rgba(12, 28, 58, 0.14);
+      }
+
+      /* ============ 2. Reset ============ */
+      *, *::before, *::after { box-sizing: border-box; }
+      html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 12px); }
       body {
         margin: 0;
-        font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
-        background: linear-gradient(160deg, var(--bg), #0f1a3b 60%, #12234f);
+        font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+        background: var(--bg);
         color: var(--text);
-        line-height: 1.6;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
       }
-      .container { width: min(1100px, 92%); margin: 0 auto; }
-      header {
-        padding: 3rem 0 2rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      img { max-width: 100%; display: block; }
+      a { color: var(--accent); }
+      h1, h2, h3, h4 { line-height: 1.18; letter-spacing: -0.02em; margin: 0; }
+      p { margin: 0.5rem 0; color: var(--muted); }
+      :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+      /* ============ 3. Fondo animado ============ */
+      .bg-fx { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+      .blob {
+        position: absolute;
+        width: 46vmax; height: 46vmax;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.34;
+        animation: float 26s var(--ease) infinite alternate;
       }
-      .hero {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 1.2rem;
-        align-items: center;
+      .blob.b1 { background: radial-gradient(circle at 30% 30%, var(--accent), transparent 66%); top: -16vmax; left: -12vmax; }
+      .blob.b2 { background: radial-gradient(circle at 60% 40%, var(--accent-2), transparent 66%); top: 26vmax; right: -16vmax; animation-delay: -9s; }
+      .blob.b3 { background: radial-gradient(circle at 50% 60%, var(--accent-3), transparent 70%); bottom: -20vmax; left: 26vmax; animation-delay: -15s; opacity: 0.2; }
+      @keyframes float {
+        from { transform: translate3d(0, 0, 0) scale(1); }
+        to { transform: translate3d(4vmax, -3vmax, 0) scale(1.14); }
       }
-      .avatar-wrap {
-        width: 130px;
-        height: 130px;
-        border-radius: 999px;
-        overflow: hidden;
-        border: 3px solid rgba(79, 179, 255, 0.65);
-        box-shadow: 0 10px 40px rgba(79, 179, 255, 0.22);
+      /* Retícula técnica de fondo: sugiere infraestructura sin distraer */
+      .mesh {
+        position: absolute; inset: 0; opacity: 0.5;
+        background-image:
+          linear-gradient(to right, color-mix(in srgb, var(--accent) 8%, transparent) 1px, transparent 1px),
+          linear-gradient(to bottom, color-mix(in srgb, var(--accent) 8%, transparent) 1px, transparent 1px);
+        background-size: 68px 68px;
+        mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, #000 20%, transparent 75%);
       }
-      .avatar-wrap img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+      .grain {
+        position: absolute; inset: 0; opacity: 0.045;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
       }
-      h1 { margin: 0; font-size: clamp(1.9rem, 5vw, 3rem); }
-      h2 { margin: 0 0 1rem; font-size: clamp(1.4rem, 3vw, 2rem); }
-      p { margin: 0.4rem 0; color: var(--muted); }
-      .tagline { margin-top: 1rem; max-width: 900px; }
-      .actions { margin-top: 1.2rem; display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+      /* ============ 4. Layout ============ */
+      .container { width: min(1140px, 92%); margin: 0 auto; }
+      section { padding: clamp(3rem, 7vw, 5.5rem) 0; }
+      .eyebrow {
+        display: inline-flex; align-items: center; gap: 0.5rem;
+        font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+        color: var(--accent); margin-bottom: 0.6rem;
+      }
+      .eyebrow::before { content: ""; width: 26px; height: 2px; background: currentColor; border-radius: 2px; }
+      .section-head { max-width: 780px; margin-bottom: 2rem; }
+      .section-head h2 { font-size: clamp(1.6rem, 3.6vw, 2.5rem); }
+      .section-head p { font-size: 1.02rem; }
+
+      /* ============ 5. Nav ============ */
+      .progress {
+        position: fixed; top: 0; left: 0; height: 3px; width: 0;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+        z-index: 60; transition: width 0.1s linear;
+      }
+      .nav {
+        position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h);
+        z-index: 50; display: flex; align-items: center;
+        background: color-mix(in srgb, var(--bg) 72%, transparent);
+        backdrop-filter: blur(14px) saturate(140%);
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.3s, background 0.3s;
+      }
+      .nav.scrolled { border-bottom-color: var(--border); }
+      .nav-inner { display: flex; align-items: center; gap: 1rem; width: min(1140px, 92%); margin: 0 auto; }
+      .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 800; letter-spacing: -0.02em; text-decoration: none; color: var(--text); }
+      .brand-mark {
+        width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+        background: linear-gradient(140deg, var(--accent), var(--accent-2));
+        color: #fff; font-size: 0.85rem; font-weight: 800;
+      }
+      .nav-links { display: none; gap: 0.2rem; margin-left: auto; }
+      .nav-links a {
+        position: relative; text-decoration: none; color: var(--muted); font-size: 0.92rem; font-weight: 600;
+        padding: 0.45rem 0.7rem; border-radius: 8px; transition: color 0.2s, background 0.2s;
+      }
+      .nav-links a:hover { color: var(--text); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+      .nav-links a.active { color: var(--accent); }
+      .nav-links a.active::after {
+        content: ""; position: absolute; left: 0.7rem; right: 0.7rem; bottom: 0.15rem;
+        height: 2px; border-radius: 2px; background: var(--accent);
+      }
+      .nav-tools { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; }
+      .nav-links + .nav-tools { margin-left: 0.5rem; }
+      .icon-btn {
+        width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center;
+        background: var(--surface); border: 1px solid var(--border); color: var(--text);
+        cursor: pointer; font-size: 1rem; transition: transform 0.2s var(--ease), border-color 0.2s;
+      }
+      .icon-btn:hover { transform: translateY(-2px); border-color: var(--accent); }
+      .mobile-menu {
+        position: fixed; inset: var(--nav-h) 0 auto; z-index: 49;
+        background: color-mix(in srgb, var(--bg) 96%, transparent);
+        border-bottom: 1px solid var(--border);
+        display: grid; gap: 0.2rem; padding: 0.8rem 4%;
+        transform: translateY(-120%); transition: transform 0.35s var(--ease);
+      }
+      .mobile-menu.open { transform: translateY(0); }
+      .mobile-menu a { text-decoration: none; color: var(--text); font-weight: 600; padding: 0.7rem 0.5rem; border-radius: 8px; }
+      .mobile-menu a:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+
+      /* ============ 6. Botones ============ */
       .btn {
-        text-decoration: none;
-        color: #021226;
-        background: var(--accent);
-        border-radius: 999px;
-        padding: 0.65rem 1rem;
-        font-weight: 700;
+        position: relative; display: inline-flex; align-items: center; gap: 0.5rem;
+        text-decoration: none; font-weight: 700; font-size: 0.95rem;
+        padding: 0.78rem 1.25rem; border-radius: 999px; border: 1px solid transparent;
+        cursor: pointer; overflow: hidden; font-family: inherit;
+        color: var(--ink); background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        box-shadow: 0 10px 26px color-mix(in srgb, var(--accent) 34%, transparent);
+        transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
       }
-      .btn.ghost {
-        background: transparent;
-        color: var(--text);
-        border: 1px solid rgba(255, 255, 255, 0.35);
+      /* Solo los botones sólidos llevan texto blanco en tema claro.
+         Sin el :not(.ghost) esta regla gana por especificidad sobre .btn.ghost
+         y deja texto blanco sobre fondo blanco (botones invisibles). */
+      html[data-theme="light"] .btn:not(.ghost) { color: #fff; }
+      .btn:hover { transform: translateY(-3px); box-shadow: 0 16px 34px color-mix(in srgb, var(--accent) 45%, transparent); }
+      .btn::after {
+        content: ""; position: absolute; inset: 0; transform: translateX(-110%);
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
       }
-      .cta-strip {
-        margin-top: 1rem;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 0.6rem;
+      .btn:hover::after { animation: shine 0.8s var(--ease); }
+      @keyframes shine { to { transform: translateX(110%); } }
+      .btn.ghost,
+      html[data-theme="light"] .btn.ghost {
+        background: var(--surface); color: var(--text); border-color: var(--border-strong); box-shadow: none;
+        backdrop-filter: blur(8px);
       }
-      .cta-item {
-        background: rgba(79, 179, 255, 0.17);
-        border: 1px solid rgba(79, 179, 255, 0.45);
-        border-radius: 10px;
-        padding: 0.7rem 0.8rem;
-        color: var(--text);
-        font-weight: 600;
+      /* En tema claro el blanco sobre blanco no se lee como botón: se tiñe de azul. */
+      html[data-theme="light"] .btn.ghost {
+        background: color-mix(in srgb, var(--accent) 8%, #ffffff);
+        border-color: color-mix(in srgb, var(--accent) 32%, transparent);
       }
-      section { padding: 2rem 0; }
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        gap: 1rem;
-      }
-      .card {
-        grid-column: span 12;
-        background: rgba(19, 26, 49, 0.9);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 14px;
-        padding: 1rem 1.1rem;
-      }
-      .card h3 { margin: 0 0 0.5rem; }
-      .list { padding-left: 1.2rem; margin: 0.6rem 0 0; }
-      .list li { margin-bottom: 0.35rem; color: var(--muted); }
-      .chips { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.5rem; }
-      .chip {
-        background: rgba(79, 179, 255, 0.2);
-        border: 1px solid rgba(79, 179, 255, 0.4);
-        padding: 0.25rem 0.6rem;
-        border-radius: 999px;
-        font-size: 0.85rem;
-      }
-      #projects-list, #certifications-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 0.8rem;
-      }
-      .project, .cert {
-        background: rgba(28, 37, 71, 0.92);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 12px;
-        padding: 0.9rem;
-      }
-      .project h3, .cert h3 { margin: 0 0 0.35rem; font-size: 1rem; }
-      .meta { font-size: 0.86rem; color: var(--muted); }
-      .small-link {
-        display: inline-block;
-        margin-top: 0.5rem;
+      .btn.ghost:hover {
+        border-color: var(--accent);
         color: var(--accent);
-        text-decoration: none;
-        font-weight: 600;
+        box-shadow: 0 10px 24px rgba(4, 14, 34, 0.16);
       }
-      .contact-box {
-        background: rgba(19, 26, 49, 0.9);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 14px;
-        padding: 1rem;
+      .btn.sm { padding: 0.55rem 0.95rem; font-size: 0.86rem; }
+
+      /* ============ 7. Tarjetas ============ */
+      .card {
+        position: relative;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.35rem;
+        backdrop-filter: blur(10px);
+        transition: transform 0.35s var(--ease), border-color 0.3s, box-shadow 0.35s var(--ease);
       }
-      .contact-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 0.8rem;
+      .card:hover { transform: translateY(-6px); border-color: color-mix(in srgb, var(--accent) 55%, transparent); box-shadow: var(--shadow); }
+      .card.glow::before {
+        content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none; opacity: 0;
+        background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%);
+        transition: opacity 0.3s;
       }
-      .field {
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
+      .card.glow:hover::before { opacity: 1; }
+      .card h3 { font-size: 1.06rem; margin-bottom: 0.35rem; }
+      .card .ico {
+        width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;
+        background: color-mix(in srgb, var(--accent) 16%, transparent);
+        border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+        margin-bottom: 0.8rem;
       }
-      .field label {
-        font-size: 0.9rem;
-        color: var(--text);
+      .grid { display: grid; gap: 1rem; }
+      .g2 { grid-template-columns: 1fr; }
+      .g3 { grid-template-columns: 1fr; }
+      .auto { grid-template-columns: repeat(auto-fill, minmax(255px, 1fr)); }
+      .list { padding-left: 1.15rem; margin: 0.6rem 0 0; }
+      .list li { margin-bottom: 0.3rem; color: var(--muted); }
+      .chips { display: flex; gap: 0.42rem; flex-wrap: wrap; margin-top: 0.7rem; }
+      .chip {
+        background: color-mix(in srgb, var(--accent) 14%, transparent);
+        border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+        padding: 0.24rem 0.62rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600;
+        color: var(--text); white-space: nowrap;
       }
-      .field input, .field textarea {
-        border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.25);
-        background: rgba(8, 14, 30, 0.6);
-        color: var(--text);
-        padding: 0.65rem 0.75rem;
-        font: inherit;
+      .chip.alt { background: color-mix(in srgb, var(--accent-3) 14%, transparent); border-color: color-mix(in srgb, var(--accent-3) 34%, transparent); }
+
+      /* ============ 8. Hero ============ */
+      .hero { padding: calc(var(--nav-h) + clamp(2rem, 6vw, 4.5rem)) 0 1rem; }
+      .hero-grid { display: grid; gap: 1.8rem; align-items: center; }
+      /* Panel de retrato: la foto viene recortada sobre blanco, así que se monta
+         en una tarjeta clara y se desvanece en los bordes para que no se vea el cuadro. */
+      .portrait {
+        position: relative; width: clamp(230px, 62vw, 340px); margin: 0 auto;
+        aspect-ratio: 1; border-radius: 26px; overflow: hidden;
+        background: radial-gradient(circle at 50% 32%, #ffffff 45%, #e8eff9 78%, #dbe6f5 100%);
+        border: 1px solid var(--border-strong);
+        box-shadow: 0 26px 60px rgba(4, 14, 34, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      }
+      .portrait img {
+        width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%;
+        -webkit-mask-image: radial-gradient(circle at 50% 44%, #000 62%, transparent 88%);
+        mask-image: radial-gradient(circle at 50% 44%, #000 62%, transparent 88%);
+      }
+      .portrait::after {
+        content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+        box-shadow: inset 0 0 0 6px color-mix(in srgb, var(--accent) 22%, transparent);
+      }
+      .portrait-frame {
+        position: absolute; inset: -14px; border-radius: 34px; pointer-events: none;
+        border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+        background: linear-gradient(150deg, color-mix(in srgb, var(--accent) 14%, transparent), transparent 55%);
+      }
+      .portrait-tag {
+        position: absolute; bottom: 0.85rem; left: 50%; transform: translateX(-50%);
+        display: flex; align-items: center; gap: 0.45rem; white-space: nowrap;
+        font-size: 0.76rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+        padding: 0.4rem 0.85rem; border-radius: 999px; color: #0b1c38;
+        background: rgba(255, 255, 255, 0.92); border: 1px solid rgba(11, 28, 56, 0.16);
+        box-shadow: 0 8px 20px rgba(4, 14, 34, 0.22);
+      }
+      .badge-open {
+        display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; font-weight: 700;
+        padding: 0.35rem 0.8rem; border-radius: 999px; color: var(--accent-3);
+        background: color-mix(in srgb, var(--accent-3) 14%, transparent);
+        border: 1px solid color-mix(in srgb, var(--accent-3) 40%, transparent);
+      }
+      .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-3); box-shadow: 0 0 0 0 currentColor; animation: pulse 2s infinite; }
+      @keyframes pulse { 70% { box-shadow: 0 0 0 8px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+      .hero h1 { font-size: clamp(2rem, 5.6vw, 3.35rem); margin: 0.7rem 0 0.2rem; }
+      .grad-text { background: linear-gradient(100deg, var(--accent), var(--accent-2) 55%, var(--accent-3)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .hero .role { font-size: clamp(1rem, 2.3vw, 1.22rem); font-weight: 700; color: var(--text); margin: 0; }
+      .tagline { max-width: 62ch; font-size: 1.02rem; }
+      .actions { margin-top: 1.3rem; display: flex; gap: 0.7rem; flex-wrap: wrap; }
+      .trust { margin-top: 1.6rem; display: grid; gap: 0.6rem; grid-template-columns: 1fr; }
+      .trust div {
+        display: flex; gap: 0.55rem; align-items: flex-start; font-size: 0.9rem; font-weight: 600;
+        background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.6rem 0.75rem;
+      }
+      .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; margin-top: 2.2rem; }
+      .stat { text-align: center; padding: 1rem 0.6rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+      .stat b { display: block; font-size: clamp(1.5rem, 4.4vw, 2.1rem); letter-spacing: -0.03em; }
+      .stat span { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; }
+
+      /* ============ 9. Marquee de stack ============ */
+      .marquee { overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+      .marquee-track { display: flex; gap: 0.6rem; width: max-content; animation: slide 28s linear infinite; }
+      .marquee:hover .marquee-track { animation-play-state: paused; }
+      @keyframes slide { to { transform: translateX(-50%); } }
+
+      /* ============ 10. Timeline ============ */
+      .timeline { position: relative; margin-left: 0.4rem; padding-left: 1.6rem; }
+      .timeline::before { content: ""; position: absolute; left: 0; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--accent), var(--accent-2), transparent); border-radius: 2px; }
+      .tl-item { position: relative; padding-bottom: 1.5rem; }
+      .tl-item::before {
+        content: ""; position: absolute; left: calc(-1.6rem - 5px); top: 9px; width: 12px; height: 12px; border-radius: 50%;
+        background: var(--accent); border: 3px solid var(--bg); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent);
+      }
+      .tl-item h3 { font-size: 1.04rem; }
+      .tl-when { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+
+      /* ============ 11. Casos, proyectos, certs ============ */
+      .case { display: grid; gap: 0.55rem; }
+      .case .kv { display: grid; grid-template-columns: 86px 1fr; gap: 0.5rem; font-size: 0.92rem; }
+      .case .kv b { color: var(--text); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+      .case .kv span { color: var(--muted); }
+      .result { color: var(--accent-3); font-weight: 700; }
+      .meta { font-size: 0.86rem; color: var(--muted); }
+      .small-link { display: inline-flex; align-items: center; gap: 0.3rem; margin-top: 0.55rem; color: var(--accent); text-decoration: none; font-weight: 700; font-size: 0.88rem; }
+      .small-link:hover { text-decoration: underline; }
+      .filters { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-bottom: 1.1rem; }
+      .filter {
+        cursor: pointer; font-family: inherit; font-size: 0.85rem; font-weight: 700; color: var(--muted);
+        background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 0.4rem 0.85rem;
+        transition: all 0.2s var(--ease);
+      }
+      .filter:hover { color: var(--text); transform: translateY(-2px); }
+      .filter[aria-pressed="true"] { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--ink); border-color: transparent; }
+      html[data-theme="light"] .filter[aria-pressed="true"] { color: #fff; }
+      .hidden { display: none !important; }
+      .count-note { font-size: 0.86rem; color: var(--muted); margin-bottom: 0.6rem; }
+      /* Insignias oficiales (Credly): dan peso visible a la sección */
+      .card.has-badge { display: grid; grid-template-columns: 62px 1fr; gap: 0.85rem; align-items: start; }
+      .badge-img {
+        width: 62px; height: auto; filter: drop-shadow(0 6px 14px rgba(4, 14, 34, 0.35));
+        transition: transform 0.3s var(--ease);
+      }
+      .card.has-badge:hover .badge-img { transform: scale(1.07) rotate(-2deg); }
+      .cert-body { min-width: 0; }
+      .foot-links a { color: var(--accent); text-decoration: none; font-weight: 600; }
+      .foot-links a:hover { text-decoration: underline; }
+
+      /* ============ 12. FAQ ============ */
+      details.faq {
+        background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+        padding: 0.9rem 1.1rem; margin-bottom: 0.6rem;
+      }
+      details.faq summary { cursor: pointer; font-weight: 700; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+      details.faq summary::-webkit-details-marker { display: none; }
+      details.faq summary::after { content: "+"; color: var(--accent); font-size: 1.3rem; line-height: 1; transition: transform 0.25s var(--ease); }
+      details.faq[open] summary::after { transform: rotate(45deg); }
+      details.faq p { animation: fade 0.35s var(--ease); }
+      @keyframes fade { from { opacity: 0; transform: translateY(-4px); } }
+
+      /* ============ 13. Contacto y footer ============ */
+      .contact-wrap { display: grid; gap: 1rem; }
+      .field { display: flex; flex-direction: column; gap: 0.3rem; }
+      .field label { font-size: 0.86rem; font-weight: 600; color: var(--text); }
+      .field input, .field textarea, .field select {
+        border-radius: var(--radius-sm); border: 1px solid var(--border-strong);
+        background: color-mix(in srgb, var(--bg) 65%, transparent); color: var(--text);
+        padding: 0.7rem 0.8rem; font: inherit; transition: border-color 0.2s, box-shadow 0.2s;
       }
       .field textarea { min-height: 120px; resize: vertical; }
-      .contact-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.65rem;
+      .field input:focus, .field textarea:focus, .field select:focus {
+        border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); outline: none;
       }
-      .form-note { font-size: 0.85rem; color: var(--muted); }
-      footer {
-        padding: 1.5rem 0 2rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.12);
-        color: var(--muted);
+      .form-grid { display: grid; gap: 0.8rem; }
+      .form-note { font-size: 0.82rem; color: var(--muted); }
+      .direct { display: grid; gap: 0.6rem; }
+      .direct a {
+        display: flex; align-items: center; gap: 0.7rem; text-decoration: none; color: var(--text); font-weight: 600;
+        background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.7rem 0.85rem;
+        transition: transform 0.2s var(--ease), border-color 0.2s;
       }
-      @media (min-width: 800px) {
-        .hero {
-          grid-template-columns: auto 1fr;
-          gap: 1.5rem;
-        }
-        .cta-strip {
-          grid-template-columns: repeat(3, 1fr);
-        }
-        .card.span-6 { grid-column: span 6; }
-        .contact-grid {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-        .field.full { grid-column: 1 / -1; }
+      .direct a:hover { transform: translateX(4px); border-color: var(--accent); }
+      footer { border-top: 1px solid var(--border); padding: 2rem 0 3rem; color: var(--muted); font-size: 0.9rem; }
+      .to-top {
+        position: fixed; right: 1rem; bottom: 1rem; z-index: 40; width: 44px; height: 44px; border-radius: 50%;
+        display: grid; place-items: center; cursor: pointer; font-size: 1.1rem;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--ink); border: none;
+        box-shadow: var(--shadow); opacity: 0; pointer-events: none; transform: translateY(12px);
+        transition: opacity 0.3s, transform 0.3s var(--ease);
+      }
+      .to-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+      /* ============ 14. Animaciones de entrada ============ */
+      .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+      .reveal.in { opacity: 1; transform: none; }
+      .reveal.d1 { transition-delay: 0.08s; }
+      .reveal.d2 { transition-delay: 0.16s; }
+      .reveal.d3 { transition-delay: 0.24s; }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+        .reveal { opacity: 1; transform: none; }
+        html { scroll-behavior: auto; }
+      }
+
+      /* ============ 15. Escritorio ============ */
+      @media (min-width: 720px) {
+        .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .trust { grid-template-columns: repeat(3, 1fr); }
+        .stats { grid-template-columns: repeat(4, 1fr); }
+        .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .full { grid-column: 1 / -1; }
+      }
+      @media (min-width: 900px) {
+        .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .hero-grid { grid-template-columns: auto 1fr; gap: 2.6rem; }
+        .nav-links { display: flex; }
+        .nav-tools .icon-btn.menu { display: none; }
+        .contact-wrap { grid-template-columns: 1.4fr 1fr; align-items: start; }
+      }
+
+      /* ============ 16. CV imprimible ============ */
+      @media print {
+        .bg-fx, .nav, .mobile-menu, .to-top, .progress, .no-print, .btn { display: none !important; }
+        body { background: #fff; color: #000; }
+        .card, details.faq, .stat, .direct a, .trust div { border-color: #bbb; background: #fff; box-shadow: none; }
+        p, .meta, .list li, .case .kv span { color: #333; }
+        .grad-text { color: #0b6fd4; -webkit-text-fill-color: #0b6fd4; }
+        section { padding: 0.8rem 0; break-inside: avoid; }
+        a { color: #0b6fd4; text-decoration: none; }
+        .portrait { width: 130px; box-shadow: none; }
+        .portrait-frame, .portrait-tag { display: none; }
       }
     </style>
   </head>
   <body>
-    <header>
+    <div class="bg-fx" aria-hidden="true">
+      <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+      <span class="mesh"></span><span class="grain"></span>
+    </div>
+
+    <div class="progress" id="progress" aria-hidden="true"></div>
+
+    <nav class="nav" id="nav">
+      <div class="nav-inner">
+        <a class="brand" href="#top"><span class="brand-mark">IG</span> Iran García</a>
+        <div class="nav-links" id="navLinks">
+          <a href="#servicios">Servicios</a>
+          <a href="#casos">Casos</a>
+          <a href="#experiencia">Experiencia</a>
+          <a href="#proyectos">Proyectos</a>
+          <a href="#certificaciones">Certificaciones</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div class="nav-tools">
+          <button class="icon-btn" id="themeBtn" type="button" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema">🌙</button>
+          <a class="btn sm no-print" href="#contacto">Contactar</a>
+          <button class="icon-btn menu" id="menuBtn" type="button" aria-label="Abrir menú" aria-expanded="false">☰</button>
+        </div>
+      </div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#servicios">Servicios</a>
+      <a href="#casos">Casos de éxito</a>
+      <a href="#experiencia">Experiencia</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#certificaciones">Certificaciones</a>
+      <a href="#faq">Preguntas frecuentes</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+
+    <header class="hero" id="top">
       <div class="container">
-        <div class="hero">
-          <figure class="avatar-wrap">
-            <img src="https://avatars.githubusercontent.com/biggbackagain?v=4" alt="Avatar profesional de Iran Garcia" />
+        <div class="hero-grid">
+          <figure class="portrait reveal">
+            <span class="portrait-frame" aria-hidden="true"></span>
+            <img src="assets/iran-retrato-860.jpg" width="860" height="860"
+                 alt="Retrato profesional de Iran García, ingeniero en telecomunicaciones y consultor de TI" />
+            <span class="portrait-tag"><span class="dot"></span> Ing. Iran García</span>
           </figure>
-          <div>
-            <h1>Telecommunications Engineer & Backend Developer</h1>
+          <div class="reveal d1">
+            <span class="badge-open"><span class="dot"></span> Disponible para nuevos proyectos</span>
+            <h1>Tecnología que sostiene<br /><span class="grad-text">la operación de tu negocio</span></h1>
+            <p class="role">Ingeniero en Telemática · Desarrollo de software, infraestructura de TI y presencia digital</p>
             <p class="tagline">
-              Dedicated Telecommunications Engineer and experienced Developer with a solid foundation in networking and software development. Specialized in scalable solutions where infrastructure meets code.
+              Un solo responsable para todo lo técnico: el software que usa tu equipo, los servidores
+              y equipos donde corre, la red que los conecta, las licencias en regla y la presencia
+              digital que te trae clientes. Menos proveedores, menos culpas cruzadas, un punto de
+              contacto que responde.
             </p>
+            <div class="actions no-print">
+              <a class="btn" href="#contacto">Solicitar una cotización</a>
+              <a class="btn ghost" href="#servicios">Ver servicios</a>
+              <a class="btn ghost" href="assets/CV-Iran-Garcia.pdf" download="Iran-Garcia-CV.pdf">⬇ Descargar CV (PDF)</a>
+            </div>
+            <div class="trust">
+              <div>⚡ <span>Respuesta en menos de 24 horas hábiles</span></div>
+              <div>🧾 <span>Propuesta por escrito, con alcance y precio</span></div>
+              <div>🛡️ <span>Garantía y soporte posterior a la entrega</span></div>
+            </div>
           </div>
         </div>
-        <div class="actions">
-          <a class="btn" href="#contacto">Agenda una llamada ahora</a>
-          <a class="btn ghost" href="#proyectos">Revisa mis resultados</a>
-          <a class="btn ghost" href="#certificaciones">Valida mis certificaciones</a>
-        </div>
-        <div class="cta-strip">
-          <div class="cta-item">✅ Respuesta en menos de 24 horas</div>
-          <div class="cta-item">✅ Soluciones backend + redes en un solo perfil</div>
-          <div class="cta-item">✅ Enfoque en continuidad operativa y escalabilidad</div>
+
+        <div class="stats reveal d2">
+          <div class="stat"><b data-count="8" data-suffix="+">0</b><span>Años de trayectoria en TI</span></div>
+          <div class="stat"><b data-count="27" data-suffix="">0</b><span>Certificaciones verificables</span></div>
+          <div class="stat"><b data-count="4" data-suffix="">0</b><span>Sucursales con mi software</span></div>
+          <div class="stat"><b data-count="24" data-suffix="/7">0</b><span>Sistemas en operación</span></div>
         </div>
       </div>
     </header>
 
-    <main class="container">
-      <section>
-        <h2>Perfil profesional</h2>
-        <div class="grid">
-          <article class="card span-6">
-            <h3>Resumen</h3>
+    <main>
+      <section id="perfil">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">Perfil</span>
+            <h2>Un proveedor técnico integral, no un intermediario</h2>
             <p>
-              Ingeniero en Telecomunicaciones y desarrollador backend con más de 6 años en soporte técnico L1-L2, optimización de redes y desarrollo de software con Python (Django) y Java.
+              Ingeniero en Telemática por la Universidad de Guadalajara, con trayectoria en TI desde
+              2017: soporte técnico niveles 1, 1.5 y 2, administración de redes y sistemas, y
+              desarrollo backend. Ese recorrido completo —del cableado a la base de datos— me permite
+              diagnosticar por capas y no por adivinanza, y responder por el resultado entero en lugar
+              de por una sola pieza.
             </p>
-            <div class="chips">
-              <span class="chip">Python / Django</span>
-              <span class="chip">Java</span>
-              <span class="chip">OSPF · BGP · EIGRP</span>
-              <span class="chip">Voice · Data · CCTV</span>
+          </div>
+          <div class="grid g2">
+            <article class="card glow reveal">
+              <div class="ico">🧩</div>
+              <h3>Lo que resuelvo</h3>
+              <ul class="list">
+                <li>Software a la medida de tu operación, no plantillas genéricas.</li>
+                <li>Servidores, equipos de cómputo y redes: selección, compra e instalación.</li>
+                <li>Licenciamiento en regla, con respaldo de factura y renovaciones al día.</li>
+                <li>Presencia digital y marketing que sí genera consultas.</li>
+                <li>Diagnóstico de causa raíz donde detenerse cuesta dinero.</li>
+              </ul>
+            </article>
+            <article class="card glow reveal d1">
+              <div class="ico">🤝</div>
+              <h3>Con quién trabajo mejor</h3>
+              <ul class="list">
+                <li>Negocios con una o varias sucursales que necesitan sistema propio, no una renta eterna.</li>
+                <li>Empresas que van a equipar o renovar oficina, servidor o sucursal desde cero.</li>
+                <li>Equipos que ya tienen software, pero nadie que sostenga la infraestructura.</li>
+                <li>Instituciones que requieren proyecto llave en mano y documentación formal.</li>
+                <li>Profesionales y despachos que necesitan sitio web, correo propio y verse serios.</li>
+              </ul>
+            </article>
+          </div>
+          <div class="card reveal d2" style="margin-top: 1rem">
+            <h3>Stack y tecnologías</h3>
+            <p class="meta">Lo que uso a diario, agrupado por dónde encaja.</p>
+            <div class="grid g3" style="margin-top: 0.8rem">
+              <div>
+                <p class="meta"><strong>Backend &amp; datos</strong></p>
+                <div class="chips">
+                  <span class="chip">Python</span><span class="chip">Django</span><span class="chip">Java</span>
+                  <span class="chip">C++</span><span class="chip">PHP / Laravel</span><span class="chip">HTML / CSS</span>
+                  <span class="chip">MySQL</span><span class="chip">SQL Server</span><span class="chip">SQLite</span>
+                  <span class="chip">REST APIs</span><span class="chip">Git</span>
+                </div>
+              </div>
+              <div>
+                <p class="meta"><strong>Redes &amp; infraestructura</strong></p>
+                <div class="chips">
+                  <span class="chip alt">Routing &amp; Switching</span><span class="chip alt">OSPF</span>
+                  <span class="chip alt">EIGRP</span><span class="chip alt">RIPv2</span>
+                  <span class="chip alt">VLANs / STP / ROAS</span><span class="chip alt">NAT / PAT / DHCP</span>
+                  <span class="chip alt">Cableado estructurado</span><span class="chip alt">Linux CLI</span>
+                  <span class="chip alt">Windows Server</span><span class="chip alt">CCTV IP</span>
+                </div>
+              </div>
+              <div>
+                <p class="meta"><strong>Operación, seguridad y TI</strong></p>
+                <div class="chips">
+                  <span class="chip">Soporte L1 · L1.5 · L2</span><span class="chip">Active Directory</span>
+                  <span class="chip">Licenciamiento</span><span class="chip">Respaldos</span>
+                  <span class="chip">Wireshark</span><span class="chip">Packet Tracer</span>
+                  <span class="chip">NetSpot</span><span class="chip">Kali Linux</span>
+                  <span class="chip">Seguridad de red</span><span class="chip">Capacitación</span>
+                </div>
+              </div>
             </div>
-          </article>
-          <article class="card span-6">
-            <h3>Qué aporto</h3>
-            <ul class="list">
-              <li>Desarrollo backend limpio y escalable para proyectos web complejos.</li>
-              <li>Diseño y operación de infraestructura de red robusta y eficiente.</li>
-              <li>Liderazgo de implementaciones integrales de espacios y servicios técnicos.</li>
-              <li>Resolución rápida de problemas de causa raíz en entornos críticos.</li>
-            </ul>
-          </article>
-          <article class="card span-6">
-            <h3>Highlights</h3>
-            <ul class="list">
-              <li>7 años en soporte técnico niveles 1, 1.5 y 2.</li>
-              <li>Proyecto Radio Universidad (CUSur, UdeG): implementación y adaptación de servicios integrales.</li>
-              <li>Liderazgo de solución Java multi-sucursal para gestión de pedidos (Pollos Coloso).</li>
-            </ul>
-          </article>
-          <article class="card span-6">
-            <h3>Propuesta de valor</h3>
+          </div>
+        </div>
+      </section>
+
+      <section id="servicios">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">Servicios</span>
+            <h2>Todo lo técnico de tu negocio, en un solo proveedor</h2>
             <p>
-              Enfoque híbrido para empresas que necesitan eficiencia operativa, continuidad de servicios y desarrollo backend alineado al negocio.
+              Puedes contratar una sola línea o el paquete completo. El alcance y el precio se
+              definen después de una llamada de diagnóstico sin costo, y siempre quedan por escrito.
             </p>
+          </div>
+          <div class="grid g3">
+            <article class="card glow reveal">
+              <div class="ico">🧾</div>
+              <h3>Software a la medida</h3>
+              <p>Sistemas de punto de venta, inventarios y operación diaria, hechos para cómo trabaja tu equipo.</p>
+              <ul class="list">
+                <li>Ventas, inventario con kardex, recetas y costos.</li>
+                <li>Multi-sucursal, permisos por usuario y cortes de caja.</li>
+                <li>Instalador, respaldos automáticos y capacitación al personal.</li>
+              </ul>
+              <div class="chips"><span class="chip">Laravel</span><span class="chip">Java</span><span class="chip">MariaDB</span></div>
+            </article>
+            <article class="card glow reveal d1">
+              <div class="ico">🖥️</div>
+              <h3>Servidores y equipo de cómputo</h3>
+              <p>Te digo qué comprar, lo consigo, lo instalo y lo dejo funcionando. Sin cotizaciones infladas ni equipo de más.</p>
+              <ul class="list">
+                <li>Dimensionamiento honesto según carga real, no según catálogo.</li>
+                <li>Servidores, NAS, estaciones de trabajo, no-breaks e impresoras.</li>
+                <li>Instalación, configuración, migración de datos y puesta en marcha.</li>
+                <li>Virtualización, usuarios de dominio y respaldos programados.</li>
+              </ul>
+              <div class="chips alt"><span class="chip alt">Windows Server</span><span class="chip alt">Linux</span><span class="chip alt">Virtualización</span></div>
+            </article>
+            <article class="card glow reveal d2">
+              <div class="ico">🔑</div>
+              <h3>Licenciamiento de software</h3>
+              <p>Software original, facturado y a tu nombre. Dejas de operar con versiones piratas y con el riesgo que eso implica.</p>
+              <ul class="list">
+                <li>Sistemas operativos, ofimática y correo empresarial.</li>
+                <li>Antivirus, respaldo en la nube y herramientas de diseño.</li>
+                <li>Control de vencimientos y renovaciones antes de que caduquen.</li>
+                <li>Asesoría para no pagar licencias que no necesitas.</li>
+              </ul>
+              <div class="chips"><span class="chip">Microsoft 365</span><span class="chip">Windows</span><span class="chip">Antivirus</span></div>
+            </article>
+            <article class="card glow reveal">
+              <div class="ico">🌐</div>
+              <h3>Redes, voz, datos y CCTV</h3>
+              <p>La infraestructura que sostiene todo lo demás, diseñada para crecer sin rehacerla.</p>
+              <ul class="list">
+                <li>Cableado estructurado, switching, VLANs y ruteo.</li>
+                <li>Wi-Fi de cobertura real y segmentación segura de la red.</li>
+                <li>Videovigilancia IP con acceso remoto y telefonía sobre IP.</li>
+              </ul>
+              <div class="chips alt"><span class="chip alt">Cisco</span><span class="chip alt">OSPF/BGP</span><span class="chip alt">CCTV IP</span></div>
+            </article>
+            <article class="card glow reveal d1">
+              <div class="ico">📈</div>
+              <h3>Presencia digital y marketing</h3>
+              <p>Que te encuentren y que al encontrarte te crean. Sitio, correo profesional y campañas medibles.</p>
+              <ul class="list">
+                <li>Sitio web rápido, propio y optimizado para buscadores.</li>
+                <li>Correo con tu dominio, Google Maps y perfiles de negocio.</li>
+                <li>Campañas y contenido con reporte de resultados, no de "likes".</li>
+                <li>Automatización de WhatsApp y captación de prospectos.</li>
+              </ul>
+              <div class="chips"><span class="chip">SEO</span><span class="chip">Google Business</span><span class="chip">Landing pages</span></div>
+            </article>
+            <article class="card glow reveal d2">
+              <div class="ico">🛠️</div>
+              <h3>Desarrollo backend e integraciones</h3>
+              <p>Para que tus sistemas dejen de depender de hojas de cálculo y de copiar datos a mano.</p>
+              <ul class="list">
+                <li>APIs REST, autenticación, roles y auditoría.</li>
+                <li>Integración de pagos, facturación y notificaciones.</li>
+                <li>Automatización de procesos y reportes.</li>
+                <li>Optimización de consultas y rendimiento en producción.</li>
+              </ul>
+              <div class="chips"><span class="chip">Python/Django</span><span class="chip">PHP</span><span class="chip">SQL</span></div>
+            </article>
+          </div>
+
+          <article class="card glow reveal" style="margin-top: 1rem">
+            <div class="grid g2" style="align-items: center">
+              <div>
+                <div class="ico">🚑</div>
+                <h3>Soporte y mantenimiento continuo</h3>
+                <p>
+                  Para quien ya tiene todo funcionando y necesita que siga funcionando. Soporte L1–L2
+                  remoto y en sitio, respaldos verificados, plan de recuperación y documentación de tu
+                  red y tus sistemas, para que no dependas de mi memoria ni de mi disponibilidad.
+                </p>
+                <div class="chips">
+                  <span class="chip">Póliza mensual</span><span class="chip">Por incidente</span>
+                  <span class="chip">Tiempo de respuesta acordado</span>
+                </div>
+              </div>
+              <div>
+                <ul class="list">
+                  <li><strong>Preventivo:</strong> revisión de respaldos, discos, temperaturas y actualizaciones.</li>
+                  <li><strong>Correctivo:</strong> atención de fallas con prioridad acordada por escrito.</li>
+                  <li><strong>Inventario técnico:</strong> qué equipo tienes, con qué licencia y desde cuándo.</li>
+                  <li><strong>Capacitación:</strong> tu personal deja de llamar por lo mismo cada semana.</li>
+                </ul>
+              </div>
+            </div>
           </article>
         </div>
       </section>
 
+      <section id="casos">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">Casos de éxito</span>
+            <h2>Problema, qué hice, qué cambió</h2>
+            <p>Resultados medibles, no adjetivos.</p>
+          </div>
+          <div class="grid g3">
+            <article class="card glow reveal case">
+              <div class="ico">🍗</div>
+              <h3>POS multi-sucursal · Pollos Coloso</h3>
+              <div class="kv"><b>Problema</b><span>Cuatro sucursales facturando en papel y hojas de cálculo, sin control de inventario ni visibilidad de los cortes de caja.</span></div>
+              <div class="kv"><b>Solución</b><span>Como administrador de sistemas del negocio desarrollé el sistema completo: caja, cocina, producción y reparto, con inventario por recetas, permisos por usuario, respaldos automáticos e instalador para Windows.</span></div>
+              <div class="kv"><b>Resultado</b><span class="result">Operación diaria en 4 sucursales, cortes de caja cuadrados y cero renta mensual de software.</span></div>
+              <div class="chips"><span class="chip">Laravel</span><span class="chip">Vue</span><span class="chip">MariaDB</span><span class="chip">Java</span></div>
+            </article>
+            <article class="card glow reveal d1 case">
+              <div class="ico">📡</div>
+              <h3>Reubicación de Radio Universidad · CUSur, UdeG</h3>
+              <div class="kv"><b>Problema</b><span>La estación tenía que mudarse de sede y volver al aire con su red y su equipo funcionando, coordinando con obra y con el personal de la radio.</span></div>
+              <div class="kv"><b>Solución</b><span>Proyecto de titulación en equipo: cableado estructurado, configuración de routers y switches, e implementación de protocolos RIPv2, OSPF, EIGRP, VLANs, STP y ROAS, más soporte técnico nivel 1 y 2 durante la puesta en marcha.</span></div>
+              <div class="kv"><b>Resultado</b><span class="result">Estación operando en su nueva sede con infraestructura documentada y personal capacitado.</span></div>
+              <div class="chips alt"><span class="chip alt">Cableado</span><span class="chip alt">OSPF / EIGRP</span><span class="chip alt">VLANs</span></div>
+            </article>
+            <article class="card glow reveal d2 case">
+              <div class="ico">⚙️</div>
+              <h3>Rendimiento en producción</h3>
+              <div class="kv"><b>Problema</b><span>Un sistema en caja se volvía lento en hora pico: cada pantalla recargaba todo el historial cada pocos segundos.</span></div>
+              <div class="kv"><b>Solución</b><span>Auditoría de consultas, índices faltantes, transacciones en movimientos de inventario y sondeo acotado al día en curso.</span></div>
+              <div class="kv"><b>Resultado</b><span class="result">Menos carga en el servidor con el mismo hardware y sin cambiar la forma de trabajar del personal.</span></div>
+              <div class="chips"><span class="chip">SQL tuning</span><span class="chip">Índices</span><span class="chip">Transacciones</span></div>
+            </article>
+          </div>
+          <p class="meta reveal" style="margin-top: 1rem">
+            ¿Quieres el detalle técnico de alguno? Lo explico en la llamada, con código y diagramas a la vista.
+          </p>
+        </div>
+      </section>
+
+      <section id="experiencia">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">Trayectoria</span>
+            <h2>Experiencia y formación</h2>
+          </div>
+          <div class="grid g2">
+            <div class="reveal">
+              <div class="timeline">
+                <div class="tl-item">
+                  <span class="tl-when">Abr 2019 – Presente</span>
+                  <h3>Administrador de Sistemas y Medios Digitales · Pollos Coloso</h3>
+                  <p>
+                    Responsable de toda la infraestructura de TI: mantenimiento de equipo de cómputo,
+                    sistemas de CCTV, cableado estructurado y optimización de la red local. Desarrollo
+                    las aplicaciones internas con Django y Java, y las soluciones digitales que mejoraron
+                    los procesos del negocio y la relación con el cliente.
+                  </p>
+                </div>
+                <div class="tl-item">
+                  <span class="tl-when">Feb 2024 – Presente</span>
+                  <h3>Docente de Matemáticas y asesor de equipos · Colegio Cervantes</h3>
+                  <p>
+                    Clases de matemáticas en secundaria y asesoría de equipos en las competencias LIMATEJ
+                    y STEAM, con segundo lugar en STEAM. Aprendizaje basado en proyectos: la misma
+                    habilidad que uso para capacitar al personal de un cliente hasta que el sistema
+                    deja de darles miedo.
+                  </p>
+                </div>
+                <div class="tl-item">
+                  <span class="tl-when">Sep 2018 – Ene 2019</span>
+                  <h3>Remote Desktop Manager · AN Global México (Tlaquepaque)</h3>
+                  <p>
+                    Atención de incidentes de TI para clientes VIP, reduciendo tiempos de caída.
+                    Administración de Active Directory (cuentas y accesos) y diseño de soluciones
+                    junto con el equipo de ingeniería para problemas complejos.
+                  </p>
+                </div>
+                <div class="tl-item">
+                  <span class="tl-when">Nov 2017 – Sep 2018</span>
+                  <h3>Ingeniero de Sistemas · Golden Lion Casino</h3>
+                  <p>
+                    Instalación y configuración de máquinas en red con conectividad segura,
+                    mantenimiento de la red local y preventivo programado para que la operación
+                    no se detuviera nunca.
+                  </p>
+                </div>
+                <div class="tl-item">
+                  <span class="tl-when">Ago 2023</span>
+                  <h3>Ingeniería en Telemática · Universidad de Guadalajara (CUSur)</h3>
+                  <p>
+                    Arquitectura de computadoras, redes y desarrollo de software. Titulado con el
+                    proyecto de reubicación de Radio Universidad: cableado estructurado, configuración
+                    de routers y switches e implementación de protocolos (RIPv2, OSPF, EIGRP, VLANs,
+                    STP, ROAS), además de soporte técnico nivel 1 y 2.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="reveal d1">
+              <article class="card glow">
+                <h3>Cómo trabajo</h3>
+                <ol class="list">
+                  <li><strong>Diagnóstico sin costo:</strong> una llamada para entender el proceso real, no el ideal.</li>
+                  <li><strong>Propuesta escrita:</strong> alcance, entregables, tiempos y precio fijo por etapa.</li>
+                  <li><strong>Entregas parciales:</strong> ves algo funcionando desde la primera semana.</li>
+                  <li><strong>Capacitación y documentación:</strong> tu equipo lo usa sin llamarme cada día.</li>
+                  <li><strong>Soporte acordado:</strong> continuo por póliza o por incidente, tú decides.</li>
+                </ol>
+              </article>
+              <article class="card glow" style="margin-top: 1rem">
+                <div class="ico">🏆</div>
+                <h3>Reconocimientos y actividades</h3>
+                <ul class="list">
+                  <li><strong>2.º lugar en la competencia STEAM</strong> con el equipo que asesoré.</li>
+                  <li><strong>IBM HackAttack 2019:</strong> 7.º lugar entre más de 60 participantes a nivel nacional, con el proyecto "Smart Tracking for Production" en un hackathon de 32 horas.</li>
+                  <li><strong>Tallerista en Redi Zapotlán (2024):</strong> "Hack Marketing: segmentación precisa y ciberseguridad en el mundo digital".</li>
+                  <li>Mentoría de estudiantes en STEM, LIMATEJ y proyectos educativos.</li>
+                </ul>
+              </article>
+              <article class="card glow" style="margin-top: 1rem">
+                <h3>Idiomas y ubicación</h3>
+                <p>
+                  Español nativo · Inglés conversacional B1 (EF SET 53/100, TOEFL acreditado por la UdeG).
+                </p>
+                <p>
+                  Ciudad Guzmán, Jalisco. Trabajo remoto para cualquier zona y servicio en sitio en la
+                  región Sur de Jalisco y la Zona Metropolitana de Guadalajara.
+                </p>
+                <div class="actions no-print" style="margin-top: 0.8rem">
+                  <a class="btn ghost sm" href="assets/CV-Iran-Garcia.pdf" download="Iran-Garcia-CV.pdf">⬇ Descargar CV completo</a>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
       <section id="proyectos">
-        <h2>Proyectos de GitHub</h2>
-        <p>Esta sección carga automáticamente todos los repositorios públicos de <strong>@biggbackagain</strong>.</p>
-        <div id="projects-list" aria-live="polite">
-          <article class="project"><p class="meta">Cargando proyectos...</p></article>
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">Proyectos</span>
+            <h2>Código público y trabajo destacado</h2>
+            <p>
+              Los repositorios se listan solos desde GitHub cuando hay conexión; si no, se muestra la
+              selección curada de abajo. El sitio funciona igual sin internet.
+            </p>
+          </div>
+          <div id="projects-list" class="grid auto reveal" aria-live="polite"></div>
+          <div class="actions no-print" style="margin-top: 1.2rem">
+            <a class="btn ghost" href="https://github.com/biggbackagain" target="_blank" rel="noopener noreferrer">Ver perfil de GitHub</a>
+          </div>
         </div>
       </section>
 
       <section id="certificaciones">
-        <h2>Certificaciones</h2>
-        <div id="certifications-list"></div>
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">Certificaciones</span>
+            <h2>27 credenciales verificables, con su insignia oficial</h2>
+            <p>
+              Cada credencial muestra emisor, fecha, folio y enlace de validación. Las insignias de
+              Cisco, IBM y Credly son las oficiales: cualquiera puede comprobarlas en un clic.
+            </p>
+          </div>
+          <div class="filters reveal no-print" id="certFilters" role="group" aria-label="Filtrar certificaciones"></div>
+          <p class="count-note reveal" id="certCount"></p>
+          <div id="certifications-list" class="grid auto reveal"></div>
+          <div class="actions no-print" style="margin-top: 1.1rem">
+            <button class="btn ghost" type="button" id="certToggle">Ver todas las certificaciones</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">Preguntas frecuentes</span>
+            <h2>Lo que casi siempre me preguntan antes de contratar</h2>
+          </div>
+          <div class="reveal">
+            <details class="faq">
+              <summary>¿Cuánto cuesta un sistema como el que describes?</summary>
+              <p>
+                Depende del alcance: no es lo mismo una caja sencilla que inventario con recetas, cocina y reparto en
+                cuatro sucursales. Después de la llamada de diagnóstico te envío una propuesta con precio fijo por etapa,
+                para que no haya sorpresas a mitad del proyecto.
+              </p>
+            </details>
+            <details class="faq">
+              <summary>¿También consigues el equipo y los servidores, o solo asesoras?</summary>
+              <p>
+                Ambas cosas. Puedo entregarte la lista de lo que conviene comprar para que la surtas tú, o encargarme de
+                la compra, la instalación, la migración de datos y la puesta en marcha. Dimensiono según tu carga real:
+                nadie necesita un servidor de gama alta para ocho usuarios.
+              </p>
+            </details>
+            <details class="faq">
+              <summary>¿Las licencias son originales y facturadas?</summary>
+              <p>
+                Sí. El software se registra a nombre de tu empresa, con su comprobante, y te llevo el control de
+                vencimientos para avisarte antes de que caduque. También te digo con franqueza cuáles licencias no
+                necesitas pagar.
+              </p>
+            </details>
+            <details class="faq">
+              <summary>¿El sistema se queda mío o pago renta mensual?</summary>
+              <p>
+                Por defecto el software corre en tu equipo y es tuyo. La mensualidad es opcional y solo cubre soporte,
+                mejoras y respaldos. Si un día dejas de pagarme, el sistema sigue trabajando.
+              </p>
+            </details>
+            <details class="faq">
+              <summary>¿Qué incluye la parte de marketing?</summary>
+              <p>
+                Lo que hace que te encuentren y te crean: sitio web propio y rápido, correo con tu dominio, ficha de
+                Google Business, y campañas con reporte de resultados reales (consultas y llamadas, no seguidores).
+                No vendo paquetes de publicaciones al mes sin objetivo.
+              </p>
+            </details>
+            <details class="faq">
+              <summary>¿Trabajas remoto o vas a mi negocio?</summary>
+              <p>
+                Ambos. El desarrollo y el soporte se hacen remoto; la instalación de red, servidores, CCTV o la
+                capacitación del personal la hago en sitio en la región Sur de Jalisco y la Zona Metropolitana de
+                Guadalajara.
+              </p>
+            </details>
+            <details class="faq">
+              <summary>¿Qué pasa si se cae el sistema en hora pico?</summary>
+              <p>
+                Todo proyecto se entrega con respaldos automáticos y un procedimiento de recuperación probado. Con
+                póliza de soporte hay un tiempo de respuesta acordado por escrito; sin póliza, atiendo por incidente
+                según disponibilidad.
+              </p>
+            </details>
+            <details class="faq">
+              <summary>¿Puedes tomar un proyecto que otro proveedor dejó a medias?</summary>
+              <p>
+                Sí, y es común. Empiezo con una auditoría del código y de la infraestructura para decirte con claridad
+                qué se rescata y qué conviene rehacer, antes de que gastes más.
+              </p>
+            </details>
+            <details class="faq">
+              <summary>¿Emites factura y firmas acuerdo de confidencialidad?</summary>
+              <p>Sí a ambas. También entrego documentación técnica y credenciales al cierre del proyecto.</p>
+            </details>
+          </div>
+        </div>
       </section>
 
       <section id="contacto">
-        <h2>Contacto para clientes potenciales</h2>
-        <p>Cuéntame tu necesidad y te respondo con una propuesta técnica clara.</p>
-        <div class="contact-box">
-          <form id="contact-form" class="contact-grid">
-            <div class="field">
-              <label for="name">Nombre</label>
-              <input id="name" name="name" type="text" placeholder="Tu nombre" required />
-            </div>
-            <div class="field">
-              <label for="company">Empresa</label>
-              <input id="company" name="company" type="text" placeholder="Tu empresa" />
-            </div>
-            <div class="field">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" placeholder="tu@email.com" required />
-            </div>
-            <div class="field">
-              <label for="phone">WhatsApp / Teléfono</label>
-              <input id="phone" name="phone" type="text" placeholder="+52 ..." />
-            </div>
-            <div class="field full">
-              <label for="message">¿Qué necesitas resolver?</label>
-              <textarea id="message" name="message" placeholder="Describe tu proyecto o problema técnico" required></textarea>
-            </div>
-            <div class="field full">
-              <div class="contact-actions">
-                <button class="btn" type="submit">Enviar por email</button>
-                <a id="whatsapp-link" class="btn ghost" href="https://wa.me/?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20tus%20servicios%20de%20backend%20y%20redes." target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a>
+        <div class="container">
+          <div class="section-head reveal">
+            <span class="eyebrow">Contacto</span>
+            <h2>Cuéntame qué necesitas resolver</h2>
+            <p>Te respondo en menos de 24 horas hábiles con una primera lectura técnica del problema, sin compromiso.</p>
+          </div>
+          <div class="contact-wrap">
+            <article class="card reveal">
+              <form id="contact-form" class="form-grid" novalidate>
+                <div class="field">
+                  <label for="name">Nombre *</label>
+                  <input id="name" name="name" type="text" autocomplete="name" placeholder="Tu nombre" required />
+                </div>
+                <div class="field">
+                  <label for="company">Empresa</label>
+                  <input id="company" name="company" type="text" autocomplete="organization" placeholder="Tu empresa o negocio" />
+                </div>
+                <div class="field">
+                  <label for="email">Email *</label>
+                  <input id="email" name="email" type="email" autocomplete="email" placeholder="tu@email.com" required />
+                </div>
+                <div class="field">
+                  <label for="phone">WhatsApp / Teléfono</label>
+                  <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+52 ..." />
+                </div>
+                <div class="field">
+                  <label for="service">¿Qué necesitas?</label>
+                  <select id="service" name="service">
+                    <option>Software a la medida / punto de venta</option>
+                    <option>Servidores y equipo de cómputo</option>
+                    <option>Licenciamiento de software</option>
+                    <option>Redes, voz, datos o CCTV</option>
+                    <option>Presencia digital y marketing</option>
+                    <option>Desarrollo backend o integraciones</option>
+                    <option>Soporte y mantenimiento</option>
+                    <option>Auditoría de un proyecto existente</option>
+                    <option>Otro / no estoy seguro</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="budget">Presupuesto aproximado</label>
+                  <select id="budget" name="budget">
+                    <option>Aún por definir</option>
+                    <option>Menos de $15,000 MXN</option>
+                    <option>$15,000 – $50,000 MXN</option>
+                    <option>$50,000 – $150,000 MXN</option>
+                    <option>Más de $150,000 MXN</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label for="message">Describe el problema *</label>
+                  <textarea id="message" name="message" placeholder="¿Qué pasa hoy, cuántas personas lo usan y para cuándo lo necesitas?" required></textarea>
+                </div>
+                <div class="field full">
+                  <div class="actions no-print" style="margin-top: 0">
+                    <button class="btn" type="submit">Enviar por email</button>
+                    <a id="whatsapp-link" class="btn ghost" href="#" target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a>
+                  </div>
+                  <p class="form-note" id="formNote">
+                    El formulario abre tu app de correo con todo el mensaje ya escrito. Nada se envía a terceros:
+                    este sitio es estático y no guarda tus datos.
+                  </p>
+                </div>
+              </form>
+            </article>
+            <aside class="reveal d1">
+              <div class="direct">
+                <a id="waDirect" href="#" target="_blank" rel="noopener noreferrer"><span>📱</span> <span>WhatsApp · 341 105 6019</span></a>
+                <a id="mailDirect" href="#"><span>📧</span> <span>garciagg2193@gmail.com</span></a>
+                <a href="https://www.linkedin.com/in/irangarcia93/" target="_blank" rel="noopener noreferrer"><span>💼</span> <span>LinkedIn · irangarcia93</span></a>
+                <a href="https://github.com/biggbackagain" target="_blank" rel="noopener noreferrer"><span>💻</span> <span>GitHub · biggbackagain</span></a>
+                <a href="https://www.facebook.com/iraan.garciagtz" target="_blank" rel="noopener noreferrer"><span>📘</span> <span>Facebook · Iran García</span></a>
+                <a href="https://www.instagram.com/irangarcia93/" target="_blank" rel="noopener noreferrer"><span>📸</span> <span>Instagram · @irangarcia93</span></a>
               </div>
-              <p class="form-note">El formulario abre tu cliente de correo con el mensaje prellenado.</p>
-            </div>
-          </form>
+              <article class="card" style="margin-top: 1rem">
+                <h3>Antes de escribir, ten a mano</h3>
+                <ul class="list">
+                  <li>Cuántas personas van a usar el sistema y desde cuántos lugares.</li>
+                  <li>Qué usas hoy (papel, Excel, otro software) y qué te falla.</li>
+                  <li>Fecha en la que necesitas estar operando.</li>
+                </ul>
+                <p class="meta">Con esos tres datos la propuesta sale en la primera vuelta.</p>
+              </article>
+            </aside>
+          </div>
         </div>
       </section>
     </main>
 
     <footer>
       <div class="container">
-        <p>Let&apos;s connect! Abierto a oportunidades en Backend Development, Network Engineering y roles híbridos para empresas y proyectos en crecimiento.</p>
-        <p>© 2026 | Portafolio profesional estático y responsivo.</p>
+        <p>
+          <strong>Ing. Irán García</strong> — Ingeniero en Telemática. Soluciones de TI: software a la medida,
+          servidores y equipo de cómputo, licenciamiento, redes y CCTV, presencia digital y soporte técnico.
+          Ciudad Guzmán, Jalisco · Servicio remoto en todo México.
+        </p>
+        <p class="foot-links">
+          <a href="https://www.linkedin.com/in/irangarcia93/" target="_blank" rel="noopener noreferrer">LinkedIn</a> ·
+          <a href="https://github.com/biggbackagain" target="_blank" rel="noopener noreferrer">GitHub</a> ·
+          <a href="https://www.facebook.com/iraan.garciagtz" target="_blank" rel="noopener noreferrer">Facebook</a> ·
+          <a href="https://www.instagram.com/irangarcia93/" target="_blank" rel="noopener noreferrer">Instagram</a> ·
+          <a id="waFooter" href="#" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        </p>
+        <p>© <span id="year">2026</span> Iran García · Sitio estático, sin rastreadores ni cookies.</p>
       </div>
     </footer>
 
-    <script>
-      const certifications = [
-        { title: "Generative AI for Educators with Gemini Certificate", org: "Gemini", date: "may. 2026" },
-        { title: "Django Web Framework", org: "Meta", date: "ene. 2024", id: "SE4WTFMZZB8Z", link: "https://www.coursera.org/account/accomplishments/verify/SE4WTFMZZB8Z" },
-        { title: "Los bits y bytes de las redes informáticas", org: "Google", date: "ene. 2024", id: "GX3MKT2D7MS4", link: "https://www.coursera.org/account/accomplishments/verify/GX3MKT2D7MS4" },
-        { title: "Aspectos básicos de la asistencia técnica", org: "Google", date: "ene. 2024", id: "Z97WD7QAB3CK" },
-        { title: "Introduction to Databases for Back-End Development", org: "Meta", date: "nov. 2023", id: "RGSGRBD46JXP", link: "https://www.coursera.org/account/accomplishments/certificate/RGSGRBD46JXP" },
-        { title: "Python (Basics)", org: "HackerRank", date: "nov. 2023", id: "66f4ce0ed7d2f", link: "https://www.hackerrank.com/certificates/6f4ce0ed7d2f" },
-        { title: "Version Control", org: "Meta", date: "nov. 2023", id: "XXS3MFACYDZN", link: "https://www.coursera.org/account/accomplishments/certificate/XXS3MFACYDZN" },
-        { title: "Machine Learning Operations (MLOps): Getting Started", org: "Coursera", date: "ene. 2021", id: "AFPA8EYZGXLB", link: "https://www.coursera.org/account/accomplishments/certificate/AFPA8EYZGXLB" },
-        { title: "Programming in Python", org: "Meta", date: "oct. 2023", id: "H2KPRK98WZL", link: "https://www.coursera.org/account/accomplishments/certificate/QH2KPRK98WZL" },
-        { title: "Introduction to Back-End Development", org: "Meta", date: "ago. 2023", id: "WEE4LA4LBKFK", link: "https://www.coursera.org/account/accomplishments/certificate/WEE4LA4LBKFK" },
-        { title: "Java (Basic)", org: "HackerRank", date: "abr. 2023", id: "A61D167E96C6", link: "https://www.hackerrank.com/certificates/a61d167e96c6" },
-        { title: "Python esencial", org: "LinkedIn", date: "feb. 2023", link: "https://www.linkedin.com/learning/certificates/58d2214a8c69fdc07ea04a574643440ae958509d970497ad18ff4cb8ebb25a68?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3Bh3gnm3eARG%2BF14v9JGmfEA%3D%3D" },
-        {
-          title: "Junior Cybersecurity Analyst Career Path",
-          org: "Cisco",
-          date: "ene. 2023",
-          link: "https://www.credly.com/badges/11bc2aa3-c111-4459-8902-a50005452273/linked_in_profile"
-        },
-        { title: "Network Defense", org: "Cisco", date: "ene. 2023", link: "https://www.credly.com/badges/b5e85f64-587c-4752-a47b-f9e6c1c1e767/linked_in_profile" },
-        { title: "Network Addressing and Basic Troubleshooting", org: "Cisco", date: "ene. 2023", link: "https://www.credly.com/badges/9006b158-ad22-4d50-8bc1-95848e4753f6/linked_in_profile" },
-        { title: "Endpoint Security", org: "Cisco", date: "ene. 2023", link: "https://www.credly.com/badges/d5aef077-197f-42b8-a78c-1be7c1d9a182/linked_in_profile" },
-        { title: "Cyber Threat Management", org: "Cisco", date: "ene. 2023", link: "https://www.credly.com/badges/3bd545a3-78d3-4a69-8bad-42b27ac41aea/linked_in_profile" },
-        { title: "Networking Devices and Initial Configuration", org: "Cisco", date: "ene. 2023", link: "https://www.credly.com/badges/d170a323-be27-4797-8182-967b5d97c8ce/linked_in_profile" },
-        { title: "Networking Basics", org: "Cisco", date: "ene. 2023", link: "https://www.credly.com/badges/f7817efd-de8d-443a-838c-aad5392eb627/linked_in_profile" },
-        { title: "Lifelong Learning", org: "CertiProf", date: "jun. 2022" },
-        { title: "EFSET English Certificate 53/100 (B2 Upper Intermediate)", org: "EF SET", date: "ene. 2023", link: "https://cert.efset.org/wifjEi" },
-        { title: "Score Reporting - TOEFL B1 (437-473 points)", org: "Universidad de Guadalajara", date: "sept. 2022", link: "https://www.linkedin.com/posts/irangarcia93_toefl-score-reporting-by-university-of-guadalajara-activity-7020283096189067264-YUj9/" },
-        { title: "CCNA Routing & Switching: Escalamiento de redes", org: "Cisco Networking Academy", date: "feb. 2021", link: "https://www.linkedin.com/posts/irangarcia93_ccna-scaling-network-certificate-activity-6774263849555230721-Y6fc/" },
-        { title: "NDG Linux Essentials", org: "Cisco Networking Academy", date: "jul. 2021", link: "https://www.credly.com/badges/c14d2041-398f-4b1a-84ba-e0e74a2435a8/linked_in_profile" },
-        { title: "Data Science for Business - Level 1", org: "IBM", date: "mar. 2021", link: "https://www.credly.com/badges/d541fbb5-a471-4fe4-8b0d-aa3379b79056?source=linked_in_profile" },
-        { title: "Introduction to IoT", org: "Cisco", date: "mar. 2021", link: "https://www.credly.com/badges/40874c59-039f-4342-b62d-4155c3124773?source=linked_in_profile" },
-        { title: "Introduction to Cybersecurity", org: "Cisco", date: "mar. 2021", link: "https://www.credly.com/badges/c91f2836-230e-4008-aa3c-510383adfad1?source=linked_in_profile" }
-      ];
+    <button class="to-top no-print" id="toTop" type="button" aria-label="Volver arriba">↑</button>
 
-      const contact = {
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Iran García — Soluciones de TI",
+        "image": "https://biggbackagain.github.io/portafolio2026/assets/iran-retrato-860.jpg",
+        "url": "https://biggbackagain.github.io/portafolio2026/",
+        "email": "mailto:garciagg2193@gmail.com",
+        "telephone": "+523411056019",
+        "priceRange": "$$",
+        "areaServed": ["Ciudad Guzmán", "Jalisco", "México", "Remoto"],
+        "address": { "@type": "PostalAddress", "addressLocality": "Ciudad Guzmán", "addressRegion": "Jalisco", "addressCountry": "MX" },
+        "sameAs": [
+          "https://github.com/biggbackagain",
+          "https://www.linkedin.com/in/irangarcia93/",
+          "https://www.facebook.com/iraan.garciagtz",
+          "https://www.instagram.com/irangarcia93/"
+        ],
+        "founder": {
+          "@type": "Person",
+          "name": "Irán García",
+          "jobTitle": "Ingeniero en Telemática · Administrador de Sistemas y Desarrollador Backend",
+          "alumniOf": { "@type": "CollegeOrUniversity", "name": "Universidad de Guadalajara — CUSur" },
+          "knowsLanguage": ["es", "en"]
+        },
+        "knowsAbout": ["Django", "Python", "Java", "C++", "Laravel", "MySQL", "SQL Server", "Windows Server", "Active Directory", "Redes de computadoras", "OSPF", "EIGRP", "VLAN", "CCTV", "Cableado estructurado", "Licenciamiento de software", "Marketing digital", "Soporte técnico"],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Servicios",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Software a la medida y punto de venta" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Servidores y equipo de cómputo" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Licenciamiento de software original" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Redes, voz, datos y CCTV" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Presencia digital y marketing" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Soporte y mantenimiento de TI" } }
+          ]
+        }
+      }
+    </script>
+
+    <script>
+      "use strict";
+
+      /* ---------- Configuración editable ---------- */
+      const CONFIG = {
         email: "garciagg2193@gmail.com",
-        whatsapp: "https://wa.me/?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20tus%20servicios%20de%20backend%20y%20redes."
+        // Número con lada país, sin espacios ni signos.
+        whatsapp: "523411056019",
+        github: "biggbackagain"
       };
 
-      function renderCertifications() {
-        const container = document.getElementById("certifications-list");
-        certifications.forEach((cert) => {
-          const card = document.createElement("article");
-          card.className = "cert";
-          card.innerHTML = `
-            <h3>${cert.title}</h3>
-            <p class="meta">${cert.org} · Expedición: ${cert.date}</p>
-            ${cert.id ? `<p class="meta">ID: ${cert.id}</p>` : ""}
-            ${
-              cert.link
-                ? `<a class="small-link" target="_blank" rel="noopener noreferrer" href="${cert.link}">Mostrar credencial</a>`
-                : `<span class="meta">Mostrar credencial (pendiente enlace)</span>`
-            }
-          `;
-          container.appendChild(card);
+      /* ---------- Proyectos curados (respaldo sin internet) ---------- */
+      const featuredProjects = [
+        {
+          name: "pos-pollo-coloso",
+          description: "Punto de venta multi-sucursal: caja, inventario con recetas, cocina, producción y reparto. Instalador para Windows y respaldos automáticos.",
+          language: "PHP / Vue",
+          url: "https://github.com/biggbackagain/pos-pollo-coloso",
+          tags: ["Laravel", "MariaDB", "Vue"]
+        },
+        {
+          name: "portafolio2026",
+          description: "Este sitio: portafolio estático de una sola página, sin dependencias ni proceso de compilación.",
+          language: "HTML / CSS / JS",
+          url: "https://github.com/biggbackagain/portafolio2026",
+          tags: ["Estático", "Accesible", "SEO"]
+        }
+      ];
+
+      /* ---------- Certificaciones ---------- */
+      const certifications = [
+        { title: "Django Web Framework", org: "Meta", cat: "Backend", date: "ene. 2024", id: "SE4WTFMZZB8Z", link: "https://www.coursera.org/account/accomplishments/verify/SE4WTFMZZB8Z" },
+        { title: "Introduction to Databases for Back-End Development", org: "Meta", cat: "Backend", date: "nov. 2023", id: "RGSGRBD46JXP", link: "https://www.coursera.org/account/accomplishments/certificate/RGSGRBD46JXP" },
+        { title: "Programming in Python", org: "Meta", cat: "Backend", date: "oct. 2023", id: "H2KPRK98WZL", link: "https://www.coursera.org/account/accomplishments/certificate/QH2KPRK98WZL" },
+        { title: "Introduction to Back-End Development", org: "Meta", cat: "Backend", date: "ago. 2023", id: "WEE4LA4LBKFK", link: "https://www.coursera.org/account/accomplishments/certificate/WEE4LA4LBKFK" },
+        { title: "Version Control", org: "Meta", cat: "Backend", date: "nov. 2023", id: "XXS3MFACYDZN", link: "https://www.coursera.org/account/accomplishments/certificate/XXS3MFACYDZN" },
+        { title: "Python (Basics)", org: "HackerRank", cat: "Backend", date: "nov. 2023", id: "66f4ce0ed7d2f", link: "https://www.hackerrank.com/certificates/6f4ce0ed7d2f" },
+        { title: "Java (Basic)", org: "HackerRank", cat: "Backend", date: "abr. 2023", id: "A61D167E96C6", link: "https://www.hackerrank.com/certificates/a61d167e96c6" },
+        { title: "Python esencial", org: "LinkedIn", cat: "Backend", date: "feb. 2023", link: "https://www.linkedin.com/learning/certificates/58d2214a8c69fdc07ea04a574643440ae958509d970497ad18ff4cb8ebb25a68" },
+        { title: "Los bits y bytes de las redes informáticas", org: "Google", cat: "Redes", date: "ene. 2024", id: "GX3MKT2D7MS4", link: "https://www.coursera.org/account/accomplishments/verify/GX3MKT2D7MS4" },
+        { title: "CCNA Routing & Switching: Escalamiento de redes", org: "Cisco Networking Academy", cat: "Redes", date: "feb. 2021", link: "https://www.linkedin.com/posts/irangarcia93_ccna-scaling-network-certificate-activity-6774263849555230721-Y6fc/" },
+        { title: "Networking Basics", org: "Cisco", cat: "Redes", date: "ene. 2023", link: "https://www.credly.com/badges/f7817efd-de8d-443a-838c-aad5392eb627/linked_in_profile" },
+        { title: "Networking Devices and Initial Configuration", org: "Cisco", cat: "Redes", date: "ene. 2023", link: "https://www.credly.com/badges/d170a323-be27-4797-8182-967b5d97c8ce/linked_in_profile" },
+        { title: "Network Addressing and Basic Troubleshooting", org: "Cisco", cat: "Redes", date: "ene. 2023", link: "https://www.credly.com/badges/9006b158-ad22-4d50-8bc1-95848e4753f6/linked_in_profile" },
+        { title: "NDG Linux Essentials", org: "Cisco Networking Academy", cat: "Redes", date: "jul. 2021", link: "https://www.credly.com/badges/c14d2041-398f-4b1a-84ba-e0e74a2435a8/linked_in_profile" },
+        { title: "Introduction to IoT", org: "Cisco", cat: "Redes", date: "mar. 2021", link: "https://www.credly.com/badges/40874c59-039f-4342-b62d-4155c3124773?source=linked_in_profile" },
+        { title: "Junior Cybersecurity Analyst Career Path", org: "Cisco", cat: "Ciberseguridad", date: "ene. 2023", link: "https://www.credly.com/badges/11bc2aa3-c111-4459-8902-a50005452273/linked_in_profile" },
+        { title: "Network Defense", org: "Cisco", cat: "Ciberseguridad", date: "ene. 2023", link: "https://www.credly.com/badges/b5e85f64-587c-4752-a47b-f9e6c1c1e767/linked_in_profile" },
+        { title: "Endpoint Security", org: "Cisco", cat: "Ciberseguridad", date: "ene. 2023", link: "https://www.credly.com/badges/d5aef077-197f-42b8-a78c-1be7c1d9a182/linked_in_profile" },
+        { title: "Cyber Threat Management", org: "Cisco", cat: "Ciberseguridad", date: "ene. 2023", link: "https://www.credly.com/badges/3bd545a3-78d3-4a69-8bad-42b27ac41aea/linked_in_profile" },
+        { title: "Introduction to Cybersecurity", org: "Cisco", cat: "Ciberseguridad", date: "mar. 2021", link: "https://www.credly.com/badges/c91f2836-230e-4008-aa3c-510383adfad1?source=linked_in_profile" },
+        { title: "Aspectos básicos de la asistencia técnica", org: "Google", cat: "Soporte", date: "ene. 2024", id: "Z97WD7QAB3CK" },
+        { title: "Lifelong Learning", org: "CertiProf", cat: "Soporte", date: "jun. 2022" },
+        { title: "Machine Learning Operations (MLOps): Getting Started", org: "Coursera", cat: "Datos e IA", date: "ene. 2021", id: "AFPA8EYZGXLB", link: "https://www.coursera.org/account/accomplishments/certificate/AFPA8EYZGXLB" },
+        { title: "Data Science for Business - Level 1", org: "IBM", cat: "Datos e IA", date: "mar. 2021", link: "https://www.credly.com/badges/d541fbb5-a471-4fe4-8b0d-aa3379b79056?source=linked_in_profile" },
+        { title: "Generative AI for Educators", org: "Google / Gemini", cat: "Datos e IA", date: "may. 2026" },
+        { title: "EFSET English Certificate 53/100 (B2 Upper Intermediate)", org: "EF SET", cat: "Idiomas", date: "ene. 2023", link: "https://cert.efset.org/wifjEi" },
+        { title: "TOEFL B1 (437-473 puntos)", org: "Universidad de Guadalajara", cat: "Idiomas", date: "sept. 2022", link: "https://www.linkedin.com/posts/irangarcia93_toefl-score-reporting-by-university-of-guadalajara-activity-7020283096189067264-YUj9/" }
+      ];
+
+      const $ = (sel) => document.querySelector(sel);
+      const esc = (str) => String(str == null ? "" : str).replace(/[&<>"']/g, (c) =>
+        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])
+      );
+      const waBase = () =>
+        "https://wa.me/" + CONFIG.whatsapp +
+        "?text=" + encodeURIComponent("Hola Iran, vi tu portafolio y quiero platicar sobre un proyecto.");
+
+      /* ---------- Certificaciones: render + filtros ---------- */
+      const CERT_PREVIEW = 9;
+      let certFilter = "Todas";
+      let certExpanded = false;
+
+      /* Las insignias de Credly se descargaron a assets/badges/<uuid>.png,
+         así que la ruta se deduce del propio enlace: cero mantenimiento manual. */
+      function badgeSrc(link) {
+        const m = /credly\.com\/badges\/([0-9a-f-]{36})/i.exec(link || "");
+        return m ? `assets/badges/${m[1]}.png` : null;
+      }
+
+      function renderCerts() {
+        const list = $("#certifications-list");
+        let visible = certifications.filter((c) => certFilter === "Todas" || c.cat === certFilter);
+        // Con insignia primero: la sección se ve más contundente de un vistazo.
+        visible = [...visible].sort((a, b) => (badgeSrc(b.link) ? 1 : 0) - (badgeSrc(a.link) ? 1 : 0));
+        const shown = certExpanded ? visible : visible.slice(0, CERT_PREVIEW);
+        list.innerHTML = shown
+          .map((c) => {
+            const badge = badgeSrc(c.link);
+            return `
+            <article class="card glow cert${badge ? " has-badge" : ""}">
+              ${badge ? `<img class="badge-img" src="${esc(badge)}" alt="Insignia oficial: ${esc(c.title)}" loading="lazy" width="160" height="160" onerror="this.remove()" />` : ""}
+              <div class="cert-body">
+                <div class="chips" style="margin:0 0 .45rem"><span class="chip alt">${esc(c.cat)}</span></div>
+                <h3>${esc(c.title)}</h3>
+                <p class="meta">${esc(c.org)} · ${esc(c.date)}</p>
+                ${c.id ? `<p class="meta">Folio: ${esc(c.id)}</p>` : ""}
+                ${
+                  c.link
+                    ? `<a class="small-link" href="${esc(c.link)}" target="_blank" rel="noopener noreferrer">Validar credencial →</a>`
+                    : `<span class="meta">Credencial disponible a solicitud</span>`
+                }
+              </div>
+            </article>`;
+          })
+          .join("");
+        $("#certCount").textContent =
+          `Mostrando ${shown.length} de ${visible.length} en “${certFilter}” · ${certifications.length} en total.`;
+        const btn = $("#certToggle");
+        btn.textContent = certExpanded ? "Mostrar menos" : "Ver todas las certificaciones";
+        btn.classList.toggle("hidden", visible.length <= CERT_PREVIEW);
+      }
+
+      function renderCertFilters() {
+        const cats = ["Todas", ...new Set(certifications.map((c) => c.cat))];
+        $("#certFilters").innerHTML = cats
+          .map(
+            (cat) =>
+              `<button class="filter" type="button" data-cat="${esc(cat)}" aria-pressed="${cat === certFilter}">${esc(cat)}</button>`
+          )
+          .join("");
+        $("#certFilters").addEventListener("click", (ev) => {
+          const b = ev.target.closest(".filter");
+          if (!b) return;
+          certFilter = b.dataset.cat;
+          certExpanded = false;
+          $("#certFilters").querySelectorAll(".filter").forEach((f) =>
+            f.setAttribute("aria-pressed", String(f.dataset.cat === certFilter))
+          );
+          renderCerts();
         });
       }
 
-      function setupContactForm() {
-        const form = document.getElementById("contact-form");
-        const whatsappLink = document.getElementById("whatsapp-link");
-        whatsappLink.href = contact.whatsapp;
-        form.addEventListener("submit", (event) => {
-          event.preventDefault();
-          const data = new FormData(form);
-          const subject = encodeURIComponent(`Nuevo prospecto: ${data.get("name")} (${data.get("company") || "Sin empresa"})`);
-          const body = encodeURIComponent(
-            `Nombre: ${data.get("name")}\nEmpresa: ${data.get("company") || "N/A"}\nEmail: ${data.get("email")}\nWhatsApp/Teléfono: ${data.get("phone") || "N/A"}\n\nNecesidad:\n${data.get("message")}`
-          );
-          window.location.href = `mailto:${contact.email}?subject=${subject}&body=${body}`;
-        });
+      /* ---------- Proyectos ---------- */
+      function projectCard(p) {
+        return `
+          <article class="card glow">
+            <h3>${esc(p.name)}</h3>
+            <p class="meta">${esc(p.description || "Sin descripción pública.")}</p>
+            <p class="meta">${p.stars != null ? `⭐ ${p.stars} · 🍴 ${p.forks} · ` : ""}${esc(p.language || "—")}</p>
+            ${(p.tags || []).length ? `<div class="chips">${p.tags.map((t) => `<span class="chip">${esc(t)}</span>`).join("")}</div>` : ""}
+            <a class="small-link" href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Ver repositorio →</a>
+          </article>`;
+      }
+
+      function renderProjects(items) {
+        $("#projects-list").innerHTML = items.map(projectCard).join("");
       }
 
       async function loadProjects() {
-        const list = document.getElementById("projects-list");
+        renderProjects(featuredProjects);
         try {
-          const response = await fetch("https://api.github.com/users/biggbackagain/repos?per_page=100&sort=updated");
-          if (!response.ok) throw new Error("Error al consultar GitHub");
-          const repos = await response.json();
-          list.innerHTML = "";
-          repos
-            .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
-            .forEach((repo) => {
-              const item = document.createElement("article");
-              item.className = "project";
-              item.innerHTML = `
-                <h3>${repo.name}</h3>
-                <p class="meta">${repo.description || "Sin descripción pública."}</p>
-                <p class="meta">⭐ ${repo.stargazers_count} · 🍴 ${repo.forks_count} · ${repo.language || "N/A"}</p>
-                <a class="small-link" href="${repo.html_url}" target="_blank" rel="noopener noreferrer">Ver repositorio</a>
-              `;
-              list.appendChild(item);
-            });
-          if (!repos.length) {
-            list.innerHTML = '<article class="project"><p class="meta">No se encontraron repositorios públicos.</p></article>';
-          }
-        } catch (error) {
-          list.innerHTML = '<article class="project"><p class="meta">No fue posible cargar los proyectos automáticamente. Puedes agregarlos manualmente después.</p></article>';
+          const res = await fetch(
+            `https://api.github.com/users/${CONFIG.github}/repos?per_page=100&sort=updated`,
+            { headers: { Accept: "application/vnd.github+json" } }
+          );
+          if (!res.ok) return;
+          const repos = await res.json();
+          if (!Array.isArray(repos) || !repos.length) return;
+          const live = repos
+            .filter((r) => !r.fork)
+            .sort((a, b) => new Date(b.pushed_at) - new Date(a.pushed_at))
+            .map((r) => ({
+              name: r.name,
+              description: r.description,
+              language: r.language,
+              url: r.html_url,
+              stars: r.stargazers_count,
+              forks: r.forks_count,
+              tags: r.topics || []
+            }));
+          const curated = featuredProjects.filter((f) => !live.some((l) => l.name === f.name));
+          renderProjects([...curated, ...live]);
+        } catch (_) {
+          /* sin internet: se queda la selección curada */
         }
       }
 
-      renderCertifications();
-      loadProjects();
-      setupContactForm();
+      /* ---------- Contacto ---------- */
+      function setupContact() {
+        const wa = waBase();
+        $("#whatsapp-link").href = wa;
+        $("#waDirect").href = wa;
+        $("#waFooter").href = wa;
+        $("#mailDirect").href = "mailto:" + CONFIG.email;
+        if (!CONFIG.whatsapp) {
+          $("#formNote").insertAdjacentHTML(
+            "beforeend",
+            " <em>Nota para el dueño del sitio: agrega tu número en CONFIG.whatsapp dentro de index.html.</em>"
+          );
+        }
+        $("#contact-form").addEventListener("submit", (ev) => {
+          ev.preventDefault();
+          const form = ev.currentTarget;
+          if (!form.reportValidity()) return;
+          const d = new FormData(form);
+          const get = (k) => (d.get(k) || "").toString().trim();
+          const subject = `Nuevo prospecto: ${get("name")}${get("company") ? " (" + get("company") + ")" : ""} — ${get("service")}`;
+          const body =
+            `Nombre: ${get("name")}\n` +
+            `Empresa: ${get("company") || "N/A"}\n` +
+            `Email: ${get("email")}\n` +
+            `Teléfono/WhatsApp: ${get("phone") || "N/A"}\n` +
+            `Servicio: ${get("service")}\n` +
+            `Presupuesto: ${get("budget")}\n\n` +
+            `Necesidad:\n${get("message")}\n`;
+          window.location.href =
+            `mailto:${CONFIG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        });
+      }
+
+      /* ---------- Efectos ---------- */
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      function setupReveal() {
+        const items = document.querySelectorAll(".reveal");
+        if (reduce || !("IntersectionObserver" in window)) {
+          items.forEach((el) => el.classList.add("in"));
+          return;
+        }
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("in");
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+        );
+        items.forEach((el) => io.observe(el));
+      }
+
+      function setupCounters() {
+        const nums = document.querySelectorAll("[data-count]");
+        const run = (el) => {
+          const target = Number(el.dataset.count);
+          const suffix = el.dataset.suffix || "";
+          if (reduce) { el.textContent = target + suffix; return; }
+          const dur = 1200;
+          const t0 = performance.now();
+          const step = (t) => {
+            const k = Math.min(1, (t - t0) / dur);
+            el.textContent = Math.round(target * (1 - Math.pow(1 - k, 3))) + suffix;
+            if (k < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        };
+        if (!("IntersectionObserver" in window)) { nums.forEach(run); return; }
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } }),
+          { threshold: 0.6 }
+        );
+        nums.forEach((el) => io.observe(el));
+      }
+
+      function setupScrollUi() {
+        const nav = $("#nav");
+        const bar = $("#progress");
+        const top = $("#toTop");
+        const links = [...document.querySelectorAll("#navLinks a")];
+        const sections = links
+          .map((a) => document.querySelector(a.getAttribute("href")))
+          .filter(Boolean);
+        let ticking = false;
+        const onScroll = () => {
+          const y = window.scrollY;
+          const h = document.documentElement.scrollHeight - window.innerHeight;
+          bar.style.width = (h > 0 ? (y / h) * 100 : 0) + "%";
+          nav.classList.toggle("scrolled", y > 8);
+          top.classList.toggle("show", y > 600);
+          let current = "";
+          sections.forEach((s) => { if (s.getBoundingClientRect().top <= 120) current = "#" + s.id; });
+          links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === current));
+          ticking = false;
+        };
+        window.addEventListener("scroll", () => {
+          if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+        }, { passive: true });
+        onScroll();
+        top.addEventListener("click", () => window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }));
+      }
+
+      function setupGlow() {
+        if (reduce || window.matchMedia("(hover: none)").matches) return;
+        document.addEventListener("pointermove", (ev) => {
+          const card = ev.target.closest(".card.glow");
+          if (!card) return;
+          const r = card.getBoundingClientRect();
+          card.style.setProperty("--mx", ev.clientX - r.left + "px");
+          card.style.setProperty("--my", ev.clientY - r.top + "px");
+        });
+      }
+
+      function setupTheme() {
+        const btn = $("#themeBtn");
+        const stored = localStorage.getItem("portafolio-theme");
+        const initial = stored || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+        const apply = (t) => {
+          document.documentElement.setAttribute("data-theme", t);
+          btn.textContent = t === "light" ? "☀️" : "🌙";
+          document.querySelector('meta[name="theme-color"]').setAttribute("content", t === "light" ? "#f4f7fd" : "#080d1c");
+        };
+        apply(initial);
+        btn.addEventListener("click", () => {
+          const next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+          localStorage.setItem("portafolio-theme", next);
+          apply(next);
+        });
+      }
+
+      function setupMenu() {
+        const btn = $("#menuBtn");
+        const menu = $("#mobileMenu");
+        btn.addEventListener("click", () => {
+          const open = menu.classList.toggle("open");
+          btn.setAttribute("aria-expanded", String(open));
+          btn.textContent = open ? "✕" : "☰";
+        });
+        menu.addEventListener("click", (ev) => {
+          if (ev.target.tagName === "A") {
+            menu.classList.remove("open");
+            btn.setAttribute("aria-expanded", "false");
+            btn.textContent = "☰";
+          }
+        });
+      }
+
+      /* ---------- Init ---------- */
+      document.addEventListener("DOMContentLoaded", () => {
+        $("#year").textContent = new Date().getFullYear();
+        renderCertFilters();
+        renderCerts();
+        $("#certToggle").addEventListener("click", () => { certExpanded = !certExpanded; renderCerts(); });
+        setupContact();
+        setupTheme();
+        setupMenu();
+        setupReveal();
+        setupCounters();
+        setupScrollUi();
+        setupGlow();
+        loadProjects();
+      });
     </script>
   </body>
 </html>

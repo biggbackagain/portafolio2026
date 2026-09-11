@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://biggbackagain.github.io/portafolio2026/sitemap.xml
