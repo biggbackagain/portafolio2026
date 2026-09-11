@@ -1271,15 +1271,45 @@
           <div class="lead-magnet reveal">
             <h2>¿Tu red es segura y rápida?</h2>
             <p>Descarga mi <strong>Checklist Técnico de 5 puntos para PyMEs</strong>. Revisa si tus equipos, licencias y red cumplen con lo mínimo indispensable para no detener tu operación.</p>
-            <form class="lm-form" action="https://assets.mailerlite.com/jsonp/2629203/forms/198296771699410651/subscribe" method="post" target="_blank">
+            <!-- Iframe oculto para evitar redirecciones de MailerLite -->
+            <iframe name="ml_iframe" id="ml_iframe" style="display:none;"></iframe>
+            <form class="lm-form" id="lmForm" action="https://assets.mailerlite.com/jsonp/2629203/forms/198296771699410651/subscribe" method="post" target="ml_iframe">
               <input type="email" name="fields[email]" placeholder="Ingresa tu mejor correo" required autocomplete="email" />
               <input type="hidden" name="ml-submit" value="1">
               <input type="hidden" name="anticsrf" value="true">
-              <button class="btn" type="submit">Descargar PDF gratuito</button>
+              <button class="btn" type="submit" id="lmBtn">Descargar PDF gratuito</button>
             </form>
-            <p class="lm-note">Cero spam. Solo herramientas útiles para tu negocio.</p>
-            <!-- Tracking de vistas de MailerLite -->
-            <script>fetch("https://assets.mailerlite.com/jsonp/2629203/forms/198296771699410651/takel").catch(()=>{"ok"})</script>
+            <p class="lm-note" id="lmNote">Cero spam. Solo herramientas útiles para tu negocio.</p>
+            
+            <script>
+              // Script para iniciar la descarga del PDF y dar feedback visual
+              document.getElementById('lmForm').addEventListener('submit', function() {
+                var btn = document.getElementById('lmBtn');
+                var note = document.getElementById('lmNote');
+                
+                btn.textContent = "Iniciando descarga...";
+                
+                setTimeout(function() {
+                  // Crea un enlace virtual y simula el clic para descargar el PDF
+                  var a = document.createElement('a');
+                  // ATENCIÓN: Este archivo debe existir en la carpeta assets
+                  a.href = "assets/Checklist-Tecnico.pdf"; 
+                  a.download = "Checklist-Tecnico.pdf";
+                  document.body.appendChild(a);
+                  a.click();
+                  document.body.removeChild(a);
+                  
+                  // Cambiar el botón a estado de éxito
+                  btn.textContent = "¡Descarga completada!";
+                  btn.style.backgroundColor = "var(--success, #25d366)";
+                  btn.style.borderColor = "var(--success, #25d366)";
+                  note.textContent = "Revisa tu carpeta de descargas.";
+                }, 1000);
+              });
+              
+              // Tracking de vistas de MailerLite
+              fetch("https://assets.mailerlite.com/jsonp/2629203/forms/198296771699410651/takel").catch(()=>{"ok"})
+            </script>
           </div>
         </div>
       </section>
