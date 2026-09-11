@@ -228,11 +228,14 @@
       .card.glow:hover::before { opacity: 1; }
       .card h3 { font-size: 1.06rem; margin-bottom: 0.35rem; }
       .card .ico {
-        width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem;
-        background: color-mix(in srgb, var(--accent) 16%, transparent);
-        border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
-        margin-bottom: 0.8rem;
+        width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center;
+        background: color-mix(in srgb, var(--accent) 14%, transparent);
+        border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+        color: var(--accent);
+        margin-bottom: 0.85rem;
       }
+      .card .ico svg { width: 22px; height: 22px; }
+      .icon-inline { width: 18px; height: 18px; flex: 0 0 auto; color: var(--accent); }
       .grid { display: grid; gap: 1rem; }
       .g2 { grid-template-columns: 1fr; }
       .g3 { grid-template-columns: 1fr; }
@@ -445,6 +448,73 @@
       <span class="mesh"></span><span class="grain"></span>
     </div>
 
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+      <defs>
+        <g id="i-base" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></g>
+      </defs>
+      <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5" /><path d="M9 13h6M9 17h4" />
+      </symbol>
+      <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="8" r="3.2" /><path d="M3 20c0-3.2 2.7-5.2 6-5.2s6 2 6 5.2" /><path d="M16 5.5a3 3 0 0 1 0 5.6" /><path d="M17.5 14.4c2 .7 3.5 2.4 3.5 4.6" />
+      </symbol>
+      <symbol id="i-receipt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 3h12v18l-3-2-3 2-3-2-3 2z" /><path d="M9 8h6M9 12h6M9 16h3" />
+      </symbol>
+      <symbol id="i-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="6.5" rx="1.6" /><rect x="3" y="13.5" width="18" height="6.5" rx="1.6" />
+        <path d="M6.5 7.2h.01M6.5 16.8h.01" /><path d="M10 7.2h5M10 16.8h5" />
+      </symbol>
+      <symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="8" cy="13" r="4.2" /><path d="M11.4 10.6 20 3" /><path d="M17.2 5.8l2.4 2.4M14.6 8.4l2.4 2.4" />
+      </symbol>
+      <symbol id="i-network" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="2.6" width="6" height="5" rx="1.2" /><rect x="2.5" y="16.4" width="6" height="5" rx="1.2" />
+        <rect x="15.5" y="16.4" width="6" height="5" rx="1.2" /><path d="M12 7.6v4.6M5.5 16.4v-2.2h13v2.2M12 12.2v2" />
+      </symbol>
+      <symbol id="i-growth" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 4v16h16" /><path d="M7.5 15.5l3.5-4 3 2.5 5-6" /><path d="M15.5 8h3.5v3.5" />
+      </symbol>
+      <symbol id="i-tools" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14.5 6.5a3.6 3.6 0 0 0 4.8 4.8L21 13l-8 8-2-2 8-8-1.7-1.7z" /><path d="M8.5 3.5 4 8l2.5 2.5L11 6z" /><path d="M6.2 10.2 3 13.4l3.5 3.5 3.2-3.2" />
+      </symbol>
+      <symbol id="i-support" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="3.6" />
+        <path d="M9.4 9.4 5.6 5.6M14.6 9.4l3.8-3.8M9.4 14.6l-3.8 3.8M14.6 14.6l3.8 3.8" />
+      </symbol>
+      <symbol id="i-broadcast" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="2.2" /><path d="M12 10.2 9.5 21h5z" />
+        <path d="M7.2 12.4a6.5 6.5 0 0 1 0-8.8M16.8 3.6a6.5 6.5 0 0 1 0 8.8" />
+      </symbol>
+      <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3.2" />
+        <path d="M12 2.8v2.6M12 18.6v2.6M4.5 12H2M22 12h-2.5M6.7 6.7 4.9 4.9M19.1 19.1l-1.8-1.8M17.3 6.7l1.8-1.8M4.9 19.1l1.8-1.8" />
+      </symbol>
+      <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 4h10v5a5 5 0 0 1-10 0z" /><path d="M7 5.5H4.5V8a3 3 0 0 0 3 3M17 5.5h2.5V8a3 3 0 0 1-3 3" />
+        <path d="M12 14v3.5M8.5 20.5h7" />
+      </symbol>
+      <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13.5 2 5 13.5h5.5L9.5 22 19 10h-5.8z" />
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2.8l7.5 3v6c0 4.4-3.1 8.1-7.5 9.4-4.4-1.3-7.5-5-7.5-9.4v-6z" /><path d="M9 12l2.2 2.2L15.2 10" />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </symbol>
+      <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+        <path d="M6 6l12 12M18 6L6 18" />
+      </symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z" />
+      </symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M16.8 7.2l1.6-1.6M5.6 18.4l1.6-1.6" />
+      </symbol>
+    </svg>
+
     <div class="progress" id="progress" aria-hidden="true"></div>
 
     <nav class="nav" id="nav">
@@ -459,9 +529,9 @@
           <a href="#faq">FAQ</a>
         </div>
         <div class="nav-tools">
-          <button class="icon-btn" id="themeBtn" type="button" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema">🌙</button>
+          <button class="icon-btn" id="themeBtn" type="button" aria-label="Cambiar tema claro/oscuro" title="Cambiar tema"><svg class="icon-inline" aria-hidden="true"><use href="#i-moon"/></svg></button>
           <a class="btn sm no-print" href="#contacto">Contactar</a>
-          <button class="icon-btn menu" id="menuBtn" type="button" aria-label="Abrir menú" aria-expanded="false">☰</button>
+          <button class="icon-btn menu" id="menuBtn" type="button" aria-label="Abrir menú" aria-expanded="false"><svg class="icon-inline" aria-hidden="true"><use href="#i-menu"/></svg></button>
         </div>
       </div>
     </nav>
@@ -497,12 +567,12 @@
             <div class="actions no-print">
               <a class="btn" href="#contacto">Solicitar una cotización</a>
               <a class="btn ghost" href="#servicios">Ver servicios</a>
-              <a class="btn ghost" href="assets/CV-Iran-Garcia.pdf" download="Iran-Garcia-CV.pdf">⬇ Descargar CV (PDF)</a>
+              <a class="btn ghost" href="assets/CV-Iran-Garcia.pdf" download="Iran-Garcia-CV.pdf">Descargar CV (PDF)</a>
             </div>
             <div class="trust">
-              <div>⚡ <span>Respuesta en menos de 24 horas hábiles</span></div>
-              <div>🧾 <span>Propuesta por escrito, con alcance y precio</span></div>
-              <div>🛡️ <span>Garantía y soporte posterior a la entrega</span></div>
+              <div><svg class="icon-inline"><use href="#i-bolt"/></svg> <span>Respuesta en menos de 24 horas hábiles</span></div>
+              <div><svg class="icon-inline"><use href="#i-doc"/></svg> <span>Propuesta por escrito, con alcance y precio</span></div>
+              <div><svg class="icon-inline"><use href="#i-shield"/></svg> <span>Garantía y soporte posterior a la entrega</span></div>
             </div>
           </div>
         </div>
@@ -532,7 +602,7 @@
           </div>
           <div class="grid g2">
             <article class="card glow reveal">
-              <div class="ico">🧩</div>
+              <div class="ico"><svg><use href="#i-doc"/></svg></div>
               <h3>Lo que resuelvo</h3>
               <ul class="list">
                 <li>Software a la medida de tu operación, no plantillas genéricas.</li>
@@ -543,7 +613,7 @@
               </ul>
             </article>
             <article class="card glow reveal d1">
-              <div class="ico">🤝</div>
+              <div class="ico"><svg><use href="#i-users"/></svg></div>
               <h3>Con quién trabajo mejor</h3>
               <ul class="list">
                 <li>Negocios con una o varias sucursales que necesitan sistema propio, no una renta eterna.</li>
@@ -604,7 +674,7 @@
           </div>
           <div class="grid g3">
             <article class="card glow reveal">
-              <div class="ico">🧾</div>
+              <div class="ico"><svg><use href="#i-receipt"/></svg></div>
               <h3>Software a la medida</h3>
               <p>Sistemas de punto de venta, inventarios y operación diaria, hechos para cómo trabaja tu equipo.</p>
               <ul class="list">
@@ -615,7 +685,7 @@
               <div class="chips"><span class="chip">Laravel</span><span class="chip">Java</span><span class="chip">MariaDB</span></div>
             </article>
             <article class="card glow reveal d1">
-              <div class="ico">🖥️</div>
+              <div class="ico"><svg><use href="#i-server"/></svg></div>
               <h3>Servidores y equipo de cómputo</h3>
               <p>Te digo qué comprar, lo consigo, lo instalo y lo dejo funcionando. Sin cotizaciones infladas ni equipo de más.</p>
               <ul class="list">
@@ -627,7 +697,7 @@
               <div class="chips alt"><span class="chip alt">Windows Server</span><span class="chip alt">Linux</span><span class="chip alt">Virtualización</span></div>
             </article>
             <article class="card glow reveal d2">
-              <div class="ico">🔑</div>
+              <div class="ico"><svg><use href="#i-key"/></svg></div>
               <h3>Licenciamiento de software</h3>
               <p>Software original, facturado y a tu nombre. Dejas de operar con versiones piratas y con el riesgo que eso implica.</p>
               <ul class="list">
@@ -639,7 +709,7 @@
               <div class="chips"><span class="chip">Microsoft 365</span><span class="chip">Windows</span><span class="chip">Antivirus</span></div>
             </article>
             <article class="card glow reveal">
-              <div class="ico">🌐</div>
+              <div class="ico"><svg><use href="#i-network"/></svg></div>
               <h3>Redes, voz, datos y CCTV</h3>
               <p>La infraestructura que sostiene todo lo demás, diseñada para crecer sin rehacerla.</p>
               <ul class="list">
@@ -650,7 +720,7 @@
               <div class="chips alt"><span class="chip alt">Cisco</span><span class="chip alt">OSPF/BGP</span><span class="chip alt">CCTV IP</span></div>
             </article>
             <article class="card glow reveal d1">
-              <div class="ico">📈</div>
+              <div class="ico"><svg><use href="#i-growth"/></svg></div>
               <h3>Presencia digital y marketing</h3>
               <p>Que te encuentren y que al encontrarte te crean. Sitio, correo profesional y campañas medibles.</p>
               <ul class="list">
@@ -662,7 +732,7 @@
               <div class="chips"><span class="chip">SEO</span><span class="chip">Google Business</span><span class="chip">Landing pages</span></div>
             </article>
             <article class="card glow reveal d2">
-              <div class="ico">🛠️</div>
+              <div class="ico"><svg><use href="#i-tools"/></svg></div>
               <h3>Desarrollo backend e integraciones</h3>
               <p>Para que tus sistemas dejen de depender de hojas de cálculo y de copiar datos a mano.</p>
               <ul class="list">
@@ -678,7 +748,7 @@
           <article class="card glow reveal" style="margin-top: 1rem">
             <div class="grid g2" style="align-items: center">
               <div>
-                <div class="ico">🚑</div>
+                <div class="ico"><svg><use href="#i-support"/></svg></div>
                 <h3>Soporte y mantenimiento continuo</h3>
                 <p>
                   Para quien ya tiene todo funcionando y necesita que siga funcionando. Soporte L1–L2
@@ -712,7 +782,7 @@
           </div>
           <div class="grid g3">
             <article class="card glow reveal case">
-              <div class="ico">🍗</div>
+              <div class="ico"><svg><use href="#i-receipt"/></svg></div>
               <h3>POS multi-sucursal · Pollos Coloso</h3>
               <div class="kv"><b>Problema</b><span>Cuatro sucursales facturando en papel y hojas de cálculo, sin control de inventario ni visibilidad de los cortes de caja.</span></div>
               <div class="kv"><b>Solución</b><span>Como administrador de sistemas del negocio desarrollé el sistema completo: caja, cocina, producción y reparto, con inventario por recetas, permisos por usuario, respaldos automáticos e instalador para Windows.</span></div>
@@ -720,7 +790,7 @@
               <div class="chips"><span class="chip">Laravel</span><span class="chip">Vue</span><span class="chip">MariaDB</span><span class="chip">Java</span></div>
             </article>
             <article class="card glow reveal d1 case">
-              <div class="ico">📡</div>
+              <div class="ico"><svg><use href="#i-broadcast"/></svg></div>
               <h3>Reubicación de Radio Universidad · CUSur, UdeG</h3>
               <div class="kv"><b>Problema</b><span>La estación tenía que mudarse de sede y volver al aire con su red y su equipo funcionando, coordinando con obra y con el personal de la radio.</span></div>
               <div class="kv"><b>Solución</b><span>Proyecto de titulación en equipo: cableado estructurado, configuración de routers y switches, e implementación de protocolos RIPv2, OSPF, EIGRP, VLANs, STP y ROAS, más soporte técnico nivel 1 y 2 durante la puesta en marcha.</span></div>
@@ -728,7 +798,7 @@
               <div class="chips alt"><span class="chip alt">Cableado</span><span class="chip alt">OSPF / EIGRP</span><span class="chip alt">VLANs</span></div>
             </article>
             <article class="card glow reveal d2 case">
-              <div class="ico">⚙️</div>
+              <div class="ico"><svg><use href="#i-gear"/></svg></div>
               <h3>Rendimiento en producción</h3>
               <div class="kv"><b>Problema</b><span>Un sistema en caja se volvía lento en hora pico: cada pantalla recargaba todo el historial cada pocos segundos.</span></div>
               <div class="kv"><b>Solución</b><span>Auditoría de consultas, índices faltantes, transacciones en movimientos de inventario y sondeo acotado al día en curso.</span></div>
@@ -813,7 +883,7 @@
                 </ol>
               </article>
               <article class="card glow" style="margin-top: 1rem">
-                <div class="ico">🏆</div>
+                <div class="ico"><svg><use href="#i-trophy"/></svg></div>
                 <h3>Reconocimientos y actividades</h3>
                 <ul class="list">
                   <li><strong>2.º lugar en la competencia STEAM</strong> con el equipo que asesoré.</li>
@@ -832,7 +902,7 @@
                   región Sur de Jalisco y la Zona Metropolitana de Guadalajara.
                 </p>
                 <div class="actions no-print" style="margin-top: 0.8rem">
-                  <a class="btn ghost sm" href="assets/CV-Iran-Garcia.pdf" download="Iran-Garcia-CV.pdf">⬇ Descargar CV completo</a>
+                  <a class="btn ghost sm" href="assets/CV-Iran-Garcia.pdf" download="Iran-Garcia-CV.pdf">Descargar CV completo</a>
                 </div>
               </article>
             </div>
@@ -1020,12 +1090,12 @@
             </article>
             <aside class="reveal d1">
               <div class="direct">
-                <a id="waDirect" href="#" target="_blank" rel="noopener noreferrer"><span>📱</span> <span>WhatsApp · 341 105 6019</span></a>
-                <a id="mailDirect" href="#"><span>📧</span> <span>garciagg2193@gmail.com</span></a>
-                <a href="https://www.linkedin.com/in/irangarcia93/" target="_blank" rel="noopener noreferrer"><span>💼</span> <span>LinkedIn · irangarcia93</span></a>
-                <a href="https://github.com/biggbackagain" target="_blank" rel="noopener noreferrer"><span>💻</span> <span>GitHub · biggbackagain</span></a>
-                <a href="https://www.facebook.com/iraan.garciagtz" target="_blank" rel="noopener noreferrer"><span>📘</span> <span>Facebook · Iran García</span></a>
-                <a href="https://www.instagram.com/irangarcia93/" target="_blank" rel="noopener noreferrer"><span>📸</span> <span>Instagram · @irangarcia93</span></a>
+                <a id="waDirect" href="#" target="_blank" rel="noopener noreferrer"><span>WhatsApp · 341 105 6019</span></a>
+                <a id="mailDirect" href="#"><span>garciagg2193@gmail.com</span></a>
+                <a href="https://www.linkedin.com/in/irangarcia93/" target="_blank" rel="noopener noreferrer"><span>LinkedIn · irangarcia93</span></a>
+                <a href="https://github.com/biggbackagain" target="_blank" rel="noopener noreferrer"><span>GitHub · biggbackagain</span></a>
+                <a href="https://www.facebook.com/iraan.garciagtz" target="_blank" rel="noopener noreferrer"><span>Facebook · Iran García</span></a>
+                <a href="https://www.instagram.com/irangarcia93/" target="_blank" rel="noopener noreferrer"><span>Instagram · @irangarcia93</span></a>
               </div>
               <article class="card" style="margin-top: 1rem">
                 <h3>Antes de escribir, ten a mano</h3>
@@ -1242,7 +1312,7 @@
           <article class="card glow">
             <h3>${esc(p.name)}</h3>
             <p class="meta">${esc(p.description || "Sin descripción pública.")}</p>
-            <p class="meta">${p.stars != null ? `⭐ ${p.stars} · 🍴 ${p.forks} · ` : ""}${esc(p.language || "—")}</p>
+            <p class="meta">${p.stars != null ? `${p.stars} estrellas · ${p.forks} forks · ` : ""}${esc(p.language || "—")}</p>
             ${(p.tags || []).length ? `<div class="chips">${p.tags.map((t) => `<span class="chip">${esc(t)}</span>`).join("")}</div>` : ""}
             <a class="small-link" href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Ver repositorio →</a>
           </article>`;
@@ -1404,7 +1474,7 @@
         const initial = stored || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
         const apply = (t) => {
           document.documentElement.setAttribute("data-theme", t);
-          btn.textContent = t === "light" ? "☀️" : "🌙";
+          btn.innerHTML = '<svg class="icon-inline" aria-hidden="true"><use href="#i-' + (t === "light" ? "sun" : "moon") + '"/></svg>';
           document.querySelector('meta[name="theme-color"]').setAttribute("content", t === "light" ? "#f4f7fd" : "#080d1c");
         };
         apply(initial);
@@ -1421,13 +1491,13 @@
         btn.addEventListener("click", () => {
           const open = menu.classList.toggle("open");
           btn.setAttribute("aria-expanded", String(open));
-          btn.textContent = open ? "✕" : "☰";
+          btn.innerHTML = '<svg class="icon-inline" aria-hidden="true"><use href="#i-' + (open ? "close" : "menu") + '"/></svg>';
         });
         menu.addEventListener("click", (ev) => {
           if (ev.target.tagName === "A") {
             menu.classList.remove("open");
             btn.setAttribute("aria-expanded", "false");
-            btn.textContent = "☰";
+            btn.innerHTML = '<svg class="icon-inline" aria-hidden="true"><use href="#i-menu"/></svg>';
           }
         });
       }
