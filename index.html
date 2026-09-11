@@ -26,6 +26,25 @@
         padding: 3rem 0 2rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.12);
       }
+      .hero {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        align-items: center;
+      }
+      .avatar-wrap {
+        width: 130px;
+        height: 130px;
+        border-radius: 999px;
+        overflow: hidden;
+        border: 3px solid rgba(79, 179, 255, 0.65);
+        box-shadow: 0 10px 40px rgba(79, 179, 255, 0.22);
+      }
+      .avatar-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
       h1 { margin: 0; font-size: clamp(1.9rem, 5vw, 3rem); }
       h2 { margin: 0 0 1rem; font-size: clamp(1.4rem, 3vw, 2rem); }
       p { margin: 0.4rem 0; color: var(--muted); }
@@ -43,6 +62,20 @@
         background: transparent;
         color: var(--text);
         border: 1px solid rgba(255, 255, 255, 0.35);
+      }
+      .cta-strip {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+      }
+      .cta-item {
+        background: rgba(79, 179, 255, 0.17);
+        border: 1px solid rgba(79, 179, 255, 0.45);
+        border-radius: 10px;
+        padding: 0.7rem 0.8rem;
+        color: var(--text);
+        font-weight: 600;
       }
       section { padding: 2rem 0; }
       .grid {
@@ -88,26 +121,85 @@
         text-decoration: none;
         font-weight: 600;
       }
+      .contact-box {
+        background: rgba(19, 26, 49, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 14px;
+        padding: 1rem;
+      }
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+      .field label {
+        font-size: 0.9rem;
+        color: var(--text);
+      }
+      .field input, .field textarea {
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        background: rgba(8, 14, 30, 0.6);
+        color: var(--text);
+        padding: 0.65rem 0.75rem;
+        font: inherit;
+      }
+      .field textarea { min-height: 120px; resize: vertical; }
+      .contact-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+      }
+      .form-note { font-size: 0.85rem; color: var(--muted); }
       footer {
         padding: 1.5rem 0 2rem;
         border-top: 1px solid rgba(255, 255, 255, 0.12);
         color: var(--muted);
       }
       @media (min-width: 800px) {
+        .hero {
+          grid-template-columns: auto 1fr;
+          gap: 1.5rem;
+        }
+        .cta-strip {
+          grid-template-columns: repeat(3, 1fr);
+        }
         .card.span-6 { grid-column: span 6; }
+        .contact-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .field.full { grid-column: 1 / -1; }
       }
     </style>
   </head>
   <body>
     <header>
       <div class="container">
-        <h1>Telecommunications Engineer & Backend Developer</h1>
-        <p class="tagline">
-          Dedicated Telecommunications Engineer and experienced Developer with a solid foundation in networking and software development. Specialized in scalable solutions where infrastructure meets code.
-        </p>
+        <div class="hero">
+          <figure class="avatar-wrap">
+            <img src="https://avatars.githubusercontent.com/biggbackagain?v=4" alt="Avatar profesional de Iran Garcia" />
+          </figure>
+          <div>
+            <h1>Telecommunications Engineer & Backend Developer</h1>
+            <p class="tagline">
+              Dedicated Telecommunications Engineer and experienced Developer with a solid foundation in networking and software development. Specialized in scalable solutions where infrastructure meets code.
+            </p>
+          </div>
+        </div>
         <div class="actions">
-          <a class="btn" href="#contacto">Hablemos</a>
-          <a class="btn ghost" href="#proyectos">Ver proyectos</a>
+          <a class="btn" href="#contacto">Agenda una llamada ahora</a>
+          <a class="btn ghost" href="#proyectos">Revisa mis resultados</a>
+          <a class="btn ghost" href="#certificaciones">Valida mis certificaciones</a>
+        </div>
+        <div class="cta-strip">
+          <div class="cta-item">✅ Respuesta en menos de 24 horas</div>
+          <div class="cta-item">✅ Soluciones backend + redes en un solo perfil</div>
+          <div class="cta-item">✅ Enfoque en continuidad operativa y escalabilidad</div>
         </div>
       </div>
     </header>
@@ -166,11 +258,47 @@
         <h2>Certificaciones</h2>
         <div id="certifications-list"></div>
       </section>
+
+      <section id="contacto">
+        <h2>Contacto para clientes potenciales</h2>
+        <p>Cuéntame tu necesidad y te respondo con una propuesta técnica clara.</p>
+        <div class="contact-box">
+          <form id="contact-form" class="contact-grid">
+            <div class="field">
+              <label for="name">Nombre</label>
+              <input id="name" name="name" type="text" placeholder="Tu nombre" required />
+            </div>
+            <div class="field">
+              <label for="company">Empresa</label>
+              <input id="company" name="company" type="text" placeholder="Tu empresa" />
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="tu@email.com" required />
+            </div>
+            <div class="field">
+              <label for="phone">WhatsApp / Teléfono</label>
+              <input id="phone" name="phone" type="text" placeholder="+52 ..." />
+            </div>
+            <div class="field full">
+              <label for="message">¿Qué necesitas resolver?</label>
+              <textarea id="message" name="message" placeholder="Describe tu proyecto o problema técnico" required></textarea>
+            </div>
+            <div class="field full">
+              <div class="contact-actions">
+                <button class="btn" type="submit">Enviar por email</button>
+                <a id="whatsapp-link" class="btn ghost" href="https://wa.me/?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20tus%20servicios%20de%20backend%20y%20redes." target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a>
+              </div>
+              <p class="form-note">El formulario abre tu cliente de correo con el mensaje prellenado.</p>
+            </div>
+          </form>
+        </div>
+      </section>
     </main>
 
-    <footer id="contacto">
+    <footer>
       <div class="container">
-        <p>Let&apos;s connect! Abierto a oportunidades en Backend Development, Network Engineering y roles híbridos.</p>
+        <p>Let&apos;s connect! Abierto a oportunidades en Backend Development, Network Engineering y roles híbridos para empresas y proyectos en crecimiento.</p>
         <p>© 2026 | Portafolio profesional estático y responsivo.</p>
       </div>
     </footer>
@@ -178,38 +306,43 @@
     <script>
       const certifications = [
         { title: "Generative AI for Educators with Gemini Certificate", org: "Gemini", date: "may. 2026" },
-        { title: "Django Web Framework", org: "Meta", date: "ene. 2024", id: "SE4WTFMZZB8Z" },
-        { title: "Los bits y bytes de las redes informáticas", org: "Google", date: "ene. 2024", id: "GX3MKT2D7MS4" },
+        { title: "Django Web Framework", org: "Meta", date: "ene. 2024", id: "SE4WTFMZZB8Z", link: "https://www.coursera.org/account/accomplishments/verify/SE4WTFMZZB8Z" },
+        { title: "Los bits y bytes de las redes informáticas", org: "Google", date: "ene. 2024", id: "GX3MKT2D7MS4", link: "https://www.coursera.org/account/accomplishments/verify/GX3MKT2D7MS4" },
         { title: "Aspectos básicos de la asistencia técnica", org: "Google", date: "ene. 2024", id: "Z97WD7QAB3CK" },
-        { title: "Introduction to Databases for Back-End Development", org: "Meta", date: "nov. 2023", id: "RGSGRBD46JXP" },
-        { title: "Python (Basics)", org: "HackerRank", date: "nov. 2023", id: "66f4ce0ed7d2f" },
-        { title: "Version Control", org: "Meta", date: "nov. 2023", id: "XXS3MFACYDZN" },
-        { title: "Machine Learning Operations (MLOps): Getting Started", org: "Coursera", date: "ene. 2021", id: "AFPA8EYZGXLB" },
-        { title: "Programming in Python", org: "Meta", date: "oct. 2023", id: "H2KPRK98WZL" },
-        { title: "Introduction to Back-End Development", org: "Meta", date: "ago. 2023", id: "WEE4LA4LBKFK" },
-        { title: "Java (Basic)", org: "HackerRank", date: "abr. 2023", id: "A61D167E96C6" },
-        { title: "Python esencial", org: "LinkedIn", date: "feb. 2023" },
+        { title: "Introduction to Databases for Back-End Development", org: "Meta", date: "nov. 2023", id: "RGSGRBD46JXP", link: "https://www.coursera.org/account/accomplishments/certificate/RGSGRBD46JXP" },
+        { title: "Python (Basics)", org: "HackerRank", date: "nov. 2023", id: "66f4ce0ed7d2f", link: "https://www.hackerrank.com/certificates/6f4ce0ed7d2f" },
+        { title: "Version Control", org: "Meta", date: "nov. 2023", id: "XXS3MFACYDZN", link: "https://www.coursera.org/account/accomplishments/certificate/XXS3MFACYDZN" },
+        { title: "Machine Learning Operations (MLOps): Getting Started", org: "Coursera", date: "ene. 2021", id: "AFPA8EYZGXLB", link: "https://www.coursera.org/account/accomplishments/certificate/AFPA8EYZGXLB" },
+        { title: "Programming in Python", org: "Meta", date: "oct. 2023", id: "H2KPRK98WZL", link: "https://www.coursera.org/account/accomplishments/certificate/QH2KPRK98WZL" },
+        { title: "Introduction to Back-End Development", org: "Meta", date: "ago. 2023", id: "WEE4LA4LBKFK", link: "https://www.coursera.org/account/accomplishments/certificate/WEE4LA4LBKFK" },
+        { title: "Java (Basic)", org: "HackerRank", date: "abr. 2023", id: "A61D167E96C6", link: "https://www.hackerrank.com/certificates/a61d167e96c6" },
+        { title: "Python esencial", org: "LinkedIn", date: "feb. 2023", link: "https://www.linkedin.com/learning/certificates/58d2214a8c69fdc07ea04a574643440ae958509d970497ad18ff4cb8ebb25a68?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3Bh3gnm3eARG%2BF14v9JGmfEA%3D%3D" },
         {
           title: "Junior Cybersecurity Analyst Career Path",
           org: "Cisco",
           date: "ene. 2023",
           link: "https://www.credly.com/badges/11bc2aa3-c111-4459-8902-a50005452273/linked_in_profile"
         },
-        { title: "Network Defense", org: "Cisco", date: "ene. 2023" },
-        { title: "Network Addressing and Basic Troubleshooting", org: "Cisco", date: "ene. 2023" },
-        { title: "Endpoint Security", org: "Cisco", date: "ene. 2023" },
-        { title: "Cyber Threat Management", org: "Cisco", date: "ene. 2023" },
-        { title: "Networking Devices and Initial Configuration", org: "Cisco", date: "ene. 2023" },
-        { title: "Networking Basics", org: "Cisco", date: "ene. 2023" },
+        { title: "Network Defense", org: "Cisco", date: "ene. 2023", link: "https://www.credly.com/badges/b5e85f64-587c-4752-a47b-f9e6c1c1e767/linked_in_profile" },
+        { title: "Network Addressing and Basic Troubleshooting", org: "Cisco", date: "ene. 2023", link: "https://www.credly.com/badges/9006b158-ad22-4d50-8bc1-95848e4753f6/linked_in_profile" },
+        { title: "Endpoint Security", org: "Cisco", date: "ene. 2023", link: "https://www.credly.com/badges/d5aef077-197f-42b8-a78c-1be7c1d9a182/linked_in_profile" },
+        { title: "Cyber Threat Management", org: "Cisco", date: "ene. 2023", link: "https://www.credly.com/badges/3bd545a3-78d3-4a69-8bad-42b27ac41aea/linked_in_profile" },
+        { title: "Networking Devices and Initial Configuration", org: "Cisco", date: "ene. 2023", link: "https://www.credly.com/badges/d170a323-be27-4797-8182-967b5d97c8ce/linked_in_profile" },
+        { title: "Networking Basics", org: "Cisco", date: "ene. 2023", link: "https://www.credly.com/badges/f7817efd-de8d-443a-838c-aad5392eb627/linked_in_profile" },
         { title: "Lifelong Learning", org: "CertiProf", date: "jun. 2022" },
-        { title: "EFSET English Certificate 53/100 (B2 Upper Intermediate)", org: "EF SET", date: "ene. 2023" },
-        { title: "Score Reporting - TOEFL B1 (437-473 points)", org: "Universidad de Guadalajara", date: "sept. 2022" },
-        { title: "CCNA Routing & Switching: Escalamiento de redes", org: "Cisco Networking Academy", date: "feb. 2021" },
-        { title: "NDG Linux Essentials", org: "Cisco Networking Academy", date: "jul. 2021" },
-        { title: "Data Science for Business - Level 1", org: "IBM", date: "mar. 2021" },
-        { title: "Introduction to IoT", org: "Cisco", date: "mar. 2021" },
-        { title: "Introduction to Cybersecurity", org: "Cisco", date: "mar. 2021" }
+        { title: "EFSET English Certificate 53/100 (B2 Upper Intermediate)", org: "EF SET", date: "ene. 2023", link: "https://cert.efset.org/wifjEi" },
+        { title: "Score Reporting - TOEFL B1 (437-473 points)", org: "Universidad de Guadalajara", date: "sept. 2022", link: "https://www.linkedin.com/posts/irangarcia93_toefl-score-reporting-by-university-of-guadalajara-activity-7020283096189067264-YUj9/" },
+        { title: "CCNA Routing & Switching: Escalamiento de redes", org: "Cisco Networking Academy", date: "feb. 2021", link: "https://www.linkedin.com/posts/irangarcia93_ccna-scaling-network-certificate-activity-6774263849555230721-Y6fc/" },
+        { title: "NDG Linux Essentials", org: "Cisco Networking Academy", date: "jul. 2021", link: "https://www.credly.com/badges/c14d2041-398f-4b1a-84ba-e0e74a2435a8/linked_in_profile" },
+        { title: "Data Science for Business - Level 1", org: "IBM", date: "mar. 2021", link: "https://www.credly.com/badges/d541fbb5-a471-4fe4-8b0d-aa3379b79056?source=linked_in_profile" },
+        { title: "Introduction to IoT", org: "Cisco", date: "mar. 2021", link: "https://www.credly.com/badges/40874c59-039f-4342-b62d-4155c3124773?source=linked_in_profile" },
+        { title: "Introduction to Cybersecurity", org: "Cisco", date: "mar. 2021", link: "https://www.credly.com/badges/c91f2836-230e-4008-aa3c-510383adfad1?source=linked_in_profile" }
       ];
+
+      const contact = {
+        email: "contacto.backend.networks@gmail.com",
+        whatsapp: "https://wa.me/?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20tus%20servicios%20de%20backend%20y%20redes."
+      };
 
       function renderCertifications() {
         const container = document.getElementById("certifications-list");
@@ -227,6 +360,21 @@
             }
           `;
           container.appendChild(card);
+        });
+      }
+
+      function setupContactForm() {
+        const form = document.getElementById("contact-form");
+        const whatsappLink = document.getElementById("whatsapp-link");
+        whatsappLink.href = contact.whatsapp;
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const data = new FormData(form);
+          const subject = encodeURIComponent(`Nuevo prospecto: ${data.get("name")} (${data.get("company") || "Sin empresa"})`);
+          const body = encodeURIComponent(
+            `Nombre: ${data.get("name")}\nEmpresa: ${data.get("company") || "N/A"}\nEmail: ${data.get("email")}\nWhatsApp/Teléfono: ${data.get("phone") || "N/A"}\n\nNecesidad:\n${data.get("message")}`
+          );
+          window.location.href = `mailto:${contact.email}?subject=${subject}&body=${body}`;
         });
       }
 
@@ -260,6 +408,7 @@
 
       renderCertifications();
       loadProjects();
+      setupContactForm();
     </script>
   </body>
 </html>
