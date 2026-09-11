@@ -1,4 +1,3 @@
-User-agent: *
+﻿User-agent: *
 Allow: /
-
-Sitemap: https://biggbackagain.github.io/portafolio2026/sitemap.xml
+Sitemap: https://irangarcia.dev/sitemap.xml
