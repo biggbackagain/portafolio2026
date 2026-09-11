@@ -488,6 +488,48 @@
         animation: spin 0.7s linear infinite; flex-shrink: 0;
       }
       @keyframes spin { to { transform: rotate(360deg); } }
+      
+      /* ============ 18. Herramientas de Conversión ============ */
+      /* WhatsApp Flotante */
+      .wa-fab {
+        position: fixed; bottom: 20px; right: 20px; z-index: 90;
+        width: 56px; height: 56px; border-radius: 50%;
+        background: #25d366; color: #fff;
+        display: grid; place-items: center; box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+        transition: transform 0.3s var(--ease), box-shadow 0.3s;
+      }
+      .wa-fab:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5); }
+      .wa-fab svg { width: 32px; height: 32px; fill: currentColor; }
+      @media (min-width: 900px) { .wa-fab { bottom: 30px; right: 30px; width: 64px; height: 64px; } .wa-fab svg { width: 36px; height: 36px; } }
+      /* Empujar el to-top arriba del WA FAB en móvil para que no se traslapen */
+      .to-top { bottom: 85px; right: 26px; }
+      @media (min-width: 900px) { .to-top { bottom: 105px; right: 40px; } }
+
+      /* Testimonios */
+      .testimonio { display: flex; flex-direction: column; gap: 1rem; height: 100%; justify-content: space-between; }
+      .testimonio-text { font-style: italic; font-size: 1.05rem; color: var(--text); position: relative; z-index: 1; }
+      .testimonio-text::before { content: "“"; position: absolute; top: -15px; left: -10px; font-size: 3rem; color: var(--border-strong); z-index: -1; line-height: 1; font-family: serif; }
+      .testimonio-author { display: flex; align-items: center; gap: 0.8rem; }
+      .avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display: grid; place-items: center; font-weight: 700; color: #fff; font-size: 1.1rem; flex-shrink: 0; }
+      .author-info strong { display: block; font-size: 0.95rem; color: var(--text); }
+      .author-info span { display: block; font-size: 0.8rem; color: var(--muted); }
+      .stars { color: #f59e0b; display: flex; gap: 2px; margin-bottom: 0.5rem; }
+      .stars svg { width: 16px; height: 16px; fill: currentColor; }
+
+      /* Calendly Card CTA */
+      .calendly-card { background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 15%, transparent), transparent); border-color: color-mix(in srgb, var(--accent) 40%, transparent); text-align: center; padding: 2rem 1.5rem; }
+      .calendly-card h3 { color: var(--accent); font-size: 1.2rem; }
+
+      /* Lead Magnet Banner */
+      .lead-magnet { background: linear-gradient(135deg, var(--surface-solid), color-mix(in srgb, var(--accent-2) 20%, var(--surface-solid))); border: 1px solid var(--accent); border-radius: var(--radius); padding: clamp(2rem, 5vw, 3rem); text-align: center; position: relative; overflow: hidden; }
+      .lead-magnet::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--accent) 15%, transparent), transparent 50%); pointer-events: none; }
+      .lead-magnet h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); margin-bottom: 1rem; color: var(--text); }
+      .lead-magnet p { max-width: 600px; margin: 0 auto 1.5rem; font-size: 1.05rem; }
+      .lm-form { display: flex; gap: 0.5rem; max-width: 480px; margin: 0 auto; flex-wrap: wrap; }
+      .lm-form input { flex: 1; min-width: 200px; border-radius: 999px; border: 1px solid var(--border-strong); padding: 0.8rem 1.2rem; background: var(--bg); color: var(--text); outline: none; }
+      .lm-form input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+      .lm-form button { border-radius: 999px; }
+      .lm-note { font-size: 0.8rem; margin-top: 0.8rem; color: var(--muted); }
     </style>
   </head>
   <body>
@@ -860,6 +902,43 @@
           </p>
         </div>
       </section>
+      <section id="testimonios" style="padding-top: 1rem;">
+        <div class="container">
+          <div class="grid g2">
+            <article class="card glow reveal testimonio">
+              <blockquote class="testimonio-text">
+                Antes cuadrábamos la caja a mano y perdíamos horas buscando errores. Irán nos automatizó toda la operación en las 4 sucursales: inventario, cocina y caja. Ahora todo cuadra y no pagamos renta mensual por el software.
+              </blockquote>
+              <div>
+                <div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                <div class="testimonio-author">
+                  <div class="avatar">PC</div>
+                  <div class="author-info">
+                    <strong>Dueño / Gerencia</strong>
+                    <span>Pollos Coloso</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+            
+            <article class="card glow reveal d1 testimonio">
+              <blockquote class="testimonio-text">
+                Necesitábamos a alguien que entendiera tanto el hardware como el software para mudar la estación de radio. Irán y su equipo configuraron la red desde los cables hasta los routers, dejándonos listos para transmitir sin fallas.
+              </blockquote>
+              <div>
+                <div class="stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                <div class="testimonio-author">
+                  <div class="avatar">RU</div>
+                  <div class="author-info">
+                    <strong>Coordinación Técnica</strong>
+                    <span>Radio Universidad (CUSur)</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
 
       <section id="experiencia">
         <div class="container">
@@ -1139,6 +1218,14 @@
               </form>
             </article>
             <aside class="reveal d1">
+              <article class="card glow calendly-card" style="margin-bottom: 1rem">
+                <h3>¿Prefieres hablarlo en vivo?</h3>
+                <p class="meta" style="margin-bottom: 1rem; color: var(--text)">
+                  Agenda una videollamada de diagnóstico de 15 minutos directamente en mi calendario.
+                </p>
+                <!-- NOTA: Reemplaza este enlace con tu link real de Calendly -->
+                <a href="https://calendly.com/" target="_blank" rel="noopener noreferrer" class="btn">Agendar videollamada</a>
+              </article>
               <div class="direct">
                 <a id="waDirect" href="#" target="_blank" rel="noopener noreferrer"><span>WhatsApp · 341 105 6019</span></a>
                 <a id="mailDirect" href="#"><span>garciagg2193@gmail.com</span></a>
@@ -1160,7 +1247,26 @@
           </div>
         </div>
       </section>
+      <section id="recursos" style="padding-top: 0;">
+        <div class="container">
+          <div class="lead-magnet reveal">
+            <h2>¿Tu red es segura y rápida?</h2>
+            <p>Descarga mi <strong>Checklist Técnico de 5 puntos para PyMEs</strong>. Revisa si tus equipos, licencias y red cumplen con lo mínimo indispensable para no detener tu operación.</p>
+            <!-- NOTA: Aquí puedes embeber el action form de Mailchimp o MailerLite -->
+            <form class="lm-form" onsubmit="event.preventDefault(); alert('Aquí irá la conexión a tu Mailchimp/MailerLite');">
+              <input type="email" placeholder="Ingresa tu mejor correo" required />
+              <button class="btn" type="submit">Descargar PDF gratuito</button>
+            </form>
+            <p class="lm-note">Cero spam. Solo herramientas útiles para tu negocio.</p>
+          </div>
+        </div>
+      </section>
     </main>
+
+    <!-- Botón Flotante WhatsApp -->
+    <a href="#" id="waFab" class="wa-fab reveal in" aria-label="Chat en WhatsApp" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 24 24"><path d="M12.01 2.01c-5.52 0-9.99 4.47-9.99 9.99 0 1.96.53 3.84 1.5 5.46L2.01 22l4.67-1.5c1.57.88 3.39 1.41 5.33 1.41 5.52 0 9.99-4.47 9.99-9.99S17.53 2.01 12.01 2.01zM17.06 15.61c-.22.61-1.28 1.16-1.78 1.22-.44.06-.99.11-3.22-.83-2.67-1.11-4.39-3.94-4.5-4.11-.11-.17-1.06-1.39-1.06-2.67s.67-1.89.89-2.11c.22-.22.5-.28.72-.28.22 0 .44 0 .61.06.22.06.5.17.83.94.33.78 1 2.44 1.06 2.61.06.17.11.39.06.56-.06.17-.11.28-.28.44-.17.17-.28.33-.44.5-.17.17-.39.39-.17.78.22.39 1 1.67 2.11 2.61.94.83 2 1.11 2.39 1.28.39.17.61.11.83-.11.22-.22.94-1.11 1.22-1.5s.56-.33.94-.17 2.39 1.11 2.78 1.33.67.33.78.5c.06.22.06.94-.22 1.55z"/></svg>
+    </a>
 
     <footer>
       <div class="container">
@@ -1417,6 +1523,7 @@
         $("#whatsapp-link").href = wa;
         $("#waDirect").href = wa;
         $("#waFooter").href = wa;
+        $("#waFab").href = wa;
         $("#mailDirect").href = "mailto:" + CONFIG.email;
         if (!CONFIG.whatsapp) {
           $("#formNote").insertAdjacentHTML(
