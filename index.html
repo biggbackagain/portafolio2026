@@ -463,9 +463,10 @@
       }
       /* ============ 17. Estado del formulario (EmailJS) ============ */
       .form-status {
-        display: flex; align-items: center; gap: 0.5rem;
+        display: block;
         padding: 0.75rem 1rem; border-radius: var(--radius-sm);
         font-size: 0.9rem; font-weight: 600; margin-top: 0.6rem;
+        line-height: 1.5;
         animation: fade 0.3s var(--ease);
       }
       .form-status.success {
@@ -478,7 +479,8 @@
         border: 1px solid color-mix(in srgb, #ef4444 38%, transparent);
         color: #ef4444;
       }
-      .form-status.sending { color: var(--muted); background: transparent; border: none; }
+      .form-status.sending { color: var(--muted); background: transparent; border: none; display: flex; align-items: center; gap: 0.5rem; }
+      .form-status a { color: inherit; font-weight: 700; }
       .spinner {
         width: 16px; height: 16px; border: 2px solid currentColor;
         border-top-color: transparent; border-radius: 50%;
