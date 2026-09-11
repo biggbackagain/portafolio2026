@@ -7,18 +7,19 @@
     <meta name="description" content="Ingeniero en Telemática por la Universidad de Guadalajara, en Ciudad Guzmán, Jalisco. Software a la medida y punto de venta, servidores y equipo de cómputo, licenciamiento original, redes y CCTV, marketing digital y soporte técnico L1–L2. Proyectos remotos y en sitio." />
     <meta name="author" content="Iran García" />
     <meta name="theme-color" content="#071223" />
-    <link rel="canonical" href="https://biggbackagain.github.io/portafolio2026/" />
+    <link rel="canonical" href="https://irangarcia.dev/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Iran García — Soluciones de TI para tu negocio" />
     <meta property="og:description" content="Software, servidores, redes, licenciamiento y presencia digital con un solo proveedor responsable. Cotización sin costo." />
-    <meta property="og:url" content="https://biggbackagain.github.io/portafolio2026/" />
-    <meta property="og:image" content="https://biggbackagain.github.io/portafolio2026/assets/iran-retrato-860.jpg" />
+    <meta property="og:url" content="https://irangarcia.dev/" />
+    <meta property="og:image" content="https://irangarcia.dev/assets/iran-retrato-860.jpg" />
     <meta property="og:locale" content="es_MX" />
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23071223'/%3E%3Ctext x='50' y='68' font-family='Segoe UI,Arial' font-size='52' font-weight='700' text-anchor='middle' fill='%233b82f6'%3EIG%3C/text%3E%3C/svg%3E" />
     <link rel="preload" as="image" href="assets/iran-retrato-860.jpg" />
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
 
     <style>
       /* ============ 1. Tokens ============ */
@@ -152,12 +153,13 @@
         content: ""; position: absolute; left: 0.7rem; right: 0.7rem; bottom: 0.15rem;
         height: 2px; border-radius: 2px; background: var(--accent);
       }
-      .nav-tools { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; }
+      .nav-tools { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; flex-shrink: 0; }
       .nav-links + .nav-tools { margin-left: 0.5rem; }
       .icon-btn {
         width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center;
         background: var(--surface); border: 1px solid var(--border); color: var(--text);
         cursor: pointer; font-size: 1rem; transition: transform 0.2s var(--ease), border-color 0.2s;
+        flex-shrink: 0;
       }
       .icon-btn:hover { transform: translateY(-2px); border-color: var(--accent); }
       .mobile-menu {
@@ -169,7 +171,26 @@
       }
       .mobile-menu.open { transform: translateY(0); }
       .mobile-menu a { text-decoration: none; color: var(--text); font-weight: 600; padding: 0.7rem 0.5rem; border-radius: 8px; }
+      .mobile-menu a.mm-cta {
+        margin-top: 0.4rem; text-align: center; color: var(--ink);
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      }
+      html[data-theme="light"] .mobile-menu a.mm-cta { color: #fff; }
       .mobile-menu a:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+      /* En móvil el botón "Contactar" ya existe en el menú hamburguesa,
+         se oculta del nav para evitar desbordamiento en pantallas angostas. */
+      @media (max-width: 768px) {
+        .nav-inner { gap: 0.5rem; overflow: hidden; }
+        .nav-tools .btn { display: none; }
+      }
+      @media (max-width: 620px) {
+        .nav-inner { gap: 0.4rem; }
+        .brand { font-size: 0.9rem; gap: 0.4rem; min-width: 0; overflow: hidden; }
+        .brand span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .brand-mark { width: 30px; height: 30px; border-radius: 9px; font-size: 0.78rem; flex-shrink: 0; }
+        .nav-tools { gap: 0.3rem; }
+        .icon-btn { width: 36px; height: 36px; }
+      }
 
       /* ============ 6. Botones ============ */
       .btn {
@@ -440,6 +461,30 @@
         .portrait { width: 130px; box-shadow: none; }
         .portrait-frame, .portrait-tag { display: none; }
       }
+      /* ============ 17. Estado del formulario (EmailJS) ============ */
+      .form-status {
+        display: flex; align-items: center; gap: 0.5rem;
+        padding: 0.75rem 1rem; border-radius: var(--radius-sm);
+        font-size: 0.9rem; font-weight: 600; margin-top: 0.6rem;
+        animation: fade 0.3s var(--ease);
+      }
+      .form-status.success {
+        background: color-mix(in srgb, #22c55e 14%, transparent);
+        border: 1px solid color-mix(in srgb, #22c55e 38%, transparent);
+        color: #22c55e;
+      }
+      .form-status.error {
+        background: color-mix(in srgb, #ef4444 14%, transparent);
+        border: 1px solid color-mix(in srgb, #ef4444 38%, transparent);
+        color: #ef4444;
+      }
+      .form-status.sending { color: var(--muted); background: transparent; border: none; }
+      .spinner {
+        width: 16px; height: 16px; border: 2px solid currentColor;
+        border-top-color: transparent; border-radius: 50%;
+        animation: spin 0.7s linear infinite; flex-shrink: 0;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
     </style>
   </head>
   <body>
@@ -543,6 +588,7 @@
       <a href="#certificaciones">Certificaciones</a>
       <a href="#faq">Preguntas frecuentes</a>
       <a href="#contacto">Contacto</a>
+      <a class="mm-cta" href="#contacto">Solicitar una cotización</a>
     </div>
 
     <header class="hero" id="top">
@@ -1078,12 +1124,13 @@
                 </div>
                 <div class="field full">
                   <div class="actions no-print" style="margin-top: 0">
-                    <button class="btn" type="submit">Enviar por email</button>
+                    <button class="btn" type="submit" id="submitBtn">Enviar mensaje</button>
                     <a id="whatsapp-link" class="btn ghost" href="#" target="_blank" rel="noopener noreferrer">Escribir por WhatsApp</a>
                   </div>
+                  <p class="form-status" id="formStatus" role="status" aria-live="polite" hidden></p>
                   <p class="form-note" id="formNote">
-                    El formulario abre tu app de correo con todo el mensaje ya escrito. Nada se envía a terceros:
-                    este sitio es estático y no guarda tus datos.
+                    El mensaje llega directo a mi correo. Este sitio no guarda tus datos ni usa
+                    rastreadores; solo se envían los campos de este formulario.
                   </p>
                 </div>
               </form>
@@ -1137,8 +1184,8 @@
         "@context": "https://schema.org",
         "@type": "ProfessionalService",
         "name": "Iran García — Soluciones de TI",
-        "image": "https://biggbackagain.github.io/portafolio2026/assets/iran-retrato-860.jpg",
-        "url": "https://biggbackagain.github.io/portafolio2026/",
+        "image": "https://irangarcia.dev/assets/iran-retrato-860.jpg",
+        "url": "https://irangarcia.dev/",
         "email": "mailto:garciagg2193@gmail.com",
         "telephone": "+523411056019",
         "priceRange": "$$",
@@ -1181,7 +1228,17 @@
         email: "garciagg2193@gmail.com",
         // Número con lada país, sin espacios ni signos.
         whatsapp: "523411056019",
-        github: "biggbackagain"
+        github: "biggbackagain",
+        /* ---- EmailJS ---- Llena estos 3 campos para que el formulario envíe correo real.
+           Si los dejas vacíos, el formulario abrirá tu cliente de correo como antes.
+           Guía de configuración: https://www.emailjs.com/docs/
+           1. Crea cuenta en emailjs.com
+           2. Add New Service → Gmail → copia el Service ID abajo
+           3. Email Templates → crea template → copia el Template ID abajo
+           4. Account → Public Key → cópiala abajo                        */
+        emailjsPublicKey:  "FZKVyxIC2B2IL5BZU",
+        emailjsServiceId:  "service_2gul40q",
+        emailjsTemplateId: "template_gv9vyol",
       };
 
       /* ---------- Proyectos curados (respaldo sin internet) ---------- */
@@ -1364,23 +1421,65 @@
             " <em>Nota para el dueño del sitio: agrega tu número en CONFIG.whatsapp dentro de index.html.</em>"
           );
         }
-        $("#contact-form").addEventListener("submit", (ev) => {
+
+        /* ---- EmailJS: inicializar con tu Public Key ---- */
+        if (CONFIG.emailjsPublicKey) {
+          emailjs.init({ publicKey: CONFIG.emailjsPublicKey });
+        }
+
+        const form   = $("#contact-form");
+        const btn    = $("#submitBtn");
+        const status = $("#formStatus");
+
+        function showStatus(type, html) {
+          status.className = "form-status " + type;
+          status.innerHTML = html;
+          status.hidden = false;
+        }
+
+        form.addEventListener("submit", async (ev) => {
           ev.preventDefault();
-          const form = ev.currentTarget;
           if (!form.reportValidity()) return;
-          const d = new FormData(form);
-          const get = (k) => (d.get(k) || "").toString().trim();
-          const subject = `Nuevo prospecto: ${get("name")}${get("company") ? " (" + get("company") + ")" : ""} — ${get("service")}`;
-          const body =
-            `Nombre: ${get("name")}\n` +
-            `Empresa: ${get("company") || "N/A"}\n` +
-            `Email: ${get("email")}\n` +
-            `Teléfono/WhatsApp: ${get("phone") || "N/A"}\n` +
-            `Servicio: ${get("service")}\n` +
-            `Presupuesto: ${get("budget")}\n\n` +
-            `Necesidad:\n${get("message")}\n`;
-          window.location.href =
-            `mailto:${CONFIG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+          /* --- Fallback a mailto: si no hay EmailJS configurado --- */
+          if (!CONFIG.emailjsPublicKey || !CONFIG.emailjsServiceId || !CONFIG.emailjsTemplateId) {
+            const d = new FormData(form);
+            const get = (k) => (d.get(k) || "").toString().trim();
+            const subject = `Nuevo prospecto: ${get("name")}${get("company") ? " (" + get("company") + ")" : ""} — ${get("service")}`;
+            const body =
+              `Nombre: ${get("name")}\n` +
+              `Empresa: ${get("company") || "N/A"}\n` +
+              `Email: ${get("email")}\n` +
+              `Teléfono/WhatsApp: ${get("phone") || "N/A"}\n` +
+              `Servicio: ${get("service")}\n` +
+              `Presupuesto: ${get("budget")}\n\n` +
+              `Necesidad:\n${get("message")}\n`;
+            window.open(`mailto:${CONFIG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+            return;
+          }
+
+          /* --- Envío real con EmailJS --- */
+          btn.disabled = true;
+          showStatus("sending", '<span class="spinner"></span> Enviando…');
+
+          try {
+            await emailjs.sendForm(
+              CONFIG.emailjsServiceId,
+              CONFIG.emailjsTemplateId,
+              form
+            );
+            showStatus("success", "✅ ¡Mensaje enviado! Te respondo en menos de 24 horas hábiles.");
+            form.reset();
+          } catch (err) {
+            console.error("EmailJS error:", err);
+            showStatus(
+              "error",
+              "⚠️ No se pudo enviar. Por favor escríbeme directo a " +
+              `<a href="mailto:${CONFIG.email}" style="color:inherit">${CONFIG.email}</a> o por WhatsApp.`
+            );
+          } finally {
+            btn.disabled = false;
+          }
         });
       }
 
