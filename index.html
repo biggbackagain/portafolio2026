@@ -1252,12 +1252,15 @@
           <div class="lead-magnet reveal">
             <h2>¿Tu red es segura y rápida?</h2>
             <p>Descarga mi <strong>Checklist Técnico de 5 puntos para PyMEs</strong>. Revisa si tus equipos, licencias y red cumplen con lo mínimo indispensable para no detener tu operación.</p>
-            <!-- NOTA: Aquí puedes embeber el action form de Mailchimp o MailerLite -->
-            <form class="lm-form" onsubmit="event.preventDefault(); alert('Aquí irá la conexión a tu Mailchimp/MailerLite');">
-              <input type="email" placeholder="Ingresa tu mejor correo" required />
+            <form class="lm-form" action="https://assets.mailerlite.com/jsonp/2629203/forms/198296771699410651/subscribe" method="post" target="_blank">
+              <input type="email" name="fields[email]" placeholder="Ingresa tu mejor correo" required autocomplete="email" />
+              <input type="hidden" name="ml-submit" value="1">
+              <input type="hidden" name="anticsrf" value="true">
               <button class="btn" type="submit">Descargar PDF gratuito</button>
             </form>
             <p class="lm-note">Cero spam. Solo herramientas útiles para tu negocio.</p>
+            <!-- Tracking de vistas de MailerLite -->
+            <script>fetch("https://assets.mailerlite.com/jsonp/2629203/forms/198296771699410651/takel").catch(()=>{"ok"})</script>
           </div>
         </div>
       </section>
