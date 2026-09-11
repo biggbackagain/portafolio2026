@@ -138,10 +138,12 @@
       .nav-inner { display: flex; align-items: center; gap: 1rem; width: min(1140px, 92%); margin: 0 auto; }
       .brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 800; letter-spacing: -0.02em; text-decoration: none; color: var(--text); }
       .brand-mark {
-        width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
-        background: linear-gradient(140deg, var(--accent), var(--accent-2));
-        color: #fff; font-size: 0.85rem; font-weight: 800;
+        height: 34px; padding: 0 0.6rem; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center;
+        background: color-mix(in srgb, var(--accent) 15%, transparent);
+        color: var(--accent); font-family: monospace, sans-serif; font-weight: 800; font-size: 1.1rem; letter-spacing: -1px;
       }
+      .brand-tld { color: var(--accent); }
+      .brand-name { font-weight: 700; font-size: 1.1rem; }
       .nav-links { display: none; gap: 0.2rem; margin-left: auto; }
       .nav-links a {
         position: relative; text-decoration: none; color: var(--muted); font-size: 0.92rem; font-weight: 600;
@@ -188,7 +190,8 @@
       @media (max-width: 620px) {
         .nav-inner { gap: 0.4rem; }
         .brand { font-size: 0.9rem; gap: 0.4rem; min-width: 0; }
-        .brand-mark { width: 30px; height: 30px; border-radius: 9px; font-size: 0.78rem; flex-shrink: 0; }
+        .brand-mark { height: 30px; padding: 0 0.4rem; border-radius: 6px; font-size: 0.95rem; flex-shrink: 0; }
+        .brand-name { font-size: 0.95rem; }
         .nav-tools { gap: 0.3rem; }
         .icon-btn { width: 36px; height: 36px; }
       }
@@ -609,7 +612,7 @@
 
     <nav class="nav" id="nav">
       <div class="nav-inner">
-        <a class="brand" href="#top"><span class="brand-mark">IG</span> Iran García</a>
+        <a class="brand" href="#top"><span class="brand-mark">&lt;/&gt;</span> <span class="brand-name">irangarcia<span class="brand-tld">.dev</span></span></a>
         <div class="nav-links" id="navLinks">
           <a href="#servicios">Servicios</a>
           <a href="#casos">Casos</a>
