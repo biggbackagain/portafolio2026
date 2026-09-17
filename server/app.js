@@ -44,7 +44,7 @@ export function createHandler({ store, course, config, payments, root }) {
     if (origin === config.siteUrl) {
       res.setHeader('Access-Control-Allow-Origin', origin); res.setHeader('Vary', 'Origin');
       res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Idempotency-Key');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Idempotency-Key,Bypass-Tunnel-Reminder');
     }
     if (req.method === 'OPTIONS') { res.writeHead(origin === config.siteUrl ? 204 : 403); return res.end(); }
     try {

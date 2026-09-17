@@ -27,7 +27,7 @@ async function loadAvailability() {
     if (response.ok) { courseInfo = await response.json(); showDetails(courseInfo); updateTotal(); }
   } catch (_) { /* Static content remains available. */ }
   try {
-    const response = await fetch(`${apiBase}/api/course`, { signal: AbortSignal.timeout(6000) });
+    const response = await fetch(`${apiBase}/api/course`, { signal: AbortSignal.timeout(6000), headers: { "Bypass-Tunnel-Reminder": "true" } });
     if (!response.ok) return;
     const data = await response.json();
     courseInfo = data; showDetails(data); updateTotal();
@@ -61,7 +61,7 @@ enrollmentForm.addEventListener("submit", async (event) => {
   message.hidden = true;
   try {
     const response = await fetch(`${apiBase}/api/registrations`, {
-      method: "POST", headers: { "Content-Type": "application/json", "Idempotency-Key": requestKey },
+      method: "POST", headers: { "Content-Type": "application/json", "Idempotency-Key": requestKey, "Bypass-Tunnel-Reminder": "true" },
       body: JSON.stringify({ name: enrollmentForm.elements.name.value.trim(), email: enrollmentForm.elements.email.value.trim(), gemini: addon.checked, consent: enrollmentForm.elements.consent.checked }),
       signal: AbortSignal.timeout(18000)
     });

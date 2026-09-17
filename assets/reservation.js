@@ -44,8 +44,12 @@ lookupForm.addEventListener("submit", async (event) => {
   if (!lookupForm.reportValidity() || lookupButton.disabled) return;
   lookupButton.disabled = true; lookupNote.textContent = "Consultando…"; resultBox.hidden = true;
   try {
-    const response = await fetch(`${reservationApi}/api/reservations/lookup`, { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code: lookupForm.elements.code.value.trim(), email: lookupForm.elements.email.value.trim() }), signal: AbortSignal.timeout(8000) });
+    const response = await fetch(`${reservationApi}/api/reservations/lookup`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Bypass-Tunnel-Reminder": "true" },
+      body: JSON.stringify({ code: lookupForm.elements.code.value.trim(), email: lookupForm.elements.email.value.trim() }),
+      signal: AbortSignal.timeout(6000)
+    });
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || "No fue posible realizar la consulta.");
     displayReservation(resultBox, data); lookupNote.textContent = "Consulta completada.";
