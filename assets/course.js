@@ -40,6 +40,17 @@ async function loadAvailability() {
       addon.checked = false; addon.disabled = true; updateTotal();
       document.querySelector("#addon-availability").textContent = "El complemento no está disponible por ahora. Puedes inscribirte solo al curso.";
     }
+    if (typeof data.enrolledCount === 'number') {
+      const container = document.querySelector("#enrollment-progress-container");
+      if (container) {
+        container.style.display = "block";
+        const remaining = Math.max(0, courseInfo.capacity - data.enrolledCount);
+        const remainingText = document.querySelector("#seats-remaining");
+        if (remainingText) remainingText.innerHTML = `<strong>${remaining}</strong> lugares disponibles`;
+        const progressBar = document.querySelector("#seats-progress");
+        if (progressBar) progressBar.style.width = `${(data.enrolledCount / courseInfo.capacity) * 100}%`;
+      }
+    }
   } catch (_) { /* Do not imply that registration succeeded without a backend. */ }
 }
 loadAvailability();

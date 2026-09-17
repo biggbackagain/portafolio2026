@@ -54,8 +54,10 @@ export function createHandler({ store, course, config, payments, root }) {
         if (req.method === 'POST' && !webhook && origin !== config.siteUrl) return json(res, 403, { message: 'Origen no permitido.' });
         if (req.method === 'GET' && url.pathname === '/api/course') {
           const counts = await store.counts(course.id), ready = enrollmentReady(config), available = ready && counts.seats < course.capacity;
+          const enrolledCount = await store.getEnrollmentCount();
           return json(res, 200, { ...course, date: config.courseDate, location: config.courseLocation, enrollmentOpen: available,
             addonAvailable: available && counts.addons < config.addonCapacity,
+            enrolledCount,
             message: !ready ? 'Fecha y sede por definir. Las inscripciones y los pagos aún no están habilitados.' :
               !available ? 'No hay lugares disponibles por ahora. Contacta al organizador.' : 'Inscripciones abiertas. Tu lugar se confirma al acreditarse el pago.' });
         }

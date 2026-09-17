@@ -33,6 +33,11 @@ export class Store {
     `);
   }
 
+  async getEnrollmentCount() {
+    const res = await this.pool.query("SELECT COUNT(*) FROM registrations WHERE status = 'confirmed'");
+    return parseInt(res.rows[0].count, 10);
+  }
+
   async get(id) {
     const res = await this.pool.query('SELECT * FROM registrations WHERE id=$1', [id]);
     return res.rows[0];
