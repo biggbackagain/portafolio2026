@@ -33,11 +33,11 @@ export function mailWorker(store, send) {
       const outbox = await store.pendingMail();
       for (const msg of outbox) {
         try {
-          await send(msg);
+          await send(msg, msg);
           await store.mailSent(msg.id);
         } catch (error) {
           console.error(`Mail error for ${msg.email}:`, error);
-          await store.mailFailed(msg.id, msg.attempts);
+          await store.mailFailed(msg.id, msg.attempts || 0);
         }
         // EmailJS REST API accepts one request per second.
         await new Promise((resolve) => setTimeout(resolve, 1100));

@@ -140,11 +140,11 @@ export class Store {
 
   async pendingMail() { 
     const res = await this.pool.query(`
-      SELECT m.id, r.email, r.name, r.code, r.lookup_token, r.gemini, 'student' as role, m.payload, m.kind
+      SELECT m.id, m.kind, m.payload, m.attempts, r.email, r.name, r.code, r.lookup_token, r.gemini, r.status, r.total_cents
       FROM mail_outbox m JOIN registrations r ON m.registration_id = r.id
       WHERE m.sent_at IS NULL AND m.next_attempt <= $1 AND m.kind LIKE 'student%'
       UNION ALL
-      SELECT m.id, r.email, r.name, r.code, r.lookup_token, r.gemini, 'owner' as role, m.payload, m.kind
+      SELECT m.id, m.kind, m.payload, m.attempts, r.email, r.name, r.code, r.lookup_token, r.gemini, r.status, r.total_cents
       FROM mail_outbox m JOIN registrations r ON m.registration_id = r.id
       WHERE m.sent_at IS NULL AND m.next_attempt <= $1 AND m.kind LIKE 'owner%'
       ORDER BY id LIMIT 10
