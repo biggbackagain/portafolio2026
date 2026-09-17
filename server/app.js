@@ -53,7 +53,7 @@ export function createHandler({ store, course, config, payments, root }) {
         if (!webhook && limited(req.socket.remoteAddress || 'unknown')) return json(res, 429, { message: 'Demasiadas solicitudes. Espera un minuto.' });
         if (req.method === 'POST' && !webhook && origin !== config.siteUrl) return json(res, 403, { message: 'Origen no permitido.' });
         if (req.method === 'GET' && url.pathname === '/api/course') {
-          const counts = store.counts(course.id), ready = enrollmentReady(config), available = ready && counts.seats < course.capacity;
+          const counts = await store.counts(course.id), ready = enrollmentReady(config), available = ready && counts.seats < course.capacity;
           return json(res, 200, { ...course, date: config.courseDate, location: config.courseLocation, enrollmentOpen: available,
             addonAvailable: available && counts.addons < config.addonCapacity,
             message: !ready ? 'Fecha y sede por definir. Las inscripciones y los pagos aún no están habilitados.' :
@@ -65,13 +65,13 @@ export function createHandler({ store, course, config, payments, root }) {
           try { input = validateRegistration(await readJson(req), req.headers['idempotency-key']); }
           catch (error) { return json(res, 400, { message: error.message }); }
           let registration;
-          try { registration = store.reserve(input, course, config.addonCapacity); }
+          try { registration = await store.reserve(input, course, config.addonCapacity); }
           catch (error) { return json(res, 409, { message: error.message }); }
           if (registration.checkout_url) return json(res, 200, { checkoutUrl: registration.checkout_url });
           // Share a single preference request for concurrent retries of one registration.
           if (!inFlight.has(registration.id)) {
-            inFlight.set(registration.id, payments.create(registration).then((result) => {
-              store.setCheckout(registration.id, result.id, result.url); return result.url;
+            inFlight.set(registration.id, payments.create(registration).then(async (result) => {
+              await store.setCheckout(registration.id, result.id, result.url); return result.url;
             }).finally(() => inFlight.delete(registration.id)));
           }
           const checkoutUrl = await inFlight.get(registration.id);
@@ -83,21 +83,30 @@ export function createHandler({ store, course, config, payments, root }) {
           catch (_) { return json(res, 401, { message: 'Invalid notification' }); }
           const payment = await payments.get(id);
           if (String(payment.id) !== id) throw new Error('Mismatched payment ID');
-          store.recordPayment(payment, { collectorId: config.collectorId, liveMode: config.liveMode });
+          await store.recordPayment(payment, { collectorId: config.collectorId, liveMode: config.liveMode });
           // Mail is persisted in the same transaction; delivery does not delay the webhook ACK.
           return json(res, 200, { received: true });
         }
         if (req.method === 'GET' && url.pathname === '/api/reservation-status') {
           const token = url.searchParams.get('r') || '';
-          const row = /^[a-f0-9]{64}$/.test(token) ? store.byToken(token) : null;
+          const row = /^[a-f0-9]{64}$/.test(token) ? await store.byToken(token) : null;
           return row ? json(res, 200, publicReservation(row, course, config)) : json(res, 404, { message: 'No se encontró una reservación con estos datos.' });
         }
         if (req.method === 'POST' && url.pathname === '/api/reservations/lookup') {
           const data = await readJson(req);
           const code = typeof data.code === 'string' ? data.code.trim().toUpperCase() : '';
           const email = typeof data.email === 'string' ? data.email.trim().toLowerCase() : '';
-          const row = /^IA-(?:[A-F0-9]{4}-){4}[A-F0-9]{4}$/.test(code) && email.length <= 254 ? store.byCode(code, email) : null;
+          const row = /^IA-(?:[A-F0-9]{4}-){4}[A-F0-9]{4}$/.test(code) && email.length <= 254 ? await store.byCode(code, email) : null;
           return row ? json(res, 200, publicReservation(row, course, config)) : json(res, 404, { message: 'No se encontró una reservación con estos datos. Revisa el código y el correo.' });
+        }
+        if (req.method === 'GET' && url.pathname === '/api/reservations/report') {
+          if (!config.reportKey || url.searchParams.get('key') !== config.reportKey) return json(res, 403, { message: 'Forbidden' });
+          const rows = await store.all();
+          const csv = ['Name,Email,Code,Status,Gemini,MXN,PaymentID,Date\n'].concat(rows.map(r => 
+            `"${r.name.replace(/"/g, '""')}","${r.email}",${r.code || ''},${r.status},${r.gemini ? 'Yes' : 'No'},${(r.total_cents / 100).toFixed(2)},${r.payment_id || ''},${r.created_at}`
+          )).join('\n');
+          res.writeHead(200, { 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': 'attachment; filename="reservations.csv"' });
+          return void res.end(csv);
         }
         return json(res, 404, { message: 'Servicio no encontrado.' });
       }

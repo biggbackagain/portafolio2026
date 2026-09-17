@@ -19,7 +19,8 @@ const config = {
   studentTemplate: e.EMAILJS_STUDENT_TEMPLATE_ID, ownerTemplate: e.EMAILJS_OWNER_TEMPLATE_ID, organizerEmail: e.ORGANIZER_EMAIL,
   addonCapacity: Math.max(0, Number.parseInt(e.GEMINI_CAPACITY || '0', 10) || 0)
 };
-const store = new Store(resolve(root, e.DATABASE_PATH || 'server/data/reservations.sqlite'));
+const store = new Store(e.DATABASE_URL || e.POSTGRES_URL || 'postgresql://postgres:postgres@localhost:5432/postgres');
+await store.init();
 const server = createServer(createHandler({ store, course, config, payments: paymentClient(config, course), root }));
 server.requestTimeout = 20000;
 server.headersTimeout = 10000;

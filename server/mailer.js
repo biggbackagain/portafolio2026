@@ -25,17 +25,25 @@ export function emailSender(config, course, transport = fetch) {
 }
 
 export function mailWorker(store, send) {
-  let working = false;
-  return async () => {
-    if (working) return;
-    working = true;
+  let active = false;
+  return async function deliver() {
+    if (active || !send) return;
+    active = true;
     try {
-      for (const job of store.dueMail()) {
-        try { await send(job, store.get(job.registration_id)); store.mailSent(job.id); }
-        catch (_) { store.mailFailed(job.id, job.attempts); }
+      const outbox = await store.pendingMail();
+      for (const msg of outbox) {
+        try {
+          await send(msg);
+          await store.mailSent(msg.id);
+        } catch (error) {
+          console.error(`Mail error for ${msg.email}:`, error);
+          await store.mailFailed(msg.id, msg.attempts);
+        }
         // EmailJS REST API accepts one request per second.
         await new Promise((resolve) => setTimeout(resolve, 1100));
       }
-    } finally { working = false; }
+    } finally {
+      active = false;
+    }
   };
 }

@@ -12,6 +12,7 @@
     "build:static": "node scripts/build-static.js"
   },
   "dependencies": {
-    "mercadopago": "3.6.1"
+    "mercadopago": "^2.0.15",
+    "pg": "^8.11.3"
   }
 }
