@@ -48,7 +48,10 @@ async function loadAvailability() {
         const remainingText = document.querySelector("#seats-remaining");
         if (remainingText) remainingText.innerHTML = `<strong>${remaining}</strong> lugares disponibles`;
         const progressBar = document.querySelector("#seats-progress");
-        if (progressBar) progressBar.style.width = `${(data.enrolledCount / courseInfo.capacity) * 100}%`;
+        if (progressBar) {
+          // Add a min-width so the bar is always slightly visible, but fills up as people enroll
+          progressBar.style.width = `${Math.max(2, (data.enrolledCount / courseInfo.capacity) * 100)}%`;
+        }
       }
     }
   } catch (_) { /* Do not imply that registration succeeded without a backend. */ }

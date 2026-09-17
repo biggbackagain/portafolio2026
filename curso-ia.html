@@ -40,15 +40,15 @@
       <label class="check-row"><input type="checkbox"><span><strong>Acceso a tu correo y a tu cuenta de Google</strong><small>Ten disponible tu método de verificación. Nunca compartas tu contraseña.</small></span></label>
       <label class="check-row"><input type="checkbox"><span><strong>Una idea o tarea que quieras mejorar</strong><small>Usa ejemplos sin información confidencial ni datos de terceros.</small></span></label>
     </div></div></div></section>
-    <section class="section" id="inscripcion"><div class="container"><div class="section-intro"><div><span class="eyebrow">Tu lugar en el curso</span><h2>Una inversión clara.<br>Tú eliges el complemento.</h2></div><p>El curso no requiere contratar Gemini Pro. La asistencia cuesta $800 MXN; el acceso compartido se suma solo si lo eliges.</p></div>
+    <section class="section" id="inscripcion"><div class="container"><div class="section-intro" style="display: block; text-align: center; margin-bottom: 3rem;"><div><span class="eyebrow">Tu lugar en el curso</span><h2>Una inversión clara.<br>Tú eliges el complemento.</h2></div></div>
       <div class="registration-grid"><aside class="price-card"><span class="eyebrow">Asistencia / 4 días presenciales</span><div class="price-big">$800 <span>MXN</span></div><p>Un lugar para una persona en los cuatro días del curso. Cupo máximo: 30 asistentes.</p><div class="addon-option"><label class="check-row"><input id="gemini-addon" type="checkbox" form="registration-form" name="gemini"><span><strong>Agregar acceso compartido a Gemini Pro</strong><small>18 meses · +$600 MXN · Opcional</small></span></label><p class="addon-description" data-course="addonTerms">Entrega el día del evento mediante invitación a un grupo. Es acceso compartido, no una suscripción individual. Sujeto a compatibilidad de tu cuenta con los requisitos de Google y disponibilidad en el grupo.</p><p class="addon-description" id="addon-availability"></p></div><dl class="price-breakdown"><div><dt>Asistencia al curso</dt><dd id="base-price">$800 MXN</dd></div><div><dt>Gemini Pro (opcional)</dt><dd id="addon-price">No seleccionado</dd></div><div class="price-total"><dt>Total</dt><dd id="course-total" aria-live="polite">$800 MXN</dd></div></dl><p class="price-footnote">Pago único. No emito facturas. El código de reservación se genera únicamente después de confirmar el pago.</p></aside>
       <form id="registration-form" class="registration-form"><span class="course-status" id="registration-badge">Inscripciones próximamente</span>
-        <div id="enrollment-progress-container" style="display: none; margin-top: 15px; margin-bottom: 20px;">
-          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 8px; color: var(--text-muted);">
-            <span id="seats-remaining">Cargando cupos...</span>
-            <span id="seats-total">30 lugares</span>
+        <div id="enrollment-progress-container" style="display: none; margin-top: 15px; margin-bottom: 25px; padding: 15px; background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 8px;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 10px;">
+            <span id="seats-remaining" style="font-weight: 600; color: var(--accent-color);">30 lugares disponibles</span>
+            <span id="seats-total" style="color: var(--text-muted);">Cupo total: 30</span>
           </div>
-          <div style="height: 6px; background: var(--border-color); border-radius: 3px; overflow: hidden;">
+          <div style="height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);">
             <div id="seats-progress" style="height: 100%; background: var(--accent-color); width: 0%; transition: width 0.5s ease;"></div>
           </div>
         </div>
