@@ -60,19 +60,6 @@ export function createHandler({ store, course, config, payments, root }) {
             enrolledCount,
             message: !ready ? 'Fecha y sede por definir. Las inscripciones y los pagos aún no están habilitados.' :
               !available ? 'No hay lugares disponibles por ahora. Contacta al organizador.' : 'Inscripciones abiertas. Tu lugar se confirma al acreditarse el pago.' });
-        }
-        
-        // Secret endpoint to wipe the database for launch
-        if (req.method === 'GET' && url.pathname === '/api/wipe-registrations-2026') {
-          const client = await store.pool.connect();
-          try {
-            await client.query('TRUNCATE TABLE mail_outbox CASCADE');
-            await client.query('TRUNCATE TABLE registrations CASCADE');
-            return json(res, 200, { success: true, message: 'Base de datos limpia y lista para el lanzamiento.' });
-          } finally {
-            client.release();
-          }
-        }
         if (req.method === 'POST' && url.pathname === '/api/registrations') {
           if (!enrollmentReady(config)) return json(res, 503, { message: 'Las inscripciones todavía no están habilitadas.' });
           let input;
