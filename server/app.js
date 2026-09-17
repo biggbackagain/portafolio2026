@@ -6,7 +6,8 @@ export function enrollmentReady(config) {
   return Boolean(config.open && config.detailsConfirmed && config.mpToken && config.webhookSecret && config.collectorId &&
     config.emailService && config.emailPublicKey && config.studentTemplate && config.ownerTemplate && config.organizerEmail &&
     config.courseDate && config.courseDate !== 'Por definir' && config.courseLocation && config.courseLocation !== 'Por definir' &&
-    config.siteUrl.startsWith('https://') && config.apiUrl.startsWith('https://'));
+    (config.siteUrl.startsWith('https://') || config.siteUrl.startsWith('http://127.0.0.1')) && 
+    (config.apiUrl.startsWith('https://') || config.apiUrl.startsWith('http://127.0.0.1')));
 }
 export function validateRegistration(data, key) {
   if (!data || typeof data !== 'object' || typeof data.name !== 'string' || typeof data.email !== 'string' || typeof data.gemini !== 'boolean' || data.consent !== true) throw new Error('Revisa tus datos y acepta las condiciones del curso.');
