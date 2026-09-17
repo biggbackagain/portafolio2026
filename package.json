@@ -1,0 +1,17 @@
+{
+  "name": "irangarcia-cursos",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server/index.js",
+    "test": "node --test server/*.test.js",
+    "export:reservations": "node --env-file-if-exists=.env server/export.js",
+    "build:static": "node scripts/build-static.js"
+  },
+  "dependencies": {
+    "mercadopago": "3.6.1"
+  }
+}

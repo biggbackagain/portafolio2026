@@ -1,0 +1,11 @@
+node_modules/
+.npm-cache/
+.env
+.env.*
+!.env.example
+server/data/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+exports/
+_site/

@@ -1,120 +1,44 @@
-# Irán García — Soluciones de TI en Ciudad Guzmán, Jalisco
+# Irán García — Sitio profesional
 
-**Ingeniero en Telemática** (Universidad de Guadalajara, CUSur) con trayectoria en TI desde 2017.
-Desarrollo de software a la medida, servidores y equipo de cómputo, licenciamiento original,
-redes y CCTV, marketing digital y soporte técnico. Servicio **en sitio en el Sur de Jalisco y
-la Zona Metropolitana de Guadalajara**, y **remoto en todo México**.
+Sitio estático de servicios de TI, portafolio y formación. HTML, CSS y JavaScript sin compilación ni dependencias de desarrollo.
 
-**Sitio web:** [biggbackagain.github.io/portafolio2026](https://biggbackagain.github.io/portafolio2026/)
-**WhatsApp:** [341 105 6019](https://wa.me/523411056019)
-**Correo:** [garciagg2193@gmail.com](mailto:garciagg2193@gmail.com)
-**Redes:** [LinkedIn](https://www.linkedin.com/in/irangarcia93/) ·
-[Facebook](https://www.facebook.com/iraan.garciagtz) ·
-[Instagram](https://www.instagram.com/irangarcia93/)
+## Estructura
 
----
+- `index.html`: contenido, navegación y metadatos.
+- `assets/site.css`: identidad visual y adaptación a escritorio y móvil.
+- `assets/site.js`: menú móvil, certificaciones y formulario.
+- `assets/theme.js`: restaura el tema guardado antes de mostrar la página.
+- `assets/site-data.js`: contacto, configuración pública de EmailJS y las 27 certificaciones originales.
+- `assets/CV-Iran-Garcia.pdf`: CV descargable.
+- `assets/Checklist-Tecnico.pdf`: recurso gratuito de descarga directa.
+- `assets/badges/`: insignias oficiales locales.
 
-## Servicios
+## Diseño
 
-| Servicio | Qué incluye |
-|---|---|
-| **Software a la medida y punto de venta** | Sistemas de ventas, inventario con kardex, recetas y costos, multi-sucursal, permisos por usuario, cortes de caja, instalador y respaldos automáticos. |
-| **Servidores y equipo de cómputo** | Dimensionamiento según carga real, compra, instalación, configuración, migración de datos, virtualización, usuarios de dominio y respaldos programados. |
-| **Licenciamiento de software** | Software original y facturado a nombre de tu empresa: sistemas operativos, ofimática, correo empresarial, antivirus y respaldo en la nube, con control de vencimientos. |
-| **Redes, voz, datos y CCTV** | Cableado estructurado, switching, VLANs, ruteo, Wi-Fi de cobertura, segmentación segura, videovigilancia IP y telefonía sobre IP. |
-| **Presencia digital y marketing** | Sitio web propio y rápido, correo con tu dominio, Google Business, SEO local, campañas medibles y automatización de WhatsApp. |
-| **Desarrollo backend e integraciones** | APIs REST, autenticación y roles, integración de pagos y facturación, automatización de procesos y optimización de consultas. |
-| **Soporte y mantenimiento** | Soporte L1–L2 remoto y en sitio, preventivo, respaldos verificados, plan de recuperación, inventario técnico y capacitación. Por póliza mensual o por incidente. |
+Fondo marfil, texto verde profundo, azul para acciones y acentos salvia y durazno. La página presenta servicios, casos, perfil, certificaciones, cursos próximos y contacto. No carga repositorios automáticamente ni utiliza contadores o fondos animados. Las certificaciones se muestran en tres destacadas y se pueden ampliar y filtrar.
 
-**Cotización y diagnóstico inicial sin costo.** Propuesta por escrito con alcance, tiempos y precio.
+El botón de sol/luna permite alternar entre modo día y noche en escritorio y móvil. El modo claro es el predeterminado; la elección se recuerda localmente si el navegador permite almacenamiento. El sitio aclara que no se emiten facturas.
 
-## Tecnologías
+## Contacto
 
-`Python` · `Django` · `Java` · `C++` · `PHP / Laravel` · `Vue` · `HTML / CSS` · `MySQL` ·
-`MariaDB` · `SQL Server` · `SQLite` · `REST APIs` · `Git` · `Linux` · `Windows Server` ·
-`Active Directory` · `Routing & Switching` · `OSPF` · `EIGRP` · `RIPv2` · `VLANs / STP / ROAS` ·
-`NAT / PAT / DHCP` · `Cableado estructurado` · `CCTV IP` · `Wireshark` · `Cisco Packet Tracer` ·
-`NetSpot` · `Kali Linux`
+WhatsApp es el canal principal. El formulario alternativo solicita nombre, correo y mensaje. EmailJS se carga al enviar y usa la cuenta y plantilla existentes. Los campos ocultos mantienen compatibilidad con la plantilla anterior. Ante un fallo se conserva el texto y se ofrece continuar por WhatsApp. Nunca colocar claves privadas de servicios en estos archivos públicos.
 
-## Experiencia
+Los enlaces de WhatsApp incluyen mensajes específicos para cada servicio. Los enlaces al CV y al checklist son descargas directas, sin formulario de suscripción.
 
-- **Administrador de Sistemas y Medios Digitales** — Pollos Coloso, Ciudad Guzmán *(abr 2019 – presente)*
-- **Docente de Matemáticas y asesor de equipos** — Colegio Cervantes *(feb 2024 – presente)*
-- **Remote Desktop Manager** — AN Global México, Tlaquepaque *(sep 2018 – ene 2019)*
-- **Ingeniero de Sistemas** — Golden Lion Casino *(nov 2017 – sep 2018)*
+## Cursos: siguiente etapa
 
-**Reconocimientos:** 7.º lugar en IBM HackAttack 2019 (60+ participantes nacionales) · 2.º lugar
-en competencia STEAM con equipo asesorado · tallerista en Redi Zapotlán 2024, *"Hack Marketing:
-segmentación precisa y ciberseguridad en el mundo digital"*.
+La sección actual anuncia próximos cursos y permite consultar por WhatsApp. No existe todavía registro de alumnos, checkout ni cobro. Cuando se defina el primer curso, implementar catálogo y ficha con temario, fechas y precio; inscripción; proveedor de pagos; confirmación del pago desde un servidor mediante webhook; y acceso del alumno. El acceso no debe depender solo de una redirección del navegador después del pago. No se ha seleccionado ni integrado un proveedor de pagos.
 
-**27 certificaciones verificables** de Cisco, Meta, Google, IBM, HackerRank y CertiProf —
-todas con enlace de validación en el sitio.
+## Revisión local
 
----
+Abrir `index.html` en un navegador o servir la carpeta con un servidor estático, por ejemplo:
 
-## Sobre este repositorio
-
-Código del sitio personal: **100% estático**, un solo `index.html` sin dependencias, sin build y
-sin frameworks. Se abre con doble clic o se publica en cualquier hosting estático.
-
-```
-portafolio2026/
-├── index.html                     # Todo el sitio (HTML + CSS + JS en un archivo)
-├── robots.txt · sitemap.xml       # Para buscadores
-└── assets/
-    ├── CV-Iran-Garcia.pdf         # CV descargable desde el sitio
-    ├── iran-retrato-860.jpg       # Foto que usa el sitio (+ 430 y original)
-    └── badges/                    # 11 insignias oficiales de Credly
-```
-
-### Configuración
-
-Todo lo editable está en el objeto `CONFIG`, al inicio del `<script>` de `index.html`:
-`email`, `whatsapp` (con lada país, sin signos) y `github`. Los arreglos `featuredProjects` y
-`certifications` alimentan esas dos secciones; el campo `cat` genera solo los botones de filtro.
-
-### Detalles de implementación
-
-- **Foto:** viene recortada sobre fondo blanco, así que se monta en un panel claro y se desvanece en los bordes con `mask-image` radial. Por eso no se ve un cuadro blanco sobre el fondo oscuro.
-- **Insignias:** descargadas de Credly a `assets/badges/<uuid>.png`; la ruta se deduce del enlace de la credencial, y si el archivo falta la imagen se quita sola (`onerror`).
-- **Proyectos:** pinta la lista curada y luego, si hay internet, la enriquece con la API pública de GitHub. Sin conexión el sitio se ve completo igual.
-- **Formulario:** `mailto:` con el mensaje ya armado. Sin servidor, sin rastreadores y sin enviar datos a terceros.
-- **CV:** los botones apuntan a `assets/CV-Iran-Garcia.pdf`; para actualizarlo basta reemplazar ese archivo.
-- **Tema claro/oscuro:** se recuerda en `localStorage` y respeta la preferencia del sistema.
-- **Accesibilidad:** navegación por teclado, `aria-*` en filtros y menú, y `prefers-reduced-motion` respetado.
-- **SEO:** meta descripción, Open Graph, `canonical`, `robots.txt`, `sitemap.xml` y datos estructurados `schema.org/ProfessionalService` con catálogo de servicios, teléfono y redes.
-
-### Paleta
-
-Azul corporativo dominante, el color que transmite confianza en TI. Sin morados ni neones.
-
-| Rol | Oscuro | Claro |
-|---|---|---|
-| Fondo | `#071223` | `#f4f7fc` |
-| Acento principal | `#3b82f6` | `#1d4ed8` |
-| Acento secundario | `#1d4ed8` | `#0f3a8f` |
-| Éxito / métricas | `#14b8a6` | `#0d9488` |
-
-### Publicar en GitHub Pages
-
-```bash
-git add .
-git commit -m "Portafolio 2026"
-git push origin main
-```
-
-Luego **Settings → Pages → Source: Deploy from a branch → main / (root)**.
-Con dominio propio, actualiza las URLs de `canonical`, Open Graph, `robots.txt` y `sitemap.xml`.
-
-### Ver en local
-
-```bash
+```powershell
 python -m http.server 8080 --bind 127.0.0.1
 ```
 
----
+Verificar navegación móvil, desplegables, 27 certificaciones y filtros, descargas de PDF y enlaces de contacto. Probar el envío real de EmailJS cuando se autorice enviar un mensaje de prueba.
 
-<sub>Palabras clave: soporte técnico Ciudad Guzmán · sistemas punto de venta Jalisco · desarrollo
-de software Zapotlán el Grande · redes y cableado estructurado Sur de Jalisco · instalación de
-CCTV · venta de licencias de software · servidores y equipo de cómputo · mantenimiento
-preventivo de computadoras · páginas web Ciudad Guzmán · marketing digital Guadalajara.</sub>
+## Publicación
+
+El proyecto conserva compatibilidad con GitHub Pages y el dominio `irangarcia.dev`. Publicar también los archivos `assets/site.css`, `assets/site.js` y `assets/site-data.js` junto con los recursos existentes. Este rediseño no publica cambios automáticamente.
