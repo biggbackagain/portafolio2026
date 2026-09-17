@@ -7,9 +7,10 @@ export function emailSender(config, course, transport = fetch) {
       to_name: registration.name, attendee_email: registration.email,
       course_title: course.title, reservation_code: registration.code || 'Sin código',
       payment_status: registration.status, total: `$${registration.total_cents / 100} MXN`,
-      gemini: registration.gemini ? 'Sí: acceso compartido por 18 meses.' : 'No contratado',
+      addon_text: registration.gemini ? 'Sí: acceso compartido por 18 meses.' : 'No contratado',
       date: config.courseDate, location: config.courseLocation,
-      reservation_url: `${config.siteUrl}/reservacion.html`,
+      ticket_url: `${config.siteUrl}/reservacion.html?r=${registration.lookup_token}`,
+      organizer_email: config.organizerEmail,
       message: job.kind === 'owner-review' ? 'Se detectó un pago adicional. Revisa Mercado Pago antes de realizar cualquier ajuste.' :
         registration.status === 'confirmed' ? 'Pago confirmado. Conserva tu código y preséntalo el día del evento.' : 'El estado de tu pago cambió. Consulta tu reservación o contacta al organizador.',
       delivery_reference: `reservation-${job.id}`
