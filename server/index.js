@@ -25,7 +25,7 @@ const server = createServer(createHandler({ store, course, config, payments: pay
 server.requestTimeout = 20000;
 server.headersTimeout = 10000;
 const deliver = mailWorker(store, emailSender(config, course));
-const timer = setInterval(() => { if (config.emailService && config.studentTemplate && config.ownerTemplate) void deliver(); }, 15000);
+const timer = setInterval(() => { if (config.emailService && config.studentTemplate && config.ownerTemplate) deliver().catch(e => console.error(e)); }, 15000);
 timer.unref();
 server.listen(Number(e.PORT || 8081), e.HOST || '0.0.0.0', () => console.log(`Preview/API: http://${e.HOST || '0.0.0.0'}:${server.address().port} — enrollment ${config.open ? 'requested (configuration checks apply)' : 'closed'}`));
 for (const signal of ['SIGINT','SIGTERM']) process.on(signal, () => { clearInterval(timer); server.close(() => { store.close(); process.exit(0); }); });

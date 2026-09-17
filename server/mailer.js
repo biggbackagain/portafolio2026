@@ -42,6 +42,8 @@ export function mailWorker(store, send) {
         // EmailJS REST API accepts one request per second.
         await new Promise((resolve) => setTimeout(resolve, 1100));
       }
+    } catch (e) {
+      console.error('Critical mail worker error:', e);
     } finally {
       active = false;
     }
