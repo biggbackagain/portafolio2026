@@ -20,7 +20,10 @@ export function emailSender(config, course, transport = fetch) {
         user_id: config.emailPublicKey, ...(config.emailPrivateKey ? { accessToken: config.emailPrivateKey } : {}), template_params: params }),
       signal: AbortSignal.timeout(10000)
     });
-    if (!response.ok) throw new Error('Email delivery failed');
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(`Email delivery failed (${response.status}): ${text}`);
+    }
   };
 }
 
