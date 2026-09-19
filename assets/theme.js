@@ -1,8 +1,12 @@
-// Apply the saved choice before painting the page. Light remains the default.
+// Apply the saved choice or system preference before painting the page.
 (() => {
   let theme = "light";
+  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    theme = "dark";
+  }
   try {
-    if (localStorage.getItem("portafolio-theme") === "dark") theme = "dark";
+    const saved = localStorage.getItem("portafolio-theme");
+    if (saved) theme = saved;
   } catch (_) { /* The toggle still works when storage is unavailable. */ }
   document.documentElement.dataset.theme = theme;
   document.documentElement.style.colorScheme = theme;

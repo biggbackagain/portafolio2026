@@ -22,6 +22,11 @@ themeButton.addEventListener("click", () => {
   try { localStorage.setItem("portafolio-theme", theme); } catch (_) { /* Optional persistence. */ }
 });
 
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (event) => {
+  try { if (localStorage.getItem("portafolio-theme")) return; } catch (_) {}
+  applyTheme(event.matches ? "dark" : "light");
+});
+
 const menuButton = document.querySelector("#menu-button");
 const mobileMenu = document.querySelector("#mobile-nav");
 function closeMenu(returnFocus = false) {
