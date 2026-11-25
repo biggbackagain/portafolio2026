@@ -2,7 +2,7 @@ import { mkdir, copyFile, readdir } from 'node:fs/promises';
 import { resolve, extname } from 'node:path';
 const output = resolve('_site');
 await mkdir(output, { recursive: true });
-for (const file of ['index.html','curso-ia.html','reservacion.html','robots.txt','sitemap.xml','CNAME']) await copyFile(file, resolve(output, file));
+for (const file of ['index.html','curso-ia.html','paginas-web-ciudad-guzman.html','software-a-la-medida-jalisco.html','reservacion.html','robots.txt','sitemap.xml','CNAME']) await copyFile(file, resolve(output, file));
 async function copyAssets(source, destination) {
   await mkdir(destination, { recursive: true });
   for (const entry of await readdir(source, { withFileTypes: true })) {

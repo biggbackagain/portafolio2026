@@ -63,3 +63,19 @@ document.addEventListener("keydown", (event) => {
 });
 window.matchMedia("(min-width: 851px)").addEventListener("change", (event) => { if (event.matches) closeMenu(); });
 
+// Contact intent events for Google Tag Manager (GTM-T3QHVQ76) without personal data.
+document.addEventListener("click", (event) => {
+  const link = event.target instanceof Element ? event.target.closest("a[href]") : null;
+  if (!link) return;
+  const href = link.getAttribute("href") || "";
+  let gtmEvent = "";
+  if (href.startsWith("https://wa.me/")) gtmEvent = "contact_whatsapp";
+  else if (href.includes("calendly.com")) gtmEvent = "contact_calendly";
+  else if (href.startsWith("mailto:")) gtmEvent = "contact_email";
+  else if (href.includes("CV-Iran-Garcia.pdf")) gtmEvent = "download_cv";
+  if (gtmEvent) {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: gtmEvent, page_path: window.location.pathname });
+  }
+});
+
