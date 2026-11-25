@@ -16,6 +16,33 @@ export function validateRegistration(data, key) {
   if (!/^[a-f0-9-]{36}$/i.test(key || '')) throw new Error('Recarga la página e intenta de nuevo.');
   return { name, email, gemini: data.gemini, key };
 }
+export function licenseCheckoutReady(config) {
+  return Boolean(config.mpToken && config.collectorId &&
+    (config.siteUrl.startsWith('https://') || config.siteUrl.startsWith('http://127.0.0.1')) &&
+    (config.apiUrl.startsWith('https://') || config.apiUrl.startsWith('http://127.0.0.1')));
+}
+export function validateLicenseOrder(data, key, products) {
+  if (!data || typeof data !== 'object' || typeof data.productId !== 'string' || typeof data.name !== 'string' || typeof data.email !== 'string' || typeof data.phone !== 'string' || data.consent !== true) {
+    throw new Error('Completa todos los datos de compra y acepta las condiciones.');
+  }
+  const product = products.find(p => p.id === data.productId);
+  if (!product) throw new Error('Selecciona una licencia válida del catálogo.');
+  const quantity = Number.parseInt(String(data.quantity), 10);
+  if (!Number.isInteger(quantity) || quantity < 1 || quantity > 20) throw new Error('La cantidad debe ser entre 1 y 20.');
+  const name = data.name.trim(), email = data.email.trim().toLowerCase(), phone = data.phone.trim();
+  const notes = typeof data.notes === 'string' ? data.notes.trim().slice(0, 400) : '';
+  if (name.length < 2 || name.length > 100 || /[\x00-\x1f<>]/.test(name) || email.length > 254 || !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email)) {
+    throw new Error('Escribe un nombre y correo electrónico válidos.');
+  }
+  if (phone.length < 7 || phone.length > 30 || /[\x00-\x1f<>]/.test(phone)) throw new Error('Escribe un teléfono o WhatsApp válido.');
+  if (!/^[a-f0-9-]{36}$/i.test(key || '')) throw new Error('Recarga la página e intenta de nuevo.');
+  return { product, quantity, name, email, phone, notes, key };
+}
+const publicLicenseOrder = (row) => ({
+  status: row.status, orderCode: row.order_code, productTitle: row.product_title, quantity: row.quantity,
+  totalCents: row.total_cents, email: row.email,
+  deliveryNote: 'Entre 1 y 2 horas recibirás tu licencia e instrucciones en tu correo electrónico.'
+});
 const publicReservation = (row, course, config) => ({ status: row.status, code: row.code, courseTitle: course.title,
   gemini: !!row.gemini, totalCents: row.total_cents, date: config.courseDate, location: config.courseLocation });
 async function readJson(request) {
@@ -23,9 +50,9 @@ async function readJson(request) {
   for await (const chunk of request) { bytes += chunk.length; if (bytes > 12000) throw new Error('Request too large'); chunks.push(chunk); }
   return JSON.parse(Buffer.concat(chunks).toString('utf8'));
 }
-export function createHandler({ store, course, config, payments, root }) {
+export function createHandler({ store, course, licenses = { products: [] }, config, payments, root }) {
   const limits = new Map(), inFlight = new Map();
-  const staticPages = new Set(['index.html', 'curso-ia.html', 'reservacion.html', 'robots.txt', 'sitemap.xml', 'CNAME']);
+  const staticPages = new Set(['index.html', 'curso-ia.html', 'paginas-web-ciudad-guzman.html', 'software-a-la-medida-jalisco.html', 'licencias-software-ciudad-guzman.html', 'reservacion.html', 'robots.txt', 'sitemap.xml', 'CNAME']);
   const json = (res, code, data) => { res.writeHead(code, { 'Content-Type': 'application/json; charset=utf-8' }); res.end(JSON.stringify(data)); };
   function limited(ip) {
     const now = Date.now();
@@ -79,13 +106,40 @@ export function createHandler({ store, course, config, payments, root }) {
           const checkoutUrl = await inFlight.get(registration.id);
           return json(res, 201, { checkoutUrl });
         }
+        if (req.method === 'GET' && url.pathname === '/api/licenses') {
+          return json(res, 200, { ...licenses, checkoutOpen: licenseCheckoutReady(config) });
+        }
+        if (req.method === 'POST' && url.pathname === '/api/license-orders') {
+          if (!licenseCheckoutReady(config)) return json(res, 503, { message: 'El pago en línea de licencias todavía no está habilitado.' });
+          let input;
+          try { input = validateLicenseOrder(await readJson(req), req.headers['idempotency-key'], licenses.products || []); }
+          catch (error) { return json(res, 400, { message: error.message }); }
+          const order = await store.createLicenseOrder(input, input.product);
+          if (order.checkout_url) return json(res, 200, { checkoutUrl: order.checkout_url });
+          if (!inFlight.has(order.id)) {
+            inFlight.set(order.id, payments.createLicensePreference(order).then(async (result) => {
+              await store.setLicenseCheckout(order.id, result.id, result.url); return result.url;
+            }).finally(() => inFlight.delete(order.id)));
+          }
+          const checkoutUrl = await inFlight.get(order.id);
+          return json(res, 201, { checkoutUrl });
+        }
+        if (req.method === 'GET' && url.pathname === '/api/license-order-status') {
+          const token = url.searchParams.get('o') || '';
+          const row = /^[a-f0-9]{64}$/.test(token) ? await store.licenseOrderByToken(token) : null;
+          return row ? json(res, 200, publicLicenseOrder(row)) : json(res, 404, { message: 'No se encontró un pedido con estos datos.' });
+        }
         if (req.method === 'POST' && webhook) {
           let id;
           try { id = verifyWebhook(req.headers, url, await readJson(req), config.webhookSecret); }
           catch (_) { return json(res, 401, { message: 'Invalid notification' }); }
           const payment = await payments.get(id);
           if (String(payment.id) !== id) throw new Error('Mismatched payment ID');
-          await store.recordPayment(payment, { collectorId: config.collectorId, liveMode: config.liveMode });
+          if (typeof payment.external_reference === 'string' && payment.external_reference.startsWith('lic_')) {
+            await store.recordLicensePayment(payment, { collectorId: config.collectorId, liveMode: config.liveMode });
+          } else {
+            await store.recordPayment(payment, { collectorId: config.collectorId, liveMode: config.liveMode });
+          }
           // Mail is persisted in the same transaction; delivery does not delay the webhook ACK.
           return json(res, 200, { received: true });
         }

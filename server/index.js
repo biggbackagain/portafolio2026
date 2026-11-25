@@ -9,6 +9,7 @@ import { emailSender, mailWorker } from './mailer.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url)).replace(/[\\/]$/, '');
 const course = JSON.parse(readFileSync(resolve(root, 'assets/course.json'), 'utf8'));
+const licenses = JSON.parse(readFileSync(resolve(root, 'assets/licenses.json'), 'utf8'));
 const e = process.env;
 const config = {
   open: e.ENROLLMENT_OPEN === 'true', detailsConfirmed: e.COURSE_DETAILS_CONFIRMED === 'true',
@@ -21,7 +22,7 @@ const config = {
 };
 const store = new Store(e.DATABASE_URL || e.POSTGRES_URL || 'postgresql://postgres:postgres@localhost:5432/postgres');
 await store.init();
-const server = createServer(createHandler({ store, course, config, payments: paymentClient(config, course), root }));
+const server = createServer(createHandler({ store, course, licenses, config, payments: paymentClient(config, course), root }));
 server.requestTimeout = 20000;
 server.headersTimeout = 10000;
 const deliver = mailWorker(store, emailSender(config, course));

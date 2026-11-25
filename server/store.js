@@ -30,6 +30,21 @@ export class Store {
       CREATE TABLE IF NOT EXISTS payment_reviews (
         payment_id TEXT PRIMARY KEY, registration_id TEXT NOT NULL, reason TEXT NOT NULL, created_at TEXT NOT NULL
       );
+      CREATE TABLE IF NOT EXISTS license_orders (
+        id TEXT PRIMARY KEY, request_key TEXT UNIQUE NOT NULL, lookup_token TEXT UNIQUE NOT NULL,
+        product_id TEXT NOT NULL, product_title TEXT NOT NULL, quantity INTEGER NOT NULL,
+        unit_price_cents INTEGER NOT NULL, total_cents INTEGER NOT NULL,
+        name TEXT NOT NULL, email TEXT NOT NULL, phone TEXT NOT NULL, notes TEXT NOT NULL DEFAULT '',
+        status TEXT NOT NULL DEFAULT 'pending', preference_id TEXT, checkout_url TEXT,
+        payment_id TEXT UNIQUE, payment_updated BIGINT NOT NULL DEFAULT 0,
+        order_code TEXT UNIQUE, consent_at TEXT NOT NULL, created_at TEXT NOT NULL
+      );
+      CREATE TABLE IF NOT EXISTS license_mail_outbox (
+        id SERIAL PRIMARY KEY, order_id TEXT NOT NULL REFERENCES license_orders(id),
+        kind TEXT NOT NULL, version TEXT NOT NULL, payload TEXT NOT NULL, attempts INTEGER NOT NULL DEFAULT 0,
+        sent_at TEXT, next_attempt BIGINT NOT NULL DEFAULT 0, last_error TEXT,
+        UNIQUE(order_id,kind,version)
+      );
     `);
   }
 
@@ -167,6 +182,108 @@ export class Store {
   async all() { 
     const res = await this.pool.query('SELECT name,email,code,status,gemini,total_cents,payment_id,created_at FROM registrations ORDER BY created_at'); 
     return res.rows;
+  }
+
+  async getLicenseOrder(id) {
+    const res = await this.pool.query('SELECT * FROM license_orders WHERE id=$1', [id]);
+    return res.rows[0];
+  }
+
+  async licenseOrderByToken(token) {
+    const res = await this.pool.query('SELECT * FROM license_orders WHERE lookup_token=$1', [token]);
+    return res.rows[0];
+  }
+
+  async createLicenseOrder(input, product) {
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN');
+      const existingRes = await client.query('SELECT * FROM license_orders WHERE request_key=$1', [input.key]);
+      if (existingRes.rows[0]) {
+        await client.query('COMMIT');
+        return existingRes.rows[0];
+      }
+      const id = `lic_${randomUUID()}`, token = randomBytes(32).toString('hex'), now = new Date().toISOString();
+      const totalCents = product.priceCents * input.quantity;
+      await client.query(
+        `INSERT INTO license_orders (id,request_key,lookup_token,product_id,product_title,quantity,unit_price_cents,total_cents,name,email,phone,notes,consent_at,created_at)
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)`,
+        [id, input.key, token, product.id, product.title, input.quantity, product.priceCents, totalCents, input.name, input.email, input.phone, input.notes, now, now]
+      );
+      await client.query('COMMIT');
+      return (await client.query('SELECT * FROM license_orders WHERE id=$1', [id])).rows[0];
+    } catch (error) {
+      await client.query('ROLLBACK'); throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async setLicenseCheckout(id, preferenceId, url) {
+    await this.pool.query('UPDATE license_orders SET preference_id=$1,checkout_url=$2 WHERE id=$3', [preferenceId, url, id]);
+  }
+
+  async addLicenseMail(client, orderId, kind, version, payload) {
+    await client.query(
+      'INSERT INTO license_mail_outbox (order_id,kind,version,payload) VALUES ($1,$2,$3,$4) ON CONFLICT DO NOTHING',
+      [orderId, kind, version, JSON.stringify(payload)]
+    );
+  }
+
+  async recordLicensePayment(payment, expected) {
+    const order = await this.getLicenseOrder(payment.external_reference);
+    if (!order) return { ignored: true };
+    if (!Number.isFinite(Number(payment.transaction_amount)) || Math.round(Number(payment.transaction_amount) * 100) !== order.total_cents ||
+      payment.currency_id !== 'MXN' || String(payment.collector_id) !== String(expected.collectorId) || payment.live_mode !== expected.liveMode) {
+      throw new Error('License payment verification mismatch');
+    }
+    const updated = Date.parse(payment.date_last_updated);
+    if (!Number.isFinite(updated)) throw new Error('Invalid payment update date');
+
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN');
+      const current = (await client.query('SELECT * FROM license_orders WHERE id=$1 FOR UPDATE', [order.id])).rows[0];
+      const paymentId = String(payment.id);
+      if (current.payment_id === paymentId && updated <= Number(current.payment_updated)) {
+        await client.query('COMMIT'); return { duplicate: true };
+      }
+      const hasRefund = Number(payment.transaction_amount_refunded || 0) > 0;
+      const status = hasRefund ? 'refunded' : ({ approved: 'confirmed', refunded: 'refunded', charged_back: 'charged_back', cancelled: 'cancelled', rejected: 'rejected' }[payment.status] || 'pending');
+      const orderCode = current.order_code || (status === 'confirmed' ? 'LIC-' + randomBytes(6).toString('hex').toUpperCase().match(/.{1,4}/g).join('-') : null);
+      if (current.order_code && status === 'pending') { await client.query('COMMIT'); return { ignored: true }; }
+
+      await client.query('UPDATE license_orders SET status=$1,payment_id=$2,payment_updated=$3,order_code=$4 WHERE id=$5', [status, paymentId, updated, orderCode, current.id]);
+      const final = (await client.query('SELECT * FROM license_orders WHERE id=$1', [current.id])).rows[0];
+
+      if (status === 'confirmed' && !current.order_code) {
+        await this.addLicenseMail(client, current.id, 'license-buyer', 'confirmation', final);
+        await this.addLicenseMail(client, current.id, 'license-owner', 'confirmation', final);
+      }
+      await client.query('COMMIT');
+      return { status, orderCode };
+    } catch (error) {
+      await client.query('ROLLBACK'); throw error;
+    } finally {
+      client.release();
+    }
+  }
+
+  async pendingLicenseMail() {
+    const res = await this.pool.query(`
+      SELECT m.id, m.kind, m.payload, m.attempts, o.email, o.name, o.phone, o.notes, o.order_code, o.lookup_token, o.product_title, o.quantity, o.status, o.total_cents
+      FROM license_mail_outbox m JOIN license_orders o ON m.order_id = o.id
+      WHERE m.sent_at IS NULL AND m.next_attempt <= $1
+      ORDER BY m.id LIMIT 10
+    `, [Date.now()]);
+    return res.rows.map(row => ({ ...row, payload: JSON.parse(row.payload) }));
+  }
+
+  async licenseMailSent(id) { await this.pool.query('UPDATE license_mail_outbox SET sent_at=$1,last_error=NULL WHERE id=$2', [new Date().toISOString(), id]); }
+
+  async licenseMailFailed(id, attempts) {
+    await this.pool.query('UPDATE license_mail_outbox SET attempts=attempts+1,next_attempt=$1,last_error=$2 WHERE id=$3',
+      [Date.now() + Math.min(3600000, 60000 * 2 ** Math.min(attempts, 6)), 'Delivery failed; retry scheduled', id]);
   }
   
   async close() { await this.pool.end(); }

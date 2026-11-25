@@ -1,0 +1,55 @@
+{
+  "currency": "MXN",
+  "deliveryWindow": "Entre 1 y 2 horas después de confirmarse tu pago",
+  "products": [
+    {
+      "id": "office-2024-pro-plus-ltsc",
+      "title": "Office 2024 Pro Plus LTSC (Windows)",
+      "priceCents": 80000,
+      "category": "WINDOWS · LTSC",
+      "summary": "Word, Excel, PowerPoint, Outlook y suite completa 2024 Pro Plus LTSC para Windows, sin rentas mensuales."
+    },
+    {
+      "id": "office-2021-pro-plus-ltsc",
+      "title": "Office 2021 Pro Plus LTSC (Windows)",
+      "priceCents": 70000,
+      "category": "WINDOWS · LTSC",
+      "summary": "Suite Office 2021 Pro Plus LTSC estable y ligera para equipos de trabajo, escuela u oficina con Windows."
+    },
+    {
+      "id": "office-2024-mac",
+      "title": "Office 2024 para Mac",
+      "priceCents": 120000,
+      "category": "MACOS",
+      "summary": "Word, Excel, PowerPoint y Outlook versión 2024 nativa para MacBook e iMac (Apple Silicon e Intel)."
+    },
+    {
+      "id": "windows-10-11-pro",
+      "title": "Windows 10 / 11 Pro",
+      "priceCents": 50000,
+      "category": "SISTEMA OPERATIVO",
+      "summary": "Licencia Windows 10 Pro o Windows 11 Pro lista para activar tu equipo nuevo, formateo o actualización."
+    },
+    {
+      "id": "antivirus-mcafee",
+      "title": "Antivirus McAfee",
+      "priceCents": 60000,
+      "category": "SEGURIDAD",
+      "summary": "Protección confiable contra virus, malware y amenazas en internet para cuidar tus archivos y cuentas."
+    },
+    {
+      "id": "google-gemini-anual",
+      "title": "Cuenta Google Gemini Anual (todos los modelos)",
+      "priceCents": 90000,
+      "category": "INTELIGENCIA ARTIFICIAL",
+      "summary": "Acceso anual a todos los modelos de Google Gemini para potenciar tu productividad, estudio o negocio."
+    },
+    {
+      "id": "soft-restaurant-permanente",
+      "title": "Soft Restaurant 9.5 Pro / 10 / 11 / 12 (Permanente)",
+      "priceCents": 350000,
+      "category": "RESTAURANTES · POS",
+      "summary": "Instalación en modalidad permanente ($3,500 MXN). Licencia oficial original también disponible a cotizar."
+    }
+  ]
+}

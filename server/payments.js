@@ -30,6 +30,35 @@ export function paymentClient(config, course) {
       if (parsed.protocol !== 'https:' || !['www.mercadopago.com.mx', 'sandbox.mercadopago.com.mx'].includes(parsed.hostname)) throw new Error('Unexpected checkout URL');
       return { id: result.id, url: checkoutUrl };
     },
+    async createLicensePreference(order) {
+      const returnUrl = `${config.siteUrl}/licencias-software-ciudad-guzman.html?orden=${order.lookup_token}`;
+      const items = [{
+        id: order.product_id,
+        title: order.product_title,
+        quantity: order.quantity,
+        currency_id: 'MXN',
+        unit_price: order.unit_price_cents / 100
+      }];
+      const result = await preference.create({
+        body: {
+          items,
+          payer: { name: order.name, email: order.email },
+          external_reference: order.id,
+          notification_url: `${config.apiUrl}/api/webhooks/mercadopago`,
+          back_urls: { success: returnUrl, pending: returnUrl, failure: returnUrl },
+          auto_return: 'approved',
+          expires: true,
+          expiration_date_from: new Date().toISOString(),
+          expiration_date_to: new Date(Date.now() + 60 * 60000).toISOString()
+        },
+        requestOptions: { idempotencyKey: order.id }
+      });
+      const checkoutUrl = config.liveMode ? result.init_point : result.sandbox_init_point;
+      if (!result.id || !checkoutUrl) throw new Error('Missing checkout URL');
+      const parsed = new URL(checkoutUrl);
+      if (parsed.protocol !== 'https:' || !['www.mercadopago.com.mx', 'sandbox.mercadopago.com.mx'].includes(parsed.hostname)) throw new Error('Unexpected checkout URL');
+      return { id: result.id, url: checkoutUrl };
+    },
     get(id) { return payments.get({ id }); }
   };
 }
