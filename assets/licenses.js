@@ -1,8 +1,5 @@
 "use strict";
-const licenseApi = (window.COURSE_API_BASE || "").replace(/\/$/, "");
 let products = [];
-let mpCheckoutOpen = false;
-let requestKey = crypto.randomUUID();
 
 const form = document.querySelector("#license-order-form");
 const productSelect = document.querySelector("#license-product");
@@ -25,6 +22,12 @@ function selectedProduct() {
 function currentQty() {
   const n = Number.parseInt(qtyInput.value, 10);
   return Number.isInteger(n) && n >= 1 && n <= 20 ? n : 1;
+}
+
+function makeOrderCode() {
+  const bytes = new Uint8Array(4);
+  crypto.getRandomValues(bytes);
+  return "LIC-" + [...bytes].map((b) => b.toString(16).padStart(2, "0")).join("").toUpperCase();
 }
 
 function updateSummary() {
@@ -66,14 +69,8 @@ document.querySelectorAll("[data-select-license]").forEach((btn) => {
   });
 });
 
-productSelect.addEventListener("change", () => {
-  requestKey = crypto.randomUUID();
-  updateSummary();
-});
-qtyInput.addEventListener("input", () => {
-  requestKey = crypto.randomUUID();
-  updateSummary();
-});
+productSelect.addEventListener("change", updateSummary);
+qtyInput.addEventListener("input", updateSummary);
 
 function checkEmailMatch() {
   const same = confirmEmailInput.value.trim().toLowerCase() === emailInput.value.trim().toLowerCase();
@@ -81,57 +78,6 @@ function checkEmailMatch() {
 }
 emailInput.addEventListener("input", checkEmailMatch);
 confirmEmailInput.addEventListener("input", checkEmailMatch);
-
-function renderOrderReturn(data) {
-  returnBox.hidden = false;
-  returnBox.replaceChildren();
-  const titles = {
-    confirmed: "¡Pago confirmado! Tu licencia está en camino.",
-    pending: "Estamos esperando la confirmación de tu pago.",
-    rejected: "El pago no fue aprobado.",
-    cancelled: "El pago fue cancelado.",
-    refunded: "Este pedido tiene un reembolso registrado.",
-    charged_back: "Este pago está en revisión.",
-  };
-  const h = document.createElement("h3");
-  h.textContent = titles[data.status] || "Estado de tu pedido";
-  returnBox.append(h);
-  if (data.orderCode) {
-    const code = document.createElement("strong");
-    code.className = "reservation-code";
-    code.textContent = data.orderCode;
-    returnBox.append(code);
-  }
-  const detail = document.createElement("p");
-  detail.textContent = `${data.productTitle} × ${data.quantity} · Total: ${money(data.totalCents)}`;
-  returnBox.append(detail);
-  const note = document.createElement("p");
-  note.textContent =
-    data.status === "confirmed"
-      ? `Entre 1 y 2 horas recibirás tu licencia e instrucciones en ${data.email}. Revisa también tu bandeja de correo no deseado.`
-      : "Si ya realizaste tu pago en Mercado Pago, espera unos segundos y vuelve a consultar o escríbenos por WhatsApp.";
-  returnBox.append(note);
-}
-
-const returnToken = new URLSearchParams(location.search).get("orden");
-if (location.search) history.replaceState(null, "", location.pathname);
-
-async function checkReturnStatus() {
-  if (!/^[a-f0-9]{64}$/.test(returnToken || "") || !licenseApi) return;
-  returnBox.hidden = false;
-  returnBox.textContent = "Verificando el estado de tu pago con Mercado Pago…";
-  try {
-    const res = await fetch(`${licenseApi}/api/license-order-status?o=${encodeURIComponent(returnToken)}`, {
-      signal: AbortSignal.timeout(8000),
-      cache: "no-store",
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "No se encontró el pedido.");
-    renderOrderReturn(data);
-  } catch (_) {
-    returnBox.textContent = "No pudimos verificar el estado en este momento. Si ya pagaste en Mercado Pago, entre 1 y 2 horas recibirás tu licencia en tu correo o escríbenos por WhatsApp.";
-  }
-}
 
 async function initCatalog() {
   try {
@@ -143,35 +89,10 @@ async function initCatalog() {
     }
   } catch (_) {}
 
-  if (licenseApi) {
-    try {
-      const res = await fetch(`${licenseApi}/api/licenses`, {
-        signal: AbortSignal.timeout(5000),
-        headers: { "Bypass-Tunnel-Reminder": "true" },
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data.products) && data.products.length) {
-          products = data.products;
-          populateSelect();
-        }
-        mpCheckoutOpen = data.checkoutOpen === true;
-      }
-    } catch (_) {
-      mpCheckoutOpen = false;
-    }
-  }
-
+  modeBadge.textContent = "Pago con Mercado Pago · Sin comisiones ocultas";
+  modeNote.textContent = "Completa tus datos de compra para recibir tu enlace de Mercado Pago por WhatsApp o correo. Al acreditarse tu pago, entre 1 y 2 horas llegará tu licencia a tu correo.";
   submitBtn.disabled = false;
-  if (mpCheckoutOpen) {
-    modeBadge.textContent = "Pago en línea con Mercado Pago";
-    modeNote.textContent = "Al procesar tu pago en Mercado Pago, entre 1 y 2 horas recibirás tu licencia e instrucciones en el correo que registres.";
-    submitBtn.textContent = "Pagar con Mercado Pago ↗";
-  } else {
-    modeBadge.textContent = "Pedido directo + enlace de Mercado Pago";
-    modeNote.textContent = "Completa tus datos de compra para enviarte tu enlace de Mercado Pago al instante. Al confirmar tu pago, entre 1 y 2 horas llegará tu licencia a tu correo.";
-    submitBtn.textContent = "Confirmar pedido y pagar por Mercado Pago ↗";
-  }
+  submitBtn.textContent = "Confirmar pedido y pagar por Mercado Pago ↗";
 }
 
 let emailClientPromise;
@@ -189,54 +110,74 @@ function loadEmailClient() {
   return emailClientPromise;
 }
 
+function showOrderConfirmation({ code, product, qty, total, email, waHref, directMpUrl }) {
+  returnBox.hidden = false;
+  returnBox.replaceChildren();
+  const h = document.createElement("h3");
+  h.textContent = "¡Pedido registrado correctamente!";
+  returnBox.append(h);
+
+  const codeEl = document.createElement("strong");
+  codeEl.className = "reservation-code";
+  codeEl.textContent = code;
+  returnBox.append(codeEl);
+
+  const detail = document.createElement("p");
+  detail.textContent = `Concepto: ${product.title} · Cantidad: ${qty} · Total: ${money(total)}`;
+  returnBox.append(detail);
+
+  const delivery = document.createElement("p");
+  delivery.innerHTML = `<strong>Entrega estimada:</strong> Una vez procesado tu pago en Mercado Pago, entre <strong>1 y 2 horas</strong> recibirás tu licencia e instrucciones en <strong>${email.replace(/[<>&]/g, "")}</strong>.`;
+  returnBox.append(delivery);
+
+  const actions = document.createElement("div");
+  actions.className = "actions";
+  actions.style.marginTop = "18px";
+
+  if (directMpUrl && qty === 1) {
+    const mpLink = document.createElement("a");
+    mpLink.className = "btn";
+    mpLink.href = directMpUrl;
+    mpLink.target = "_blank";
+    mpLink.rel = "noopener noreferrer";
+    mpLink.textContent = "Pagar ahora en Mercado Pago ↗";
+    actions.append(mpLink);
+  }
+
+  const waLink = document.createElement("a");
+  waLink.className = directMpUrl && qty === 1 ? "text-link" : "btn";
+  waLink.href = waHref;
+  waLink.target = "_blank";
+  waLink.rel = "noopener noreferrer";
+  waLink.textContent = directMpUrl && qty === 1 ? "Confirmar comprobante por WhatsApp ↗" : "Recibir enlace de Mercado Pago por WhatsApp ↗";
+  actions.append(waLink);
+
+  returnBox.append(actions);
+  returnBox.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth", block: "nearest" });
+}
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   checkEmailMatch();
   if (!form.reportValidity() || submitBtn.disabled) return;
-  const p = selectedProduct();
+  const product = selectedProduct();
   const qty = currentQty();
-  const total = p.priceCents * qty;
+  const total = product.priceCents * qty;
+  const code = makeOrderCode();
   const name = form.elements.name.value.trim();
   const email = form.elements.email.value.trim();
   const phone = form.elements.phone.value.trim();
   const notes = form.elements.notes.value.trim();
 
   submitBtn.disabled = true;
+  submitBtn.textContent = "Registrando tu pedido…";
   statusMsg.hidden = true;
 
   window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ event: "license_order_submit", product_id: p.id, quantity: qty, total_mxn: total / 100 });
+  window.dataLayer.push({ event: "license_order_submit", order_code: code, product_id: product.id, quantity: qty, total_mxn: total / 100 });
 
-  if (mpCheckoutOpen) {
-    submitBtn.textContent = "Conectando con Mercado Pago…";
-    try {
-      const res = await fetch(`${licenseApi}/api/license-orders`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Idempotency-Key": requestKey, "Bypass-Tunnel-Reminder": "true" },
-        body: JSON.stringify({ productId: p.id, quantity: qty, name, email, phone, notes, consent: form.elements.consent.checked }),
-        signal: AbortSignal.timeout(18000),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "No fue posible iniciar el pago.");
-      const target = new URL(data.checkoutUrl);
-      if (target.protocol !== "https:" || !["www.mercadopago.com.mx", "sandbox.mercadopago.com.mx"].includes(target.hostname)) {
-        throw new Error("Enlace de pago no válido.");
-      }
-      window.location.assign(target.href);
-      return;
-    } catch (err) {
-      statusMsg.hidden = false;
-      statusMsg.textContent = err.message || "No fue posible conectar con Mercado Pago. Intenta de nuevo o escríbenos por WhatsApp.";
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Pagar con Mercado Pago ↗";
-      return;
-    }
-  }
-
-  // Fallback when backend API is offline: send structured order via EmailJS + offer instant WhatsApp handoff.
-  submitBtn.textContent = "Registrando tu pedido…";
-  const summaryText = `Nuevo pedido de licencia:\nConcepto: ${p.title}\nCantidad: ${qty}\nTotal: ${money(total)}\nNombre: ${name}\nCorreo de entrega: ${email}\nTeléfono/WhatsApp: ${phone}${notes ? `\nNotas: ${notes}` : ""}`;
-  const waHref = waUrl(`Hola Irán, acabo de registrar mi pedido de licencia:\n• Concepto: ${p.title}\n• Cantidad: ${qty}\n• Total: ${money(total)}\n• Correo de entrega: ${email}${notes ? `\n• Notas: ${notes}` : ""}\n¿Me compartes el enlace de Mercado Pago?`);
+  const summaryText = `Nuevo pedido de licencia (${code}):\nConcepto: ${product.title}\nCantidad: ${qty}\nTotal: ${money(total)}\nNombre: ${name}\nCorreo de entrega: ${email}\nTeléfono/WhatsApp: ${phone}${notes ? `\nNotas: ${notes}` : ""}`;
+  const waHref = waUrl(`Hola Irán, registré mi pedido de licencia (${code}):\n• Concepto: ${product.title}\n• Cantidad: ${qty}\n• Total: ${money(total)}\n• Nombre: ${name}\n• Correo para entrega: ${email}${notes ? `\n• Notas: ${notes}` : ""}\nQuedo atento al enlace de Mercado Pago.`);
 
   try {
     const client = await loadEmailClient();
@@ -244,31 +185,27 @@ form.addEventListener("submit", async (event) => {
     await client.send(CONFIG.emailjsServiceId, CONFIG.emailjsTemplateId, {
       name,
       email,
-      company: "Pedido de licencia — irangarcia.dev",
+      company: `Pedido ${code} — irangarcia.dev`,
       phone,
-      service: `${p.title} × ${qty}`,
+      service: `${product.title} × ${qty}`,
       budget: money(total),
       message: summaryText,
     });
-    statusMsg.hidden = false;
-    statusMsg.replaceChildren(
-      document.createTextNode(`¡Pedido registrado para ${email}! Te enviaremos tu enlace de Mercado Pago en breve. Una vez acreditado el pago, entre 1 y 2 horas recibirás tu licencia en tu correo. Si prefieres acelerar el envío, `),
-      (() => { const a = document.createElement("a"); a.href = waHref; a.target = "_blank"; a.rel = "noopener noreferrer"; a.textContent = "ábrelo en WhatsApp aquí ↗"; return a; })()
-    );
-    form.reset();
-    qtyInput.value = "1";
-    updateSummary();
   } catch (_) {
-    statusMsg.hidden = false;
-    statusMsg.replaceChildren(
-      document.createTextNode("No se pudo enviar automáticamente por correo, pero tu pedido está listo. "),
-      (() => { const a = document.createElement("a"); a.href = waHref; a.target = "_blank"; a.rel = "noopener noreferrer"; a.textContent = "Envíalo por WhatsApp para recibir tu enlace de Mercado Pago ↗"; return a; })()
-    );
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Confirmar pedido y pagar por Mercado Pago ↗";
+    // Even if EmailJS fails, WhatsApp handoff carries the complete order immediately.
   }
+
+  const directMpUrl = typeof product.paymentLink === "string" && product.paymentLink.startsWith("https://") ? product.paymentLink : "";
+  showOrderConfirmation({ code, product, qty, total, email, waHref, directMpUrl });
+
+  form.reset();
+  qtyInput.value = "1";
+  updateSummary();
+  submitBtn.disabled = false;
+  submitBtn.textContent = "Confirmar pedido y pagar por Mercado Pago ↗";
+
+  // Open WhatsApp (or direct Mercado Pago link if configured for qty 1) right away.
+  window.open(directMpUrl && qty === 1 ? directMpUrl : waHref, "_blank", "noopener,noreferrer");
 });
 
 initCatalog();
-void checkReturnStatus();

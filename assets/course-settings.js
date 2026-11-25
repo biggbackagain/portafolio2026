@@ -1,2 +1,2 @@
-// Public URL only, never credentials. Empty uses /api on the same origin.
-window.COURSE_API_BASE = "https://api-irangarcia-399ebb13007e.herokuapp.com";
+// Sin servidor Heroku activo: los pedidos usan EmailJS + WhatsApp (+ enlaces directos de Mercado Pago si se configuran).
+window.COURSE_API_BASE = "";
